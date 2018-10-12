@@ -5,8 +5,7 @@ import Vuex from 'vuex';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
-// import user from './user';
-// import messages from './messages';
+import user from './user';
 
 const config = {
   apiKey: "AIzaSyC9KyUt0NQetkgio6-DIZnT_KTWxUZAvoo",
@@ -29,5 +28,5 @@ const state = { app, db };
 
 export default new Vuex.Store({
   state,
-  // modules: { user, messages }
+  modules: { user }
 });

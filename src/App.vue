@@ -3,7 +3,7 @@
     navbar
       template(slot="left")
         router-link(to="/") Home
-        router-link(to="/about") About
+        router-link(to="/styleguide") Styleguide
       template(slot="right")
         user-status
     router-view

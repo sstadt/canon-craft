@@ -1,6 +1,7 @@
 
-<template>
-  <div class="user-status"></div>
+<template lang="pug">
+  .user-status
+    p User Status
 </template>
 
 <script>
@@ -12,6 +13,5 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 </style>

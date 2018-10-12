@@ -1,11 +1,13 @@
 
-<template>
-  <nav class="nav-bar"></nav>
+<template lang="pug">
+  .navbar
+    slot(name="left")
+    slot(name="right")
 </template>
 
 <script>
   export default {
-    name: 'NavBar',
+    name: 'Navbar',
     props: {
       msg: String
     }

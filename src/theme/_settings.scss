@@ -1,12 +1,21 @@
 
 
 // color pallette
+$color-white: #fff;
+$color-black: #000;
 
+$color-sepia-light: #fef9f2;
+
+$color-transparent-black: rgba(0, 0, 0, 0.6);
 
 // color scheme
+$body-bg--main: $color-white;
+$body-bg--alt: $color-sepia-light;
+$body-bg--dark: $color-black;
 
+$transparent-overlay: $color-transparent-black;
 
 // fonts
-
+$body-text--main: $color-black;
 
 // typography

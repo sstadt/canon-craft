@@ -1,3 +1,4 @@
+
 <template lang="pug">
   #app
     navbar
@@ -10,16 +11,16 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
-import UserStatus from '@/components/UserStatus'
+  import Navbar from '@/components/navigation/Navbar.vue'
+  import UserStatus from '@/components/navigation/UserStatus.vue'
 
-export default {
-  name: 'App',
-  components: {
-    Navbar,
-    UserStatus
+  export default {
+    name: 'App',
+    components: {
+      Navbar,
+      UserStatus
+    }
   }
-}
 </script>
 
 <style lang="scss">

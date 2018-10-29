@@ -1,4 +1,5 @@
 
+// variables, functions, and mixins
 @import 'boilerplate';
 
 // document
@@ -6,6 +7,10 @@
 @import 'document/type';
 @import 'document/utility';
 @import 'document/grid';
+
+// transitions
+@import 'transitions/expand';
+@import 'transitions/fade';
 
 // ui
 @import 'ui/buttons';

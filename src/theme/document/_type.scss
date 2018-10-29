@@ -1,0 +1,10 @@
+
+/* Links
+--------------------------------- */
+
+a:not(.link) {
+  &, &:hover {
+    color: $body-text--main;
+    text-decoration: none;
+  }
+}

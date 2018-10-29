@@ -6,30 +6,38 @@
       a(href="#", @click.prevent="logOut") Log Out
     .user-status__logged-out(v-else)
       a(href="#", @click.prevent="logIn") Log In
+      modal(ref="authModal")
+        template(slot="content")
+          auth
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+
+import Modal from '@/components/ui/Modal.vue'
+import Auth from '@/components/authentication/Auth.vue'
 
 export default {
   name: 'UserStatus',
+  components: { Modal, Auth },
   computed: {
     ...mapState({
       currentUser: state => state.user.currentUser
     }),
     isActiveUser() {
-      return this.currentUser && this.currentUser.displayName;
+      return this.currentUser && this.currentUser.displayName
     }
   },
   created() {
-    this.$store.dispatch('user/init');
+    this.$store.dispatch('user/init')
   },
   methods: {
     logIn() {
-      this.$store.dispatch('user/login');
+      this.$refs.authModal.open()
+      // this.$store.dispatch('user/login');
     },
     logOut() {
-      this.$store.dispatch('user/logout');
+      this.$store.dispatch('user/logout')
     }
   }
 };

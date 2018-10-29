@@ -1,0 +1,9 @@
+
+.expand-enter-active, .expand-leave-active {
+  transition: all .3s ease;
+}
+
+.expand-enter, .expand-leave-active {
+  transform: scale(0.8);
+  opacity: 0;
+}

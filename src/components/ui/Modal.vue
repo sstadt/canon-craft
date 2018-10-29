@@ -2,9 +2,9 @@
 <template lang="pug">
   transition(name="fade")
     .modal(v-if="isVisible")
-      .modal__overlay(@click="close()")
+      .modal__overlay(@click="close")
       .modal__content
-        a.modal__close(href="#", @click.prevent="close()") &times;
+        a.modal__close(href="#", @click.prevent="close") &times;
         slot(name="content")
 </template>
 
@@ -63,6 +63,7 @@
       font-size: rem(30);
       line-height: 1;
       padding: 8px;
+      text-align: center;
     }
   }
 </style>

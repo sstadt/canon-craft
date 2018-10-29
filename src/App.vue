@@ -7,7 +7,8 @@
         router-link(to="/styleguide") Styleguide
       template(slot="right")
         user-status
-    router-view
+    transition(name="fade", mode="out-in")
+      router-view
 </template>
 
 <script>

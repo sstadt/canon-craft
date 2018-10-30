@@ -60,8 +60,8 @@
       right: 10px;
       height: 44px;
       width: 44px;
-      font-size: rem(30);
-      line-height: 1;
+      font-size: rem(36);
+      line-height: 44px;
       padding: 8px;
       text-align: center;
     }

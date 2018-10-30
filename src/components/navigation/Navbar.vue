@@ -1,13 +1,19 @@
 
 <template lang="pug">
   .navbar
-    slot(name="left")
-    slot(name="right")
+    router-link(to="/") Home
+    router-link(to="/styleguide") Styleguide
+    user-status
 </template>
 
 <script>
+  import UserStatus from '@/components/navigation/UserStatus.vue'
+
   export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    components: {
+      UserStatus
+    }
   }
 </script>
 

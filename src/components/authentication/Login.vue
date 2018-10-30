@@ -1,29 +1,36 @@
 
 <template lang="pug">
   .login
-    h2 Login Component
+    h2 Login
     form(@submit.prevent="login")
-      input(type="email", placehold="Email", v-model="email")
-      input(type="password", placehold="Password", v-model="password")
+      input(type="email", placeholder="Email", v-model="email")
+      input(type="password", placeholder="Password", v-model="password")
       button(type="submit") Login
-    a(href="#", @click.prevent="signUp") Sign Up
+    button(type="button", @click="googleLogin") Google Login
+    a(href="#", @click.prevent="switchToSignUp") Sign Up
 </template>
 
 <script>
   export default {
     name: 'Login',
-    data() {
+    data () {
       return {
         email: '',
         password: ''
       }
     },
     methods: {
-      signUp() {
+      switchToSignUp () {
         this.$emit('change-auth-view', 'Signup')
       },
-      login() {
-        alert('TODO: Log in!')
+      login () {
+        this.$store.dispatch('user/login', {
+          email: this.email,
+          password: this.password
+        })
+      },
+      googleLogin () {
+        this.$store.dispatch('user/googleLogin')
       }
     }
   }

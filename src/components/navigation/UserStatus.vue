@@ -1,7 +1,7 @@
 
 <template lang="pug">
   .user-status
-    .user-status__logged-in(v-if="isActiveUser")
+    .user-status__logged-in(v-if="currentUser")
       p.user-status__username {{ currentUser.displayName }}
       a(href="#", @click.prevent="logOut") Log Out
     .user-status__logged-out(v-else)
@@ -23,21 +23,24 @@ export default {
   computed: {
     ...mapState({
       currentUser: state => state.user.currentUser
-    }),
-    isActiveUser() {
-      return this.currentUser && this.currentUser.displayName
-    }
+    })
   },
   created() {
     this.$store.dispatch('user/init')
   },
   methods: {
-    logIn() {
+    logIn () {
       this.$refs.authModal.open()
-      // this.$store.dispatch('user/login');
     },
-    logOut() {
+    logOut () {
       this.$store.dispatch('user/logout')
+    }
+  },
+  watch: {
+    currentUser (newUser, oldUser) {
+      if (newUser && !oldUser) {
+        this.$refs.authModal.close()
+      }
     }
   }
 };

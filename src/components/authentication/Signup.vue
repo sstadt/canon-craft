@@ -1,19 +1,19 @@
 
 <template lang="pug">
   .signup
-    p Signup Component
+    h2 Signup
     form(@submit.prevent="signUp")
-      input(type="email", placehold="Email", v-model="email")
-      input(type="password", placehold="Password", v-model="password")
-      input(type="password", placehold="Confirm Password", v-model="confirm")
-      button(type="submit") Login
-    a(href="#", @click.prevent="login") Login
+      input(type="email", placeholder="Email", v-model="email")
+      input(type="password", placeholder="Password", v-model="password")
+      input(type="password", placeholder="Confirm Password", v-model="confirm")
+      button(type="submit") Sign Up
+    a(href="#", @click.prevent="switchToLogin") Login
 </template>
 
 <script>
   export default {
     name: 'Signup',
-    data() {
+    data () {
       return {
         email: '',
         password: '',
@@ -21,11 +21,14 @@
       }
     },
     methods: {
-      login() {
+      switchToLogin () {
         this.$emit('change-auth-view', 'Login')
       },
-      signUp() {
-        alert('TODO: Sign Up!')
+      signUp () {
+        this.$store.dispatch('user/signup', {
+          email: this.email,
+          password: this.password
+        })
       }
     }
   }

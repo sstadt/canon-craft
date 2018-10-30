@@ -11,13 +11,13 @@
   export default {
     name: 'Auth',
     components: { Login, Signup },
-    data() {
+    data () {
       return {
         currentAuthView: 'Login'
       }
     },
     methods: {
-      changeView(view) {
+      changeView (view) {
         this.currentAuthView = view;
       }
     }

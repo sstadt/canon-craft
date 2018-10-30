@@ -2,6 +2,8 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
+var isSigningUp = false;
+
 const state = {
   currentUser: null
 }
@@ -10,43 +12,61 @@ const mutations = {
   SET_USER (state, { user }) {
     state.currentUser = user
   },
-  UNSET_USER () {
+  UNSET_USER (state) {
     state.currentUser = null
   }
 }
 
 const actions = {
   init ({ commit, rootState }) {
-    rootState.app.auth().onAuthStateChanged((user) => {
+    rootState.auth.onAuthStateChanged((user) => {
       if (user) {
-        commit('SET_USER', { user })
+        if (isSigningUp) {
+          isSigningUp = false;
+        } else {
+          commit('SET_USER', { user })
+        }
       } else {
         commit('UNSET_USER')
       }
     });
   },
-  signup ({ rootState }, { email, password }) {
-    rootState.app.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
-      if (error) {
-        console.log('*** Sign Up Error ************')
-        console.log(error.code, error.message)
-      }
-    });
+  signup ({ commit, rootState }, { displayName, email, password }) {
+    isSigningUp = true;
+    rootState.auth.createUserWithEmailAndPassword(email, password)
+      .then(({ user }) => {
+        if (user) {
+          return user.updateProfile({ displayName })
+            .then(() => {
+              console.log(user);
+            })
+        }
+      })
+      .then(() => {
+        commit('SET_USER', { user: rootState.auth.currentUser })
+      })
+      .catch((error) => {
+        if (error) {
+          console.log('*** Sign Up Error ************')
+          console.log(error.code, error.message)
+        }
+      });
   },
   login ({ rootState }, { email, password }) {
-    rootState.app.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-      if (error) {
-        console.log('*** Login Error ************')
-        console.log(error.code, error.message)
-      }
-    })
+    rootState.auth.signInWithEmailAndPassword(email, password)
+      .catch((error) => {
+        if (error) {
+          console.log('*** Login Error ************')
+          console.log(error.code, error.message)
+        }
+      })
   },
   googleLogin ({ rootState }) {
     var authProvider = new firebase.auth.GoogleAuthProvider()
-    rootState.app.auth().signInWithPopup(authProvider)
+    rootState.auth.signInWithPopup(authProvider)
   },
   logout ({ rootState }) {
-    rootState.app.auth().signOut()
+    rootState.auth.signOut()
   }
 }
 

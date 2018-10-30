@@ -2,9 +2,13 @@
 <template lang="pug">
   .login
     h2 Login
-    form(@submit.prevent="login")
-      input(type="email", placeholder="Email", v-model="email")
-      input(type="password", placeholder="Password", v-model="password")
+    form(@submit.prevent="login", novalidate)
+      .form-input
+        input(type="email", name="email", placeholder="Email", v-model="email", v-validate="'required|email'")
+        span.error(v-show="errors.has('email')") {{ errors.first('email') }}
+      .form-input
+        input(type="password", name="password", placeholder="Password", v-model="password", v-validate="'required'")
+        span.error(v-show="errors.has('password')") {{ errors.first('password') }}
       button(type="submit") Login
     button(type="button", @click="googleLogin") Google Login
     a(href="#", @click.prevent="switchToSignUp") Sign Up
@@ -24,9 +28,13 @@
         this.$emit('change-auth-view', 'Signup')
       },
       login () {
-        this.$store.dispatch('user/login', {
-          email: this.email,
-          password: this.password
+        this.$validator.validateAll().then((isValid) => {
+          if (isValid) {
+            this.$store.dispatch('user/login', {
+              email: this.email,
+              password: this.password
+            })
+          }
         })
       },
       googleLogin () {

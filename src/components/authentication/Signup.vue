@@ -3,9 +3,15 @@
   .signup
     h2 Signup
     form(@submit.prevent="signUp")
-      input(type="email", placeholder="Email", v-model="email")
-      input(type="password", placeholder="Password", v-model="password")
-      input(type="password", placeholder="Confirm Password", v-model="confirm")
+      .form-input
+        input(type="text", name="name" placeholder="Display Name", v-model="name", v-validate="'required'")
+        span.error(v-show="errors.has('name')") {{ errors.first('name') }}
+      .form-input
+        input(type="email", name="email" placeholder="Email", v-model="email", v-validate="'required|email'")
+        span.error(v-show="errors.has('email')") {{ errors.first('email') }}
+      .form-input
+        input(type="password", name="password" placeholder="Password", v-model="password", v-validate="'required'")
+        span.error(v-show="errors.has('password')") {{ errors.first('password') }}
       button(type="submit") Sign Up
     a(href="#", @click.prevent="switchToLogin") Login
 </template>
@@ -17,7 +23,7 @@
       return {
         email: '',
         password: '',
-        confirm: ''
+        name: ''
       }
     },
     methods: {
@@ -25,9 +31,14 @@
         this.$emit('change-auth-view', 'Login')
       },
       signUp () {
-        this.$store.dispatch('user/signup', {
-          email: this.email,
-          password: this.password
+        this.$validator.validateAll().then((isValid) => {
+          if (isValid) {
+            this.$store.dispatch('user/signup', {
+              email: this.email,
+              password: this.password,
+              displayName: this.name
+            })
+          }
         })
       }
     }

@@ -11,14 +11,20 @@
         span.error(v-show="errors.has('email')") {{ errors.first('email') }}
       .form-input
         input(type="password", name="password" placeholder="Password", v-model="password", v-validate="'required'")
+        password-strength(:password="password")
         span.error(v-show="errors.has('password')") {{ errors.first('password') }}
       button(type="submit") Sign Up
     a(href="#", @click.prevent="switchToLogin") Login
 </template>
 
 <script>
+  import PasswordStrength from '@/components/ui/PasswordStrength.vue'
+
   export default {
     name: 'Signup',
+    components: {
+      PasswordStrength
+    },
     data () {
       return {
         email: '',

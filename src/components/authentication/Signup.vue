@@ -2,7 +2,7 @@
 <template lang="pug">
   .signup
     h2 Signup
-    form(@submit.prevent="signUp")
+    form(@submit.prevent="signUp", novalidate)
       .form-input
         input(type="text", name="name" placeholder="Display Name", v-model="name", v-validate="'required'")
         span.error(v-show="errors.has('name')") {{ errors.first('name') }}

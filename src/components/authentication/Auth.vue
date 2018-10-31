@@ -7,10 +7,15 @@
 <script>
   import Login from '@/components/authentication/Login.vue'
   import Signup from '@/components/authentication/Signup.vue'
+  import ForgotPassword from '@/components/authentication/ForgotPassword.vue'
 
   export default {
     name: 'Auth',
-    components: { Login, Signup },
+    components: {
+      Login,
+      Signup,
+      ForgotPassword
+    },
     data () {
       return {
         currentAuthView: 'Login'

@@ -37,9 +37,6 @@ const actions = {
       .then(({ user }) => {
         if (user) {
           return user.updateProfile({ displayName })
-            .then(() => {
-              console.log(user);
-            })
         }
       })
       .then(() => {
@@ -64,6 +61,15 @@ const actions = {
   googleLogin ({ rootState }) {
     var authProvider = new firebase.auth.GoogleAuthProvider()
     rootState.auth.signInWithPopup(authProvider)
+  },
+  requestReset ({ rootState }, email) {
+    rootState.auth.sendPasswordResetEmail(email)
+      .catch(function(error) {
+        if (error) {
+          console.log('*** Request Reset Error ************')
+          console.log(error.code, error.message)
+        }
+      });
   },
   logout ({ rootState }) {
     rootState.auth.signOut()

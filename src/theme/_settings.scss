@@ -4,14 +4,17 @@
 $color-white: #fff;
 $color-black: #000;
 
-$color-sepia-light: #fef9f2;
+$color-tan: #dbdfac;
+$color-red: #db162e;
+$color-dark-red: #410001;
 
 $color-transparent-black: rgba(0, 0, 0, 0.6);
+$color-transparent-red: rgba($color-dark-red, 0.14);
 
 // color scheme
 $body-bg--main: $color-white;
-$body-bg--alt: $color-sepia-light;
-$body-bg--dark: $color-black;
+$body-bg--alt: $color-tan;
+$body-bg--dark: $color-dark-red;
 
 $transparent-overlay: $color-transparent-black;
 
@@ -19,3 +22,11 @@ $transparent-overlay: $color-transparent-black;
 $body-text--main: $color-black;
 
 // typography
+$text-color-navbar-link: $color-tan;
+
+// media queries
+$break--tablet: 768px;
+$break--desktop: 1024px;
+
+// grid
+$grid-gutter: 30px;

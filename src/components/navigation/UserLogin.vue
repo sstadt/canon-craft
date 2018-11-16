@@ -1,10 +1,10 @@
 
 <template lang="pug">
-  .user-status
-    .user-status__logged-in(v-if="currentUser")
-      p.user-status__username {{ currentUser.displayName }}
+  .user-login
+    .user-login__logged-in(v-if="currentUser")
+      p.user-login__username {{ currentUser.displayName }}
       a(href="#", @click.prevent="logOut") Log Out
-    .user-status__logged-out(v-else)
+    .user-login__logged-out(v-else)
       a(href="#", @click.prevent="logIn") Log In
       modal(ref="authModal")
         template(slot="content")

@@ -1,21 +1,46 @@
 
 <template lang="pug">
   .navbar
-    router-link(to="/") Home
-    router-link(to="/styleguide") Styleguide
-    user-status
+    .navbar__container.container
+      .navbar__left
+        router-link.navbar__logo(to="/")
+          img(src="@/assets/images/logo-CanonCraft.svg")
+      .navbar__right
+        router-link.navbar__link(to="/styleguide") Styleguide
+        user-login
 </template>
 
 <script>
-  import UserStatus from '@/components/navigation/UserStatus.vue'
+  import UserLogin from '@/components/navigation/UserLogin.vue'
 
   export default {
     name: 'Navbar',
     components: {
-      UserStatus
+      UserLogin
     }
   }
 </script>
 
 <style scoped lang="scss">
+  .navbar {
+    padding: 30px 0;
+    background-color: $body-bg--dark;
+
+    &__container {
+      @include tablet-up {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &__right {
+      display: flex;
+    }
+
+    &__link {
+      &, &:hover {
+        color: $text-color-navbar-link;
+      }
+    }
+  }
 </style>

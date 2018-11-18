@@ -6,6 +6,7 @@
         router-link.navbar__logo(to="/")
           img(src="@/assets/images/logo-CanonCraft.svg")
       .navbar__right
+        router-link.navbar__link(to="/games") Games
         router-link.navbar__link(to="/styleguide") Styleguide
         user-login
 </template>

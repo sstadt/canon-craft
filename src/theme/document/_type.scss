@@ -1,9 +1,10 @@
 
 
-/* Fonts
+/* Text
 --------------------------------- */
 
 body {
+  color: $body-text--main;
   font-family: $font-body--main;
 }
 
@@ -20,5 +21,14 @@ a {
 
   &, &:hover {
     text-decoration: none;
+  }
+
+  p & {
+    transition: 0.3s ease all;
+    color: $color--primary;
+
+    &:hover {
+      color: $color--primary--hover;
+    }
   }
 }

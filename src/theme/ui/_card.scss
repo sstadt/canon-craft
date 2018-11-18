@@ -1,0 +1,58 @@
+
+.card {
+  display: block;
+  width: 100%;
+  box-shadow: $drop-shadow-light;
+  transition: 0.3s ease all;
+
+  &:hover {
+    box-shadow: $drop-shadow;
+  }
+
+  &--cta {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 20px;
+    background-image: url('//placehold.it/375x400');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .button {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+
+  &__content {
+    padding: 20px;
+    background-repeat: no-repeat;
+
+    .card--quest & {
+      background-position: calc(50% + 40px) 20px;
+      background-image: url('assets/images/bg-QuestCard.svg');
+    }
+  }
+
+  &__title {
+    font-size: rem(16);
+  }
+
+  &__title,
+  &__status {
+    margin: 0 0 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__status {
+    color: $color-light-grey;
+  }
+
+  &__description {
+    margin: 0;
+  }
+}

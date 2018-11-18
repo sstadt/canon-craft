@@ -2,6 +2,7 @@
 
 // color pallette
 $color-white: #fff;
+$color-charcoal: #666;
 $color-light-grey: #ccc;
 $color-black: #000;
 
@@ -33,7 +34,7 @@ $font-header--main: 'shangrila', serif;
 $font-body--main: 'Oxygen', sans-serif;
 
 // typography
-$body-text--main: $color-black;
+$body-text--main: $color-dark-red;
 
 $navbar-text--link: $color-tan;
 
@@ -45,3 +46,7 @@ $break--desktop: 1024px;
 $grid-gutter: 30px;
 $grid-column-count: 12;
 $block-grid-column-count: 8;
+
+// misc
+$drop-shadow: 0 3px 8px rgba($color-dark-red, 0.1);
+$drop-shadow-light: 0 3px 8px rgba($color-dark-red, 0.05);

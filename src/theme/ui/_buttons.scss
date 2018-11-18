@@ -1,5 +1,7 @@
 
 .button {
+  cursor: pointer;
+  display: inline-block;
   text-align: center;
   padding: 18px 24px;
   font-size: 14px;
@@ -56,6 +58,15 @@
 
     &, &:hover {
       background-color: transparent;
+    }
+  }
+
+  &--small {
+    font-size: rem(12);
+    padding: 10px 16px;
+
+    &.button--hollow {
+      padding: 8px 14px;
     }
   }
 

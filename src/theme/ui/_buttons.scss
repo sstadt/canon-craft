@@ -1,0 +1,76 @@
+
+.button {
+  text-align: center;
+  padding: 18px 24px;
+  font-size: 14px;
+  background-color: $color--primary;
+  border-width: 0;
+  border-style: solid;
+  border-color: $color--primary;
+  transition: 0.3s ease all;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+
+  &, &:hover {
+    color: $color-white;
+  }
+
+  &:hover {
+    background-color: $color--primary--hover;
+    border-color: $color--primary--hover;
+  }
+
+  &.button--hollow {
+    color: $color--primary;
+
+    &:hover {
+      color: $color--primary--hover;
+    }
+  }
+
+  &--secondary {
+    background-color: $color--secondary;
+    border-color: $color--secondary;
+
+    &, &:hover {
+      color: $color-black;
+    }
+
+    &:hover {
+      background-color: $color--secondary--hover;
+      border-color: $color--secondary--hover;
+    }
+
+    &.button--hollow {
+      color: $color--secondary;
+
+      &:hover {
+        color: $color--secondary--hover;
+      }
+    }
+  }
+
+  &--hollow {
+    border-width: 2px;
+    padding: 16px 22px;
+
+    &, &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &[disabled] {
+    &, &:hover {
+      color: $color-white;
+      border-color: $color-light-grey;
+      background-color: $color-light-grey;
+    }
+
+    &.button--hollow {
+      &, &:hover {
+        background-color: transparent;
+        color: $color-light-grey;
+      }
+    }
+  }
+}

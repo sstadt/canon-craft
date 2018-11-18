@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  .styleguide
+  .container.styleguide
     h1 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
     h2 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
     h3 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
@@ -23,8 +23,16 @@
       dd description
       dt term
       dd description
-    a.button(href="#") Button
-    a.button.button--alt(href="#") Button
+    .buttons
+      .buttons__column
+        a.button Button
+        a.button.button--hollow Hollow Button
+      .buttons__column
+        a.button.button--secondary Secondary Button
+        a.button.button--secondary.button--hollow Hollow Secondary Button
+      .buttons__column
+        a.button.button--secondary(disabled) Disabled Button
+        a.button.button--secondary.button--hollow(disabled) Hollow Disabled Button
     form
       label Text Input
         input(type="text", placeholder="Text Input")
@@ -48,3 +56,21 @@
     name: 'Styleguide'
   }
 </script>
+
+<style scoped lang="scss">
+  .buttons {
+    display: flex;
+
+    &__column {
+      display: flex;
+      flex-direction: column;
+      margin-right: 20px;
+      min-width: 180px;
+
+      .button {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+    }
+  }
+</style>

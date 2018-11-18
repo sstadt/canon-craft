@@ -5,7 +5,7 @@
       .user-login__logged-in(v-if="currentUser")
         a.user-login__avatar(@click="toggleMenu")
           img(:src="currentUser.photoURL")
-        transition(name="fade")
+        transition(name="slide-fade")
           .user-login__menu(v-if="showMenu")
             a.navbar__link(href="#", @click.prevent="logOut") Log Out
       .user-login__logged-out(v-else)

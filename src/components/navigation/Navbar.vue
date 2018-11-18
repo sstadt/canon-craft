@@ -21,9 +21,9 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .navbar {
-    padding: 30px 0;
+    padding: 20px 0;
     background-color: $body-bg--dark;
 
     &__container {
@@ -35,11 +35,19 @@
 
     &__right {
       display: flex;
+      align-items: center;
+    }
+
+    &__logo {
+      display: block;
+      max-width: 80px;
     }
 
     &__link {
+      padding-left: 20px;
+
       &, &:hover {
-        color: $text-color-navbar-link;
+        color: $navbar-text--link;
       }
     }
   }

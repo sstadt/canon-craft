@@ -1,10 +1,30 @@
 
+
+/* Fonts
+--------------------------------- */
+
+body {
+  font-family: $font-body--main;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: $font-header--main;
+}
+
 /* Links
 --------------------------------- */
 
-a:not(.link) {
+a {
+  cursor: pointer;
+
+  &:not([class*="link"]) {
+    &, &:hover {
+      color: $body-text--main;
+    }
+  }
+
   &, &:hover {
-    color: $body-text--main;
     text-decoration: none;
   }
 }

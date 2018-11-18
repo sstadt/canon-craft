@@ -15,13 +15,18 @@ $color-transparent-red: rgba($color-dark-red, 0.14);
 $body-bg--main: $color-white;
 $body-bg--alt: $color-tan;
 $body-bg--dark: $color-dark-red;
+$body-bg--darkest: darken($color-dark-red, 5%);
 
 $transparent-overlay: $color-transparent-black;
 
 // fonts
-$body-text--main: $color-black;
+$font-header--main: 'shangrila', serif;
+$font-body--main: 'Oxygen', sans-serif;
 
 // typography
+$body-text--main: $color-black;
+
+$navbar-text--link: $color-tan;
 $text-color-navbar-link: $color-tan;
 
 // media queries

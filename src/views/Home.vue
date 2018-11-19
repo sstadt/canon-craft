@@ -17,7 +17,7 @@
           .feature
             h2.feature__title Most Recent Blog Post
             p.feature__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. #[a.feature__cta read more]
-          .row.small-up-1.medium-up-3
+          .row.small-up-1.medium-up-3.large-up-4
             .column(v-for="n in 6")
               a.card.card--lore
                 img(src="//placehold.it/335x150")

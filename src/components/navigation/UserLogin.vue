@@ -16,46 +16,43 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex'
 
-import Modal from '@/components/ui/Modal.vue'
-import Auth from '@/components/authentication/Auth.vue'
+  import Modal from '@/components/ui/Modal.vue'
+  import Auth from '@/components/authentication/Auth.vue'
 
-export default {
-  name: 'UserStatus',
-  components: { Modal, Auth },
-  data() {
-    return {
-      showMenu: false
-    }
-  },
-  computed: {
-    ...mapState({
-      currentUser: state => state.user.currentUser
-    })
-  },
-  created() {
-    this.$store.dispatch('user/init')
-  },
-  methods: {
-    logIn () {
-      this.$refs.authModal.open()
+  export default {
+    name: 'UserStatus',
+    components: { Modal, Auth },
+    data() {
+      return {
+        showMenu: false
+      }
     },
-    logOut () {
-      this.$store.dispatch('user/logout')
+    computed: {
+      ...mapState({
+        currentUser: state => state.user.currentUser
+      })
     },
-    toggleMenu () {
-      this.showMenu = !this.showMenu
-    }
-  },
-  watch: {
-    currentUser (newUser, oldUser) {
-      if (newUser && !oldUser) {
-        this.$refs.authModal.close()
+    methods: {
+      logIn () {
+        this.$refs.authModal.open()
+      },
+      logOut () {
+        this.$store.dispatch('user/logout')
+      },
+      toggleMenu () {
+        this.showMenu = !this.showMenu
+      }
+    },
+    watch: {
+      currentUser (newUser, oldUser) {
+        if (newUser && !oldUser) {
+          this.$refs.authModal.close()
+        }
       }
     }
-  }
-};
+  };
 </script>
 
 <style scoped lang="scss">

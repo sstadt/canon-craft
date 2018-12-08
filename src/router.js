@@ -1,46 +1,51 @@
+
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Home from './views/Home.vue'
 import Styleguide from './views/Styleguide.vue'
 import GameBrowser from './views/GameBrowser.vue'
+import Game from './views/Game.vue'
 
 Vue.use(Router)
 
 const routes = [
   {
-    path: '/',
     name: 'home',
+    path: '/',
     component: Home
   },
   {
-    path: '/styleguide',
     name: 'styleguide',
+    path: '/styleguide',
     component: Styleguide,
     meta: {
       title: 'Canon Craft - Styleguide'
     }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-  },
-  {
-    path: '/games',
     name: 'games',
+    path: '/games',
     component: GameBrowser,
     meta: {
       title: 'Canon Craft - My Games'
+    }
+  },
+  {
+    name: 'game',
+    path: '/game/:id',
+    component: Game,
+    meta: {
+      title: 'Canon Craft - Game'
     }
   }
 ];
 
 const router = new Router({ routes })
 
-// This callback runs before every route change, including on page load.
+/**
+ * Set Page Titles
+ */
 router.beforeEach((to, from, next) => {
   // This goes through the matched routes from last to first, finding the closest route with a title.
   // eg. if we have /some/deep/nested/route and /some, /deep, and /nested have titles, nested's will be chosen.

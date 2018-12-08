@@ -3,11 +3,7 @@
   .container.game-browser
     .row.small-up-1.medium-up-3.large-up-4
       .column(v-for="game in games")
-        a.card.card--game
-          img(src="//placehold.it/335x150")
-          .card__content
-            h3.card__title {{ game.name }}
-            p.card__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+        game-card(:game="game")
       .column
         a.card.card--cta.card--new-game(@click="newGame")
           button.button.button--secondary New Game
@@ -25,10 +21,11 @@
   import { mapState } from 'vuex'
 
   import Modal from '@/components/ui/Modal.vue'
+  import GameCard from '@/components/card/GameCard.vue'
 
   export default {
     name: 'GameBrowser',
-    components: { Modal },
+    components: { Modal, GameCard },
     data () {
       return {
         newGameName: ''

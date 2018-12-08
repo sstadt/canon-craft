@@ -5,6 +5,10 @@
   box-shadow: $drop-shadow-light;
   transition: 0.3s ease all;
 
+  &, &:hover {
+    color: $body-text--main;
+  }
+
   &:hover {
     box-shadow: $drop-shadow;
   }

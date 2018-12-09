@@ -5,14 +5,17 @@ import 'firebase/auth'
 var isSigningUp = false;
 
 const state = {
-  currentUser: null
+  currentUser: null,
+  loggedIn: false
 }
 
 const mutations = {
   SET_USER (state, { user }) {
+    state.loggedIn = true
     state.currentUser = user
   },
   UNSET_USER (state) {
+    state.loggedIn = false
     state.currentUser = null
   }
 }

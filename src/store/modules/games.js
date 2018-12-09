@@ -6,6 +6,10 @@ const state = {
 const mutations = {
   ADD_GAME (state, game) {
     state.all.push(game)
+  },
+  UPDATE_GAME (state, game) {
+    let index = state.all.findIndex(item => item.id === game.id)
+    state.all.splice(index, 1, game)
   }
 }
 
@@ -15,11 +19,16 @@ const actions = {
 
     gamesRef.onSnapshot((snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          commit('ADD_GAME', { ...change.doc.data(), id: change.doc.id })
-        } else {
-          console.log('--- unhandled game change type')
-          console.log(shange.type)
+        switch (change.type) {
+          case 'added':
+            commit('ADD_GAME', { ...change.doc.data(), id: change.doc.id })
+            break;
+          case 'modified':
+            commit('UPDATE_GAME', { ...change.doc.data(), id: change.doc.id })
+            break;
+          default:
+            console.warn('--- unhandled game change type')
+            console.warn(change.type)
         }
       })
     })
@@ -32,6 +41,21 @@ const actions = {
       created_by,
       created_on: new Date()
     })
+  },
+  update ({ commit, rootState }, game) {
+    let gameRef = rootState.db.collection('games').doc(game.id)
+    let updatedGame = {};
+
+    for (let key in game) {
+      if (game.hasOwnProperty(key) && key !== 'id') {
+        updatedGame[key] = game[key]
+      }
+    }
+
+    console.log('--- updating game ----------')
+    console.log(updatedGame)
+
+    gameRef.set(updatedGame, { merge: true })
   }
 }
 

@@ -27,6 +27,7 @@
       })
     },
     created () {
+      console.warn('App (re)loaded')
       this.$store.dispatch('user/init')
     },
     watch: {

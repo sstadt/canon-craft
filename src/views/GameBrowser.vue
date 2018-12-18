@@ -4,7 +4,7 @@
     .row.small-up-1.medium-up-3.large-up-4
       .column(v-for="game in games")
         game-card(:game="game")
-      .column(v-if="game.length < 4")
+      .column(v-if="games.length < 4")
         a.card.card--cta.card--new-game(@click="newGame")
           button.button.button--secondary New Game
     modal(ref="newGameModal")

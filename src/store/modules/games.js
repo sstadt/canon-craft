@@ -33,7 +33,7 @@ const actions = {
       })
     })
   },
-  create ({ commit, rootState }, { name, created_by }) {
+  create ({ rootState }, { name, created_by }) {
     let gamesRef = rootState.db.collection('games')
 
     gamesRef.add({
@@ -42,18 +42,15 @@ const actions = {
       created_on: new Date()
     })
   },
-  update ({ commit, rootState }, game) {
+  update ({ rootState }, game) {
     let gameRef = rootState.db.collection('games').doc(game.id)
-    let updatedGame = {};
+    let updatedGame = {}
 
     for (let key in game) {
       if (game.hasOwnProperty(key) && key !== 'id') {
         updatedGame[key] = game[key]
       }
     }
-
-    console.log('--- updating game ----------')
-    console.log(updatedGame)
 
     gameRef.set(updatedGame, { merge: true })
   }

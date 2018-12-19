@@ -1,7 +1,11 @@
 
 <template lang="pug">
   .container.game(v-if="game")
-    h1 {{ game.name }}
+    .row
+      .column.small-12.medium-8
+        h1 {{ game.name }}
+      .column.small-12.medium-4
+        game-invite-link(:slug="inviteSlug", :game="game.id")
     button.button.button--small(@click="editGame") Settings
     .game_description {{ game.description }}
     modal(ref="editGameModal")
@@ -17,11 +21,12 @@
 <script>
   import { mapState } from 'vuex'
 
+  import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import Modal from '@/components/ui/Modal.vue'
 
   export default {
     name: 'Game',
-    components: { Modal },
+    components: { GameInviteLink, Modal },
     computed: {
       ...mapState({
         games: state => state.games.all
@@ -29,6 +34,9 @@
       game () {
         let game = this.games.filter(game => game.id === this.$route.params.id)
         return (game.length > 0) ? game[0] : {}
+      },
+      inviteSlug () {
+        return (this.game.inviteLink) ? this.game.inviteLink : ''
       }
     },
     methods: {

@@ -1,6 +1,8 @@
 
+const uniqid = require('uniqid');
+
 module.exports = {
-  generateGameLink: (id) => {
-    return 'foo';
+  generateGameLink () {
+    return uniqid();
   }
 };

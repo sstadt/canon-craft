@@ -1,6 +1,7 @@
 
 <template lang="pug">
-  .game-invite
+  .game-invite.callout
+    p.game-invite__title Send players this link to invite them to the game
     input.game-invite__link#game-invite-link(type="text", v-model="inviteLink", readonly)
     .game-invite__btn.game-invite__btn--reset
       button.button.button--text(@click="resetLink",:disabled="!hasInviteLink") Reset Link
@@ -42,15 +43,28 @@
 <style scoped lang="scss">
   .game-invite {
     display: grid;
-    grid-template-areas: "link link" "reset copy";
+    grid-template-areas: "link link"
+                         "title title"
+                         "reset copy";
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
+    max-width: 400px;
+
+    &__title {
+      text-align: center;
+      grid-area: title;
+      margin: 0;
+      font-size: rem(14);
+    }
 
     &__link {
-      // font-size: rem(20);
+      font-size: rem(20);
       grid-area: link;
       border: none;
       text-align: center;
+      line-height: 1.3;
+      color: $color--primary;
+      background-color: transparent;
     }
 
     &__btn {

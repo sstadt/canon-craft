@@ -4,10 +4,11 @@
     .row
       .column.small-12.medium-8
         h1 {{ game.name }}
-      .column.small-12.medium-4
         game-invite-link(:slug="inviteSlug", :game="game.id")
-    button.button.button--small(@click="editGame") Settings
-    .game_description {{ game.description }}
+        .game_description {{ game.description }}
+      .column.small-12.medium-4
+        button.button.button--small(@click="editGame") Settings
+        h2 Quest Log
     modal(ref="editGameModal")
       template(slot="content")
         form(@submit.prevent="updateGame", novalidate)

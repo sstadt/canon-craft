@@ -70,6 +70,19 @@
     }
   }
 
+  &--text {
+    color: $color--primary;
+    padding: 0;
+
+    &, &:hover {
+      background-color: transparent;
+    }
+
+    &:hover {
+      color: $color--primary--hover;
+    }
+  }
+
   &[disabled] {
     &, &:hover {
       color: $color-white;
@@ -77,7 +90,8 @@
       background-color: $color-light-grey;
     }
 
-    &.button--hollow {
+    &.button--hollow,
+    &.button--text {
       &, &:hover {
         background-color: transparent;
         color: $color-light-grey;

@@ -1,8 +1,11 @@
 
 <template>
-  <div class="icon-store">
-    <img svg-inline svg-sprite src="@/icons/google.svg" />
-  </div>
+  <svg class="icon-store">
+    <defs>
+      <g id="icon-google"><img svg-inline svg-sprite src="@/icons/google.svg" /></g>
+      <g id="icon-compass-rose"><img svg-inline src="@/icons/compass-rose.svg" /></g>
+    </defs>
+  </svg>
 </template>
 
 <script>
@@ -13,4 +16,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  .icon-store {
+    display: none;
+  }
 </style>

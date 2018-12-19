@@ -1,6 +1,7 @@
 
 <template lang="pug">
   #app
+    icon-store
     navbar
     transition(name="fade", mode="out-in")
       router-view
@@ -11,11 +12,11 @@
 
   import Navbar from '@/components/navigation/Navbar.vue'
 
+  import IconStore from '@/components/ui/IconStore.vue'
+
   export default {
     name: 'App',
-    components: {
-      Navbar
-    },
+    components: { Navbar, IconStore },
     data () {
       return {
         dataInitialized: false

@@ -6,6 +6,7 @@ import Home from './views/Home.vue'
 import Styleguide from './views/Styleguide.vue'
 import GameBrowser from './views/GameBrowser.vue'
 import Game from './views/Game.vue'
+import JoinGame from './views/JoinGame.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ const routes = [
     meta: {
       title: 'Canon Craft - Game'
     }
+  },
+  {
+    name: 'join',
+    path: '/join/:invite',
+    component: JoinGame
   }
 ];
 

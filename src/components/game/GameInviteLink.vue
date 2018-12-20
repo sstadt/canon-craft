@@ -3,6 +3,8 @@
   .game-invite.callout
     p.game-invite__title Send players this link to invite them to the game
     input.game-invite__link#game-invite-link(type="text", v-model="inviteLink", readonly)
+    .game-invite__qrcode
+      qrcode-vue(:value="inviteLink")
     .game-invite__btn.game-invite__btn--reset
       button.button.button--text(@click="resetLink",:disabled="!hasInviteLink") Reset Link
     .game-invite__btn.game-invite__btn--copy
@@ -10,8 +12,11 @@
 </template>
 
 <script>
+  import QrcodeVue from 'qrcode.vue'
+
   export default {
     name: 'GameInviteLink',
+    components: { QrcodeVue },
     props: {
       slug: String,
       game: String
@@ -43,12 +48,12 @@
 <style scoped lang="scss">
   .game-invite {
     display: grid;
-    grid-template-areas: "link link"
-                         "title title"
-                         "reset copy";
+    grid-template-areas: "link link qrcode"
+                         "title title qrcode"
+                         "reset copy qrcode";
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
-    max-width: 400px;
+    grid-template-columns: 1fr 1fr 0.5fr;
+    max-width: 525px;
 
     &__title {
       text-align: center;
@@ -65,6 +70,11 @@
       line-height: 1.3;
       color: $color--primary;
       background-color: transparent;
+    }
+
+    &__qrcode {
+      grid-area: qrcode;
+      padding-left: 20px;
     }
 
     &__btn {

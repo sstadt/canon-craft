@@ -2,7 +2,7 @@
 <template>
   <svg class="icon-store">
     <defs>
-      <g id="icon-google"><img svg-inline svg-sprite src="@/icons/google.svg" /></g>
+      <g id="icon-google"><img svg-inline src="@/icons/google.svg" /></g>
       <g id="icon-compass-rose"><img svg-inline src="@/icons/compass-rose.svg" /></g>
     </defs>
   </svg>

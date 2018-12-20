@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^5.5.4",
+    "qrcode.vue": "^1.6.1",
     "vee-validate": "^2.1.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",

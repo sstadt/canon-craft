@@ -18,13 +18,12 @@
     components: { Icon },
     created () {
       this.$store.dispatch('loading/start', 'Joining Game...')
-      this.joinGame()
+      this.attemptJoin()
     },
     methods: {
-      joinGame () {
+      attemptJoin () {
         let invite = this.$route.params.invite
 
-        console.log(invite);
         joinGame({ invite })
           .then(result => {
             console.log('--- joinGame returned ----------')

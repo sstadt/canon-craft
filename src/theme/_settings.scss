@@ -26,7 +26,7 @@ $body-bg--alt: $color-tan;
 $body-bg--dark: $color-dark-red;
 $body-bg--darkest: darken($color-dark-red, 5%);
 
-$transparent-overlay: $color-transparent-black;
+$overlay-bg: $color-transparent-black;
 
 // fonts
 $font-header--main: 'shangrila', serif;
@@ -34,8 +34,10 @@ $font-body--main: 'Oxygen', sans-serif;
 
 // typography
 $body-text--main: $color-dark-red;
+$body-text--light: $color-white;
+$body-text--accent: $color-tan;
 
-$navbar-text--link: $color-tan;
+$navbar-text--link: $body-text--accent;
 
 // media queries
 $break--tablet: 768px;

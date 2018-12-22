@@ -24,10 +24,13 @@
       attemptJoin () {
         let invite = this.$route.params.invite
 
-        joinGame({ invite })
+        joinGame(invite)
           .then(result => {
             console.log('--- joinGame returned ----------')
             console.log(result)
+          })
+          .catch(() => {
+            this.$store.dispatch('loading/message', 'Could not join at this time')
           })
       }
     }

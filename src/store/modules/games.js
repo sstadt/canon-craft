@@ -39,7 +39,9 @@ const actions = {
     gamesRef.add({
       name,
       created_by,
-      created_on: new Date()
+      created_on: new Date(),
+      players: [],
+      config: {}
     })
   },
   update ({ rootState }, game) {

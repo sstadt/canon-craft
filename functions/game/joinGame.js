@@ -39,9 +39,10 @@ module.exports = functions.https.onCall((invite, context) => {
           });
         } else {
           snapshot.forEach(doc => {
-            let players = doc.players;
+            let players = doc.data().players;
 
-            console.log(players);
+            // console.log(JSON.stringify(doc));
+            // console.log(doc.data().players);
 
             if (players.findIndex(player => player.id === userId) === -1) {
               players.push({
@@ -50,7 +51,7 @@ module.exports = functions.https.onCall((invite, context) => {
               });
             }
 
-            resolve({ invite, userId, gameId, players });
+            resolve({ invite, userId, players });
           })
         }
       });

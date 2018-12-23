@@ -35,6 +35,8 @@
     left: 0;
     height: 100%;
     width: 100%;
+    padding: 0 $grid-gutter;
+    text-align: center;
 
     .icon {
       fill: $body-text--accent;
@@ -42,6 +44,7 @@
     }
 
     &__message {
+      max-width: 500px;
       margin-top: 20px;
       font-size: rem(24);
       color: $body-text--accent;

@@ -16,13 +16,16 @@
     data () {
       return {
         attemptQueued: false,
-        waitingForAuthInit: false
+        waitingForAuthInit: false,
+        joinSuccessful: false,
+        joinedGame: null
       }
     },
     computed: {
       ...mapState({
         isLoggedIn: state => state.user.loggedIn,
-        authInitialized: state => state.user.authInitialized
+        authInitialized: state => state.user.authInitialized,
+        games: state => state.games.all
       })
     },
     watch: {
@@ -69,12 +72,21 @@
 
         joinGame(invite)
           .then(result => {
-            console.log('--- joinGame returned ----------')
-            console.log(result)
+            this.joinSuccessful = true
+            this.joinedGame = result.data.game
+            this.$store.dispatch('loading/message', 'Success!')
+
+            let interval = setInterval(() => {
+              if (this.games.find(game => game.id === result.data.game)) {
+                clearInterval(interval)
+                this.$store.dispatch('loading/stop')
+                this.$router.push(`/game/${this.joinedGame}`)
+              }
+            }, 250)
+
           })
           .catch((error) => {
-            console.error(error) // TODO
-            this.$store.dispatch('loading/message', 'Could not join at this time')
+            this.$store.dispatch('loading/message', error.message)
           })
       }, 250)
     }

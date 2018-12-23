@@ -33,7 +33,6 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.user.currentUser,
         games: state => state.games.all
       })
     },
@@ -45,7 +44,7 @@
         this.$validator.validateAll().then((isValid) => {
           if (isValid) {
             this.$refs.newGameModal.close()
-            this.$store.dispatch('games/create', { name: this.newGameName, created_by: this.currentUser.uid })
+            this.$store.dispatch('games/create', { name: this.newGameName })
             this.newGameName = ''
             this.errors.clear()
           }

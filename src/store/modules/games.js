@@ -3,6 +3,26 @@ const state = {
   all: []
 }
 
+const setupGamesWatcher = (ref, commit) => {
+  ref.onSnapshot(snapshot =>
+    snapshot.docChanges().forEach(change =>
+      gameChangeHandler(change, commit)))
+}
+
+const gameChangeHandler = (change, commit) => {
+  switch (change.type) {
+    case 'added':
+      commit('ADD_GAME', { ...change.doc.data(), id: change.doc.id })
+      break;
+    case 'modified':
+      commit('UPDATE_GAME', { ...change.doc.data(), id: change.doc.id })
+      break;
+    default:
+      console.warn('--- unhandled game change type')
+      console.warn(change.type)
+  }
+}
+
 const mutations = {
   ADD_GAME (state, game) {
     state.all.push(game)
@@ -15,31 +35,21 @@ const mutations = {
 
 const actions = {
   init ({ commit, rootState }) {
-    let gamesRef = rootState.db.collection('games').where('created_by', '==', rootState.user.currentUser.uid)
+    let userId = rootState.user.currentUser.uid
+    let ownedGamesRef = rootState.db.collection('games').where('created_by', '==', userId)
+    let playedGamesRef = rootState.db.collection('games').where('players', 'array-contains', userId)
 
-    gamesRef.onSnapshot((snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        switch (change.type) {
-          case 'added':
-            commit('ADD_GAME', { ...change.doc.data(), id: change.doc.id })
-            break;
-          case 'modified':
-            commit('UPDATE_GAME', { ...change.doc.data(), id: change.doc.id })
-            break;
-          default:
-            console.warn('--- unhandled game change type')
-            console.warn(change.type)
-        }
-      })
-    })
+    setupGamesWatcher(ownedGamesRef, commit)
+    setupGamesWatcher(playedGamesRef, commit)
   },
-  create ({ rootState }, { name, created_by }) {
+  create ({ rootState }, { name }) {
     let gamesRef = rootState.db.collection('games')
+    let now = new Date()
 
     gamesRef.add({
       name,
-      created_by,
-      created_on: new Date(),
+      description: '',
+      characters: [],
       players: [],
       config: {}
     })

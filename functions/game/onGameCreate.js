@@ -8,5 +8,9 @@ module.exports = functions.firestore
     const gameData = snapshot.data();
     const gameLink = generateGameLink(gameData.id);
 
-    return snapshot.ref.update({ inviteLink: gameLink });
+    return snapshot.ref.update({
+      inviteLink: gameLink,
+      created_by: context.auth.uid,
+      created_on: new Date()
+    });
   });

@@ -1,6 +1,6 @@
 
 .container {
-  max-width: 1600px;
+  max-width: $container-max-width;
   margin: 0 auto;
   padding-left: $grid-gutter;
   padding-right: $grid-gutter;

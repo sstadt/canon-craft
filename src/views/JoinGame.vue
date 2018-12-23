@@ -4,35 +4,79 @@
 </template>
 
 <script>
-  import { functions } from '@/store/firebase.js'
+  import { mapState } from 'vuex'
 
-  import Icon from '@/components/ui/Icon.vue'
+  import { debounce } from '@/lib/util.js'
+  import { functions } from '@/store/firebase.js'
 
   const joinGame = functions.httpsCallable('joinGame')
 
-  // if logged in join game
-  // if not, throw login and then wait for user before joining
-
   export default {
     name: 'JoinGame',
-    components: { Icon },
+    data () {
+      return {
+        attemptQueued: false,
+        waitingForAuthInit: false
+      }
+    },
+    computed: {
+      ...mapState({
+        isLoggedIn: state => state.user.loggedIn,
+        authInitialized: state => state.user.authInitialized
+      })
+    },
+    watch: {
+      isLoggedIn (newVal, oldVal) {
+        if (this.attemptQueued && oldVal === false && newVal === true) {
+          this.joinByInvite()
+        }
+      },
+      authInitialized (newVal, oldVal) {
+        if (this.waitingForAuthInit === true && oldVal === false && newVal === true) {
+          this.waitingForAuthInit = false
+          this.attemptJoin()
+        }
+      }
+    },
     created () {
-      this.$store.dispatch('loading/start', 'Joining Game...')
+      this.$store.dispatch('loading/start')
       this.attemptJoin()
     },
     methods: {
       attemptJoin () {
+        if (this.isLoggedIn === true) {
+          this.joinByInvite()
+        } else {
+          this.attemptQueued = true
+
+          if (this.authInitialized === true) {
+            this.requestLogin()
+          } else {
+            this.waitingForAuthInit = true
+          }
+        }
+      },
+      requestLogin () {
+        this.$store.dispatch('loading/message', 'Authenticating...')
+        this.$store.dispatch('user/requestAuth')
+      },
+      joinByInvite: debounce(function () {
         let invite = this.$route.params.invite
+
+        this.attemptQueued = false
+        this.waitingForAuthInit = false
+        this.$store.dispatch('loading/message', 'Joining Game...')
 
         joinGame(invite)
           .then(result => {
             console.log('--- joinGame returned ----------')
             console.log(result)
           })
-          .catch(() => {
+          .catch((error) => {
+            console.error(error) // TODO
             this.$store.dispatch('loading/message', 'Could not join at this time')
           })
-      }
+      }, 250)
     }
   }
 </script>

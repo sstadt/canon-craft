@@ -31,7 +31,8 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.user.currentUser
+        currentUser: state => state.user.currentUser,
+        authRequested: state => state.user.authRequested
       })
     },
     methods: {
@@ -49,6 +50,11 @@
       currentUser (newUser, oldUser) {
         if (newUser && !oldUser) {
           this.$refs.authModal.close()
+        }
+      },
+      authRequested (newVal, oldVal) {
+        if (newVal === true && oldVal === false) {
+          this.$refs.authModal.open()
         }
       }
     }

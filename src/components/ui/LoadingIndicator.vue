@@ -2,7 +2,7 @@
 <template lang="pug">
   transition(name="fade")
     .loading-indicator.u-bg-overlay(v-if="isLoading")
-      icon(name="compass-rose")
+      icon(name="compass-rose", size="80px")
       p.loading-indicator__message(v-if="message.length > 0") {{ message }}
 </template>
 
@@ -35,12 +35,10 @@
     left: 0;
     height: 100%;
     width: 100%;
-    z-index: 1;
 
     .icon {
       fill: $body-text--accent;
       animation: rotating 2s linear infinite;
-      @include icon-size(80px);
     }
 
     &__message {

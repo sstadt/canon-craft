@@ -6,13 +6,22 @@ var isSigningUp = false;
 
 const state = {
   currentUser: null,
-  loggedIn: false
+  loggedIn: false,
+  authRequested: false,
+  authInitialized: false
 }
 
 const mutations = {
+  AUTH_INITIALIZED () {
+    state.authInitialized = true
+  },
+  REQUEST_AUTH () {
+    state.authRequested = true
+  },
   SET_USER (state, { user }) {
     state.loggedIn = true
     state.currentUser = user
+    state.authRequested = false
   },
   UNSET_USER (state) {
     state.loggedIn = false
@@ -23,6 +32,8 @@ const mutations = {
 const actions = {
   init ({ commit, rootState }) {
     rootState.auth.onAuthStateChanged((user) => {
+      commit('AUTH_INITIALIZED')
+
       if (user) {
         if (isSigningUp) {
           isSigningUp = false;
@@ -36,6 +47,7 @@ const actions = {
   },
   signup ({ commit, rootState }, { displayName, email, password }) {
     isSigningUp = true;
+
     rootState.auth.createUserWithEmailAndPassword(email, password)
       .then(({ user }) => {
         if (user) {
@@ -73,6 +85,9 @@ const actions = {
           console.log(error.code, error.message)
         }
       });
+  },
+  requestAuth ({ commit }) {
+    commit('REQUEST_AUTH')
   },
   logout ({ rootState }) {
     rootState.auth.signOut()

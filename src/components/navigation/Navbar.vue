@@ -24,6 +24,7 @@
 
 <style lang="scss">
   .navbar {
+    position: relative;
     padding: 20px 0;
     background-color: $body-bg--dark;
 

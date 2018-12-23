@@ -20,7 +20,7 @@ const mutations = {
 const actions = {
   start ({ commit }, message) {
     commit('START_LOADING')
-    if (message.length > 0) commit('SET_MESSAGE', message)
+    if (message && message.length > 0) commit('SET_MESSAGE', message)
   },
   message ({ commit }, message) {
     commit('SET_MESSAGE', message)

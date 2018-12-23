@@ -15,22 +15,6 @@ module.exports = functions.https.onCall((invite, context) => {
     db.collection('games')
       .where('inviteLink', '==', invite)
       .get()
-      // .then(snapshot => {
-      //   if (snapshot.empty) {
-      //     return Promise.reject({
-      //       type: 'invalid',
-      //       message: 'Invitation is no longer valid, request the new link from you game master.'
-      //     });
-      //   } else {
-      //     let gameId = false;
-      //
-      //     snapshot.forEach(item => {
-      //       gameId = doc.id;
-      //     })
-      //
-      //     return db.collection('games').doc()
-      //   }
-      // })
       .then(snapshot => {
         if (snapshot.empty) {
           reject({

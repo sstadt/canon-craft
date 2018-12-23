@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  svg(:class="iconClass")
+  svg(:class="iconClass", :style="iconStyle")
     use(xmlns:xlink="http://www.w3.org/1999/xlink", :xlink:href="iconName")
 </template>
 
@@ -8,7 +8,11 @@
   export default {
     name: 'MyComponent',
     props: {
-      name: String
+      name: String,
+      size: {
+        type: String,
+        default: '24px'
+      }
     },
     computed: {
       iconClass () {
@@ -18,6 +22,12 @@
 
         return iconClass
       },
+      iconStyle () {
+        return {
+          'height': this.size,
+          'width': this.size
+        }
+      },
       iconName () {
         return `#icon-${this.name}`
       }
@@ -25,16 +35,8 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .icon {
     fill: #000;
-    height: 24px;
-    width: 24px;
-
-    svg {
-      height: 100%;
-      width: 100%;
-    }
   }
 </style>

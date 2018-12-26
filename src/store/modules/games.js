@@ -1,8 +1,4 @@
 
-const state = {
-  all: []
-}
-
 const setupGamesWatcher = (ref, commit) => {
   ref.onSnapshot(snapshot =>
     snapshot.docChanges().forEach(change =>
@@ -13,14 +9,21 @@ const gameChangeHandler = (change, commit) => {
   switch (change.type) {
     case 'added':
       commit('ADD_GAME', { ...change.doc.data(), id: change.doc.id })
-      break;
+      break
     case 'modified':
       commit('UPDATE_GAME', { ...change.doc.data(), id: change.doc.id })
-      break;
+      break
+    case 'removed':
+      commit('REMOVE_GAME', change.doc.id)
+      break
     default:
       console.warn('--- unhandled game change type')
       console.warn(change.type)
   }
+}
+
+const state = {
+  all: []
 }
 
 const mutations = {
@@ -30,6 +33,13 @@ const mutations = {
   UPDATE_GAME (state, game) {
     let index = state.all.findIndex(item => item.id === game.id)
     state.all.splice(index, 1, game)
+  },
+  REMOVE_GAME (state, gameId) {
+    let index = state.all.findIndex(item => item.id === gameId)
+    state.all.splice(index, 1)
+  },
+  CLEAR_GAMES () {
+    state.all = []
   }
 }
 
@@ -42,14 +52,14 @@ const actions = {
     setupGamesWatcher(ownedGamesRef, commit)
     setupGamesWatcher(playedGamesRef, commit)
   },
-  create ({ rootState }, { name }) {
+  create ({ rootState }, { name, created_by }) {
     let gamesRef = rootState.db.collection('games')
     let now = new Date()
 
     gamesRef.add({
       name,
+      created_by,
       description: '',
-      characters: [],
       players: [],
       config: {}
     })
@@ -65,6 +75,9 @@ const actions = {
     }
 
     gameRef.set(updatedGame, { merge: true })
+  },
+  clear ({ commit }) {
+    commit('CLEAR_GAMES')
   }
 }
 

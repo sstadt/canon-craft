@@ -4,6 +4,7 @@
     <defs>
       <g id="icon-google"><img svg-inline src="@/assets/icons/google.svg" /></g>
       <g id="icon-compass-rose"><img svg-inline src="@/assets/icons/compass-rose.svg" /></g>
+      <g id="icon-quill"><img svg-inline src="@/assets/icons/quill.svg" /></g>
     </defs>
   </svg>
 </template>

@@ -21,32 +21,47 @@ const errorMessages = {
 module.exports = functions.https.onCall((invite, context) => {
   const userId = context.auth.uid;
 
+  let game;
+  let gameId;
+  let newJoin = false;
+
   return new Promise((resolve, reject) => {
     db.collection('games').where('inviteLink', '==', invite).get()
       .then(games => {
         if (games.empty) {
-          reject(new functions.https.HttpsError('invalid-argument', errorMessages.invalidInvite));
-        } else {
-          // TODO: *should* be unique, but need a
-          //       more targeted way to do this update
-          games.forEach(gameDoc => {
-            let data = gameDoc.data();
-            let players = data.players || [];
-            let characters = data.characters || [];
-
-            if (players.indexOf(userId) === -1) {
-              players.push(userId);
-              characters.push({
-                player: userId,
-                name: 'New Character',
-                avatar: '//placehold.it/80x80'
-              });
-            }
-
-            gameDoc.ref.update({ players, characters })
-              .then(() => resolve({ game: gameDoc.id }));
-          });
+          return reject(new functions.https.HttpsError('invalid-argument', errorMessages.invalidInvite));
         }
+
+        games.forEach(gameDoc => {
+          game = gameDoc;
+        });
+
+        let data = game.data();
+        let players = data.players || [];
+
+        gameId = game.id;
+
+        if (players.indexOf(userId) === -1) {
+          players.push(userId);
+          newJoin = true;
+        }
+
+        return game.ref.update({ players });
+      })
+      .then(() => {
+        if (newJoin) {
+          return db.collection('characters').add({
+            game: gameId,
+            player: userId,
+            name: 'New Character',
+            avatar: '//placehold.it/80x80'
+          })
+        }
+
+        return;
+      })
+      .then(() => {
+        resolve({ game: gameId })
       });
   });
 });

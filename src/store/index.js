@@ -7,6 +7,7 @@ import { auth, db } from './firebase.js'
 import loading from './modules/loading'
 import user from './modules/user'
 import games from './modules/games'
+import characters from './modules/characters'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: {
     loading,
     user,
-    games
+    games,
+    characters
   }
 })

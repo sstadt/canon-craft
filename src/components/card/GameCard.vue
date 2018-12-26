@@ -4,23 +4,33 @@
     img(src="//placehold.it/335x150")
     .card__content
       h3.card__title {{ game.name }}
-      p.card__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+      p.card__description Your Role: {{ role }}
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'GameCard',
     props: {
       game: Object
     },
+    created () {
+      this.$store.dispatch('characters/populate', this.game.id)
+    },
     computed: {
+      ...mapState({
+        currentUser: state => state.user.currentUser
+      }),
       gameLink () {
         return `/game/${this.game.id}`
+      },
+      role () {
+        return (this.currentUser.uid === this.game.created_by) ? 'Game Master' : 'Player'
       }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 </style>

@@ -38,5 +38,6 @@
 <style scoped lang="scss">
   .icon {
     fill: #000;
+    transition: 0.3s ease all;
   }
 </style>

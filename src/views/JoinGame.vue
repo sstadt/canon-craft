@@ -77,13 +77,12 @@
             this.$store.dispatch('loading/message', 'Success!')
 
             let interval = setInterval(() => {
-              if (this.games.find(game => game.id === result.data.game)) {
+              if (this.games.find(game => game.id === this.joinedGame)) {
                 clearInterval(interval)
                 this.$store.dispatch('loading/stop')
                 this.$router.push(`/game/${this.joinedGame}`)
               }
             }, 250)
-
           })
           .catch((error) => {
             this.$store.dispatch('loading/message', error.message)

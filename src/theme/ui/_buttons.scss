@@ -83,6 +83,24 @@
     }
   }
 
+  &--icon {
+    padding: 0;
+    
+    .icon {
+      fill: $color--primary;
+    }
+
+    &, &:hover {
+      background-color: transparent;
+    }
+
+    &:hover {
+      .icon {
+        fill: $color--primary--hover;
+      }
+    }
+  }
+
   &[disabled] {
     &, &:hover {
       color: $color-white;

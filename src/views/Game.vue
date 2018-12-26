@@ -4,10 +4,11 @@
     .row
       .column.small-12.medium-8
         h1 {{ game.name }}
-        game-invite-link(:slug="inviteSlug", :game="game.id")
+        game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
         .game_description {{ game.description }}
       .column.small-12.medium-4
         button.button.button--small(@click="editGame") Settings
+        game-characters(:characters="characters")
         h2 Quest Log
     modal(ref="editGameModal")
       template(slot="content")
@@ -23,24 +24,52 @@
   import { mapState } from 'vuex'
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
+  import GameCharacters from '@/components/game/GameCharacters.vue'
   import Modal from '@/components/ui/Modal.vue'
 
   export default {
     name: 'Game',
-    components: { GameInviteLink, Modal },
+    components: {
+      GameInviteLink,
+      GameCharacters,
+      Modal
+    },
     computed: {
       ...mapState({
-        games: state => state.games.all
+        currentUser: state => state.user.currentUser,
+        games: state => state.games.all,
+        allCharacters: state => state.characters.all
       }),
       game () {
         let game = this.games.filter(game => game.id === this.$route.params.id)
         return (game.length > 0) ? game[0] : {}
       },
+      isGameMaster () {
+        return this.currentUser && this.currentUser.uid === this.game.created_by
+      },
       inviteSlug () {
         return (this.game.inviteLink) ? this.game.inviteLink : ''
+      },
+      characters () {
+        return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : []
+      }
+    },
+    created () {
+      if (this.game.id) {
+        this.populateGameData()
+      } else {
+        let unwatch = this.$watch('game', (newVal) => {
+          if (this.game.id) {
+            unwatch()
+            this.populateGameData()
+          }
+        })
       }
     },
     methods: {
+      populateGameData () {
+        this.$store.dispatch('characters/populate', this.game.id)
+      },
       editGame () {
         this.$refs.editGameModal.open()
       },
@@ -58,6 +87,5 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 </style>

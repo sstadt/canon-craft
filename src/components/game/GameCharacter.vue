@@ -4,7 +4,7 @@
     .game-character__avatar
       img(:src="character.avatar")
     p.game-character__name {{ character.name }}
-    a.button.button--icon.game-character__edit(@click="$refs.editCharacterModal.open()")
+    a.button.button--icon.game-character__edit(v-if="isOwner", @click="$refs.editCharacterModal.open()")
       span.u-hidden Edit Character
       icon(name="quill", size="22px")
     modal(ref="editCharacterModal")
@@ -57,6 +57,7 @@
               name: this.name,
               avatar: this.avatar
             })
+            this.$refs.editCharacterModal.close()
           }
         })
       }
@@ -65,8 +66,6 @@
 </script>
 
 <style scoped lang="scss">
-  $avatar-size: 34px;
-
   .game-character {
     position: relative;
     padding-right: 30px;
@@ -79,13 +78,12 @@
     }
 
     &__avatar {
-      max-width: $avatar-size;
+      max-width: 34px;
       flex-shrink: 0;
     }
 
     &__name {
       padding-left: 10px;
-      line-height: $avatar-size;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

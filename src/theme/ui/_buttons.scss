@@ -85,9 +85,9 @@
 
   &--icon {
     padding: 0;
-    
+
     .icon {
-      fill: $color--primary;
+      fill: $color-black;
     }
 
     &, &:hover {
@@ -96,7 +96,7 @@
 
     &:hover {
       .icon {
-        fill: $color--primary--hover;
+        fill: $color--primary;
       }
     }
   }

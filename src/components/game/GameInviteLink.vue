@@ -54,6 +54,7 @@
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr 0.5fr;
     max-width: 525px;
+    margin-bottom: $grid-gutter;
 
     &__title {
       text-align: center;

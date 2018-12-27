@@ -1,13 +1,16 @@
 
 <template lang="pug">
-  .container.game(v-if="game")
+  .container.u-mt.game(v-if="game")
     .row
       .column.small-12.medium-8
-        h1 {{ game.name }}
+        h1.u-mb
+          span.game__title {{ game.name }}
+          button.button.button--icon(v-if="isGameMaster", @click="editGame")
+            span.u-hidden Settings
+            icon(name="cog")
         game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
         .game_description {{ game.description }}
       .column.small-12.medium-4
-        button.button.button--small(@click="editGame") Settings
         game-characters(:characters="characters")
         h2 Quest Log
     modal(ref="editGameModal")
@@ -25,6 +28,8 @@
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import GameCharacters from '@/components/game/GameCharacters.vue'
+
+  import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
 
   export default {
@@ -32,6 +37,7 @@
     components: {
       GameInviteLink,
       GameCharacters,
+      Icon,
       Modal
     },
     computed: {
@@ -88,4 +94,9 @@
 </script>
 
 <style scoped lang="scss">
+  .game {
+    &__title {
+      margin-right: 10px;
+    }
+  }
 </style>

@@ -27,6 +27,7 @@
     position: relative;
     padding: 20px 0;
     background-color: $body-bg--dark;
+    margin-bottom: $grid-gutter;
 
     &__container {
       @include tablet-up {

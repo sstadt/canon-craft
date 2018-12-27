@@ -17,4 +17,7 @@
 </script>
 
 <style scoped lang="scss">
+  .game-characters {
+    padding: 20px 0;
+  }
 </style>

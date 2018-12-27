@@ -26,7 +26,7 @@ const characterChangeHandler = (change, commit) => {
       commit('REMOVE_CHARACTER', change.doc.id)
       break
     default:
-      console.warn('--- unhandled game change type')
+      console.warn('--- unhandled character change type')
       console.warn(change.type)
   }
 }
@@ -52,6 +52,18 @@ const mutations = {
 const actions = {
   populate ({ rootState, commit }, gameId) {
     populateGame(gameId, rootState, commit)
+  },
+  update ({ rootState }, character) {
+    let charRef = rootState.db.collection('characters').doc(character.id)
+    let updatedCharacter = {}
+
+    for (let key in character) {
+      if (character.hasOwnProperty(key) && key !== 'id') {
+        updatedCharacter[key] = character[key]
+      }
+    }
+
+    charRef.set(updatedCharacter, { merge: true })
   }
 }
 

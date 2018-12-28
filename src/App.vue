@@ -5,6 +5,7 @@
     navbar
     transition(name="fade", mode="out-in")
       router-view
+    toast
     loading-indicator
 </template>
 
@@ -14,11 +15,12 @@
   import Navbar from '@/components/navigation/Navbar.vue'
 
   import IconStore from '@/components/ui/IconStore.vue'
+  import Toast from '@/components/ui/Toast.vue'
   import LoadingIndicator from '@/components/ui/LoadingIndicator.vue'
 
   export default {
     name: 'App',
-    components: { Navbar, IconStore, LoadingIndicator },
+    components: { Navbar, IconStore, LoadingIndicator, Toast },
     data () {
       return {
         dataInitialized: false

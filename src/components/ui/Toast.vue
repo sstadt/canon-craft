@@ -1,8 +1,9 @@
 
 <template lang="pug">
   .toast
-    transition(name="fade")
-      .toast__message(v-for="(message, index) in messages", :key="index")
+    transition-group(name="slide-fade-right")
+      .toast__message.u-bg-dark(v-for="message in messages", :key="message.id")
+        p(v-html="message.text")
 </template>
 
 <script>
@@ -19,4 +20,16 @@
 </script>
 
 <style scoped lang="scss">
+  .toast {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+    max-width: 300px;
+
+    &__message {
+      padding: 20px;
+      margin-top: 10px;
+    }
+  }
 </style>

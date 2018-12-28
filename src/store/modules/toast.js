@@ -1,5 +1,5 @@
 
-const timeout = 3000
+const timeout = 5000
 
 const state = {
   messages: []
@@ -7,8 +7,10 @@ const state = {
 
 const mutations = {
   ADD_MESSAGE (state, message) {
-    state.messages.push(message)
-    setTimeout(() => state.messages.shift(), timeout)
+    var id = new Date().getTime()
+
+    state.messages.push({ id, text: message })
+    setTimeout(() => state.messages.splice(0, 1), timeout)
   }
 }
 
@@ -17,3 +19,5 @@ const actions = {
     commit('ADD_MESSAGE', message)
   }
 }
+
+export default { namespaced: true, state, mutations, actions }

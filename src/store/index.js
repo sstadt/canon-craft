@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import { auth, db } from './firebase.js'
 
 import loading from './modules/loading'
+import toast from './modules/toast'
 import user from './modules/user'
 import games from './modules/games'
 import characters from './modules/characters'
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   state,
   modules: {
     loading,
+    toast,
     user,
     games,
     characters

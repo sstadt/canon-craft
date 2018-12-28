@@ -1,11 +1,21 @@
 
-// slide-fade
-.slide-fade-enter-active, .slide-fade-leave-active {
+// slide-fade-left
+.slide-fade-left-enter-active, .slide-fade-left-leave-active {
   transition: all .3s ease;
 }
 
-.slide-fade-enter, .slide-fade-leave-active {
-  transform: translateX(10px);
+.slide-fade-left-enter, .slide-fade-left-leave-active {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+// slide-fade-right
+.slide-fade-right-enter-active, .slide-fade-right-leave-active {
+  transition: all .3s ease;
+}
+
+.slide-fade-right-enter, .slide-fade-right-leave-active {
+  transform: translateX(-30px);
   opacity: 0;
 }
 

@@ -3,7 +3,7 @@
   .home
     hero(title="Lorem Ipsum Dolor")
       router-link.button.button--small(to="/games") My Games
-      a.button.button--small New Game
+      a.button.button--small(@click="toast('foo')") Toast
     .container
       .row.reverse-tablet-up
         .column.small-12.medium-3
@@ -28,9 +28,17 @@
 <script>
 import Hero from '@/components/ui/Hero.vue'
 
+var count = 1
+
 export default {
   name: 'Home',
-  components: { Hero }
+  components: { Hero },
+  methods: {
+    toast (message) {
+      this.$store.dispatch('toast/send', `${count}: ${message}`)
+      count++
+    }
+  }
 }
 </script>
 

@@ -3,14 +3,13 @@ var gameWatchers = {};
 
 const populateGame = (gameId, rootState, commit) => {
   if (!gameWatchers[gameId]) {
-    console.log(`populating characters for ${gameId}`)
     gameWatchers[gameId] = rootState.db.collection('characters').where('game', '==', gameId)
+
+    commit('GAME_POPULATED', gameId)
 
     gameWatchers[gameId].onSnapshot(snapshot =>
       snapshot.docChanges().forEach(change =>
         characterChangeHandler(change, commit)))
-  } else {
-    console.log('already populated')
   }
 }
 
@@ -32,7 +31,8 @@ const characterChangeHandler = (change, commit) => {
 }
 
 const state = {
-  all: []
+  all: [],
+  populatedGames: []
 }
 
 const mutations = {
@@ -46,6 +46,9 @@ const mutations = {
   REMOVE_CHARACTER (state, gameId) {
     let index = state.all.findIndex(item => item.id === gameId)
     state.all.splice(index, 1)
+  },
+  GAME_POPULATED (state, gameId) {
+    state.populatedGames.push(gameId)
   }
 }
 

@@ -26,7 +26,8 @@
     },
     computed: {
       ...mapState({
-        currentUser: state => state.user.currentUser
+        currentUser: state => state.user.currentUser,
+        loggedIn: state => state.user.loggedIn
       })
     },
     created () {
@@ -35,10 +36,11 @@
     },
     watch: {
       currentUser () {
-        if (!this.dataInitialized && this.currentUser.uid) {
+        if (!this.dataInitialized && this.loggedIn) {
           this.dataInitialized = true
-
           this.$store.dispatch('games/init')
+        } else if (this.dataInitialized && !this.loggedIn) {
+          this.dataInitialized = false
         }
       }
     }

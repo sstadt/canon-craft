@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  .container.u-mt.game(v-if="game")
+  .container.u-mt.game(v-if="game && isAllowed")
     .row
       .column.small-12.medium-8
         h1.u-mb
@@ -40,11 +40,19 @@
       Icon,
       Modal
     },
+    data () {
+      return {
+        isAllowed: false
+      }
+    },
     computed: {
       ...mapState({
         currentUser: state => state.user.currentUser,
+        loggedIn: state => state.user.loggedIn,
+        authInitialized: state => state.user.authInitialized,
         games: state => state.games.all,
-        allCharacters: state => state.characters.all
+        allCharacters: state => state.characters.all,
+        populatedGames: state => state.characters.populatedGames
       }),
       game () {
         let game = this.games.filter(game => game.id === this.$route.params.id)
@@ -57,22 +65,83 @@
         return (this.game.inviteLink) ? this.game.inviteLink : ''
       },
       characters () {
-        return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : []
+        return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
       }
     },
     created () {
-      if (this.game.id) {
-        this.populateGameData()
+      this.$store.dispatch('loading/start', 'Setting up game...')
+
+      if (this.authInitialized) {
+        this.waitForPermissions()
+        this.attemptToPopulate()
       } else {
-        let unwatch = this.$watch('game', (newVal) => {
-          if (this.game.id) {
+        let unwatch = this.$watch('authInitialized', (newVal) => {
+          if (newVal) {
             unwatch()
-            this.populateGameData()
+            this.waitForPermissions()
+            this.attemptToPopulate()
           }
         })
       }
     },
+    watch: {
+      isLoggedIn (newVal, oldVal) {
+        if (oldVal && !newVal) {
+          this.$router.push('/')
+        }
+      }
+    },
     methods: {
+      waitForPermissions () {
+        if (!this.loggedIn) {
+          this.$store.dispatch('loading/stop')
+          this.$router.push('/')
+        } else if (this.game.id && this.populatedGames.length > 0) {
+          this.checkPermissions()
+        } else {
+          let unwatchPopulatedGames = this.$watch('populatedGames', () => {
+            if (this.populatedGames.indexOf(this.game.id) > -1) {
+              unwatchPopulatedGames()
+              this.checkPermissions()
+            }
+          })
+        }
+      },
+      checkPermissions () {
+        this.$store.dispatch('loading/stop')
+
+        if (this.game.created_by === this.currentUser.uid || this.characters.find(character => character.player === this.currentUser.uid)) {
+          this.isAllowed = true
+        } else {
+          this.$router.push('/games')
+        }
+      },
+      attemptToPopulate () {
+        let isPopulated = false
+
+        if (this.game.id) {
+          isPopulated = true
+          this.populateGameData()
+        } else {
+          let unwatchGame = this.$watch('game', (newVal) => {
+            if (this.game.id) {
+              isPopulated = true
+              unwatchGame()
+              this.populateGameData()
+            }
+          })
+        }
+
+        setTimeout(() => {
+          if (!isPopulated) {
+            this.$store.dispatch('loading/message', 'You may not have access to this game, redirecting to your games...')
+            setTimeout(() => {
+              this.$store.dispatch('loading/stop')
+              this.$router.push('/games')
+            }, 3000)
+          }
+        }, 10000)
+      },
       populateGameData () {
         this.$store.dispatch('characters/populate', this.game.id)
       },

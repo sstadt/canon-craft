@@ -1,6 +1,9 @@
 
+var unsubscribeOwnedGames;
+var unsubscribePlayedGames;
+
 const setupGamesWatcher = (ref, commit) => {
-  ref.onSnapshot(snapshot =>
+  return ref.onSnapshot(snapshot =>
     snapshot.docChanges().forEach(change =>
       gameChangeHandler(change, commit)))
 }
@@ -49,8 +52,8 @@ const actions = {
     let ownedGamesRef = rootState.db.collection('games').where('created_by', '==', userId)
     let playedGamesRef = rootState.db.collection('games').where('players', 'array-contains', userId)
 
-    setupGamesWatcher(ownedGamesRef, commit)
-    setupGamesWatcher(playedGamesRef, commit)
+    unsubscribeOwnedGames = setupGamesWatcher(ownedGamesRef, commit)
+    unsubscribePlayedGames = setupGamesWatcher(playedGamesRef, commit)
   },
   create ({ rootState }, { name, created_by }) {
     let gamesRef = rootState.db.collection('games')
@@ -77,6 +80,8 @@ const actions = {
     gameRef.set(updatedGame, { merge: true })
   },
   clear ({ commit }) {
+    unsubscribeOwnedGames()
+    unsubscribePlayedGames()
     commit('CLEAR_GAMES')
   }
 }

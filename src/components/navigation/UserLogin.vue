@@ -40,6 +40,9 @@
         this.$refs.authModal.open()
       },
       logOut () {
+        this.showMenu = false
+        this.$router.push('/')
+        this.$store.dispatch('games/clear')
         this.$store.dispatch('user/logout')
       },
       toggleMenu () {

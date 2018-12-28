@@ -34,13 +34,28 @@
     computed: {
       ...mapState({
         currentUser: state => state.user.currentUser,
+        loggedIn: state => state.user.loggedIn,
+        authInitialized: state => state.user.authInitialized,
         games: state => state.games.all
       })
     },
     created () {
-      console.log('game browser')
+      this.redirect()
+    },
+    watch: {
+      isLoggedIn () {
+        this.redirect()
+      },
+      authInitialized () {
+        this.redirect()
+      }
     },
     methods: {
+      redirect () {
+        if (this.authInitialized && !this.loggedIn) {
+          this.$router.push('/')
+        }
+      },
       newGame () {
         this.$refs.newGameModal.open()
       },

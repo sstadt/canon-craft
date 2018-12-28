@@ -6,18 +6,26 @@
         router-link.navbar__logo(to="/")
           img(src="@/assets/images/logo-CanonCraft.svg")
       .navbar__right
-        router-link.navbar__link(to="/games") Games
-        router-link.navbar__link(to="/styleguide") Styleguide
+        transition-group(name="fade")
+          router-link.navbar__link(to="/games", key="games", v-if="loggedIn") Games
+          router-link.navbar__link(to="/styleguide", key="styleguide") Styleguide
         user-login
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   import UserLogin from '@/components/navigation/UserLogin.vue'
 
   export default {
     name: 'Navbar',
     components: {
       UserLogin
+    },
+    computed: {
+      ...mapState({
+        loggedIn: state => state.user.loggedIn
+      })
     }
   }
 </script>

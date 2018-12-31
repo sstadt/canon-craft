@@ -34,21 +34,30 @@
         a.button.button--secondary(disabled) Disabled Button
         a.button.button--secondary.button--hollow(disabled) Hollow Disabled Button
     form
-      label Text Input
-        input(type="text", placeholder="Text Input")
-      label Select Input
-        select
-          option Select Menu
-      label Textarea
-        textarea(placeholder="Textarea")
-      label Foo
-        input(type="radio", name="foo", value="foo")
-      label Bar
-        input(type="radio", name="foo", value="bar")
-      label Foo
-        input(type="checkbox")
-      label Bar
-        input(type="checkbox")
+      .row
+        .column.small-12.medium-6
+          .form-input
+            label Text Input
+            input(type="text", placeholder="Text Input")
+          .form-input.select
+            label Select Input
+            select
+              option Select Menu
+          .form-input
+            label Textarea
+            textarea(placeholder="Textarea")
+          .form-input
+            input(type="radio", name="foo", id="radio_1", value="foo")
+            label(for="radio_1") Foo
+          .form-input
+            input(type="radio", name="foo", id="radio_2", value="bar")
+            label(for="radio_2") Bar
+          .form-input
+            input(type="checkbox", id="check_1")
+            label(for="check_1") Foo
+          .form-input
+            input(type="checkbox", id="check_2")
+            label(for="check_2") Bar
 </template>
 
 <script>

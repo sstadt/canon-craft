@@ -1,15 +1,16 @@
 
 <template lang="pug">
   .request-reset
-    h2 Forgot Password
+    h2.modal__title Forgot Password
     transition(name="fade")
       .alert.alert--success(v-if="requestSubmitted") Check your email!
-    form(@submit.prevent="requestReset", novalidate)
+    form.auth__form(@submit.prevent="requestReset", novalidate)
       .form-input
         input(type="email", name="email", placeholder="Email", v-model="email", v-validate="'required|email'")
         span.error(v-show="errors.has('email')") {{ errors.first('email') }}
-      button(type="submit") Send Reset Instructions
-    a(href="#", @click.prevent="switchView('Login')") Login
+      button.button.button--full(type="submit") Send Reset Instructions
+    .auth__links
+      a(href="#", @click.prevent="switchView('Login')") Login
 </template>
 
 <script>
@@ -37,6 +38,5 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 </style>

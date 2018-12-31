@@ -14,7 +14,7 @@
   letter-spacing: 1.2px;
 
   &, &:hover {
-    color: $color-white;
+    color: $body-text--light;
   }
 
   &:hover {
@@ -67,6 +67,22 @@
 
     &.button--hollow {
       padding: 8px 14px;
+    }
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  &--google {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      fill: $body-text--light;
     }
   }
 

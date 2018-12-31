@@ -15,8 +15,9 @@
     }
   }
 
-  & + .form-input {
-    margin-top: 1rem;
+  & + .form-input,
+  & + .button {
+    margin-top: $content-gutter;
   }
 
   label {
@@ -56,6 +57,10 @@
       box-shadow: 0 0 5px #cacaca;
       outline: none;
     }
+
+    &.error {
+      border-color: $color--error;
+    }
   }
 
   textarea {
@@ -64,5 +69,9 @@
 
   select {
     padding-right: 30px;
+  }
+
+  .error {
+    color: $color--error;
   }
 }

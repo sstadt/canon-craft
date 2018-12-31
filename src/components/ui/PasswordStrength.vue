@@ -1,7 +1,6 @@
 
 <template lang="pug">
-  .password-strength
-    p password strength: {{ strength }}
+  p.password-strength(:class="colorClass") {{ message }}
 </template>
 
 <script>
@@ -15,14 +14,48 @@
         required: true
       }
     },
+    data () {
+      return {
+        strengthLevels: [
+          'A blind vegepygmy would handily plunder your tomb',
+          'Those kobold traps should keep the common folk out',
+          'Might give some low level adventurers a challenge',
+          'Only the sagest of dragons could breach your locks',
+          'The gods themselves weep at the beauty of your defenses'
+        ],
+        colorClasses: [
+          'u-bg-error',
+          'u-bg-orange',
+          'u-bg-warning',
+          'u-bg-warning',
+          'u-bg-success'
+        ]
+      }
+    },
     computed: {
       strength () {
         return zxcvbn(this.password).score
+      },
+      message () {
+        return this.strengthLevels[this.strength]
+      },
+      colorClass () {
+        let colorClass = {}
+
+        colorClass[this.colorClasses[this.strength]] = true
+
+        return colorClass
       }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  .password-strength {
+    text-align: center;
+    font-size: rem(12);
+    padding: 4px 0;
+    color: $body-text--light;
+    text-shadow: 2px 2px 2px rgba($color-black, 0.35);
+  }
 </style>

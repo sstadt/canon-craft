@@ -46,6 +46,7 @@
           .form-input
             label Textarea
             textarea(placeholder="Textarea")
+        .column.small-12.medium-6
           .form-input
             input(type="radio", name="foo", id="radio_1", value="foo")
             label(for="radio_1") Foo

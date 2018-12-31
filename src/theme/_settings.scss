@@ -9,7 +9,9 @@ $color-tan: #dbdfac;
 $color-red: #db162e;
 $color-dark-red: #410001;
 
-$color-temp: #cccc00;
+$color-green: #5cdb16;
+$color-gold: #cccc00;
+$color-orange: #db8a16;
 
 $color-transparent-black: rgba(0, 0, 0, 0.6);
 $color-transparent-red: rgba($color-dark-red, 0.14);
@@ -19,6 +21,10 @@ $color--primary: $color-red;
 $color--primary--hover: darken($color--primary, 5%);
 $color--secondary: $color-tan;
 $color--secondary--hover: darken($color--secondary, 5%);
+
+$color--error: $color-red;
+$color--warning: $color-gold;
+$color--success: $color-green;
 
 $body-bg--main: $color-white;
 $body-bg--alt: $color-tan;
@@ -37,6 +43,8 @@ $body-text--light: $color-white;
 $body-text--accent: $color-tan;
 
 $navbar-text--link: $body-text--accent;
+
+$content-gutter: 1rem;
 
 // media queries
 $break--tablet: 768px;

@@ -27,7 +27,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .modal {
     position: fixed;
     top: 0;
@@ -52,6 +52,10 @@
       transform: translateX(-50%);
       padding: 65px;
       background-color: $body-bg--main;
+    }
+
+    &__title {
+      margin-bottom: $content-gutter;
     }
 
     &__close {

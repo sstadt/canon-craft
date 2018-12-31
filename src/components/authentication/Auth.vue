@@ -1,7 +1,8 @@
 
 <template lang="pug">
   .auth
-    component(:is="currentAuthView", @change-auth-view="changeView")
+    transition(name="fade", mode="out-in")
+      component(:is="currentAuthView", @change-auth-view="changeView")
 </template>
 
 <script>
@@ -29,5 +30,17 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+  .auth {
+    &__form {
+      width: 340px;
+      max-width: 100%;
+    }
+
+    &__links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: $content-gutter;
+    }
+  }
 </style>

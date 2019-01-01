@@ -12,7 +12,7 @@
         .game_description {{ game.description }}
       .column.small-12.medium-4
         game-characters(:characters="characters")
-        h2 Quest Log
+        quest-log(:game-id="game.id", :is-game-master="isGameMaster")
     modal(ref="editGameModal")
       template(slot="content")
         form(@submit.prevent="updateGame", novalidate)
@@ -28,6 +28,7 @@
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import GameCharacters from '@/components/game/GameCharacters.vue'
+  import QuestLog from '@/components/game/QuestLog.vue'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
@@ -37,6 +38,7 @@
     components: {
       GameInviteLink,
       GameCharacters,
+      QuestLog,
       Icon,
       Modal
     },
@@ -144,6 +146,7 @@
       },
       populateGameData () {
         this.$store.dispatch('characters/populate', this.game.id)
+        this.$store.dispatch('quests/populate', this.game.id)
       },
       editGame () {
         this.$refs.editGameModal.open()

@@ -9,6 +9,7 @@ import toast from './modules/toast'
 import user from './modules/user'
 import games from './modules/games'
 import characters from './modules/characters'
+import quests from './modules/quests'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     toast,
     user,
     games,
-    characters
+    characters,
+    quests
   }
 })

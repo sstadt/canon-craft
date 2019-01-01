@@ -6,6 +6,7 @@
       <g id="icon-compass-rose"><img svg-inline src="@/assets/icons/compass-rose.svg" /></g>
       <g id="icon-quill"><img svg-inline src="@/assets/icons/quill.svg" /></g>
       <g id="icon-cog"><img svg-inline src="@/assets/icons/cog.svg" /></g>
+      <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
     </defs>
   </svg>
 </template>

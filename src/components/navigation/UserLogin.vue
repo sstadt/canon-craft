@@ -43,6 +43,7 @@
         this.showMenu = false
         this.$router.push('/')
         this.$store.dispatch('games/clear')
+        this.$store.dispatch('quests/clear')
         this.$store.dispatch('user/logout')
       },
       toggleMenu () {

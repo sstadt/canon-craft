@@ -3,8 +3,9 @@
   #app
     icon-store
     navbar
-    transition(name="fade", mode="out-in")
-      router-view
+    .main-content
+      transition(name="fade", mode="out-in")
+        router-view
     toast
     loading-indicator
 </template>
@@ -51,4 +52,8 @@
 
 <style lang="scss">
   @import 'theme/style';
+
+  .main-content {
+    padding-bottom: 50px;
+  }
 </style>

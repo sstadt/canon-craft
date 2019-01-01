@@ -1,28 +1,29 @@
 
 <template lang="pug">
   .container.styleguide
-    h1 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    h2 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    h3 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    h4 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    h5 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    h6 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    p Lorem Ipsum dolor sit amet consecteteur adipiscing elit
-    ul
-      li One item
-      li Two item
-      li Three item
-    ol
-      li One item
-      li Two item
-      li Three item
-    dl
-      dt term
-      dd description
-      dt term
-      dd description
-      dt term
-      dd description
+    .post
+      h1 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      h2 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      h3 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      h4 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      h5 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      h6 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      p Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+      ul
+        li One item
+        li Two item
+        li Three item
+      ol
+        li One item
+        li Two item
+        li Three item
+      dl
+        dt term
+        dd description
+        dt term
+        dd description
+        dt term
+        dd description
     .buttons
       .buttons__column
         a.button Button

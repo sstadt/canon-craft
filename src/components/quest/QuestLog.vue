@@ -12,24 +12,48 @@
       .content-loader(v-else)
         p.content-loader__title Loading Quests...
         icon(name="compass-rose", size="30px")
+    modal(ref="newQuestModal")
+      template(slot="content")
+        form(@submit.prevent="saveQuest", novalidate)
+          .form-input
+            label(for="new_quest_title") Title
+            input(type="text", name="title", id="new_quest_title", placeholder="Name", v-model="newQuestTitle", v-validate="'required'")
+            span.error(v-show="errors.has('title')") {{ errors.first('title') }}
+          .form-input(v-for="objective in newQuestObjectives", :key="objective.created_on")
+            .objective-input {{ objective.description }}
+          a.button.button--text Add Objective
+          .form-input
+            label Instructions
+            wysiwyg(v-model="newQuestDescription")
+          button(type="submit", class="button") Save
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import Quest from '@/schema/Quest'
+  import Objective from '@/schema/Objective'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
+  import Wysiwyg from '@/components/ui/Wysiwyg.vue'
 
   export default {
     name: 'QuestLog',
-    components: { Icon, Modal },
+    components: { Icon, Modal, Wysiwyg },
     props: {
       gameId: String,
       isGameMaster: Boolean
     },
+    data () {
+      return {
+        newQuestTitle: '',
+        newQuestDescription: '',
+        newQuestObjectives: [ new Objective() ]
+      }
+    },
     computed: {
       ...mapState({
+        currentUser: state => state.user.currentUser,
         allQuests: state => state.quests.all,
         populatedGames: state => state.quests.populatedGames
       }),
@@ -39,7 +63,10 @@
     },
     methods: {
       newQuest () {
-        console.log('new quest')
+        this.$refs.newQuestModal.open()
+      },
+      saveQuest () {
+        console.log('save!')
       }
     }
   }

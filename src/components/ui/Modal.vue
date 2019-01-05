@@ -52,6 +52,8 @@
       transform: translateX(-50%);
       padding: 65px;
       background-color: $body-bg--main;
+      min-width: 500px;
+      max-width: 100%;
     }
 
     &__title {

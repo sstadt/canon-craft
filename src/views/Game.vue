@@ -28,10 +28,11 @@
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import GameCharacters from '@/components/game/GameCharacters.vue'
-  import QuestLog from '@/components/game/QuestLog.vue'
+  import QuestLog from '@/components/quest/QuestLog.vue'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
+  import Wysiwyg from '@/components/ui/Wysiwyg.vue'
 
   export default {
     name: 'Game',
@@ -40,7 +41,8 @@
       GameCharacters,
       QuestLog,
       Icon,
-      Modal
+      Modal,
+      Wysiwyg
     },
     data () {
       return {

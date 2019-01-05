@@ -117,6 +117,31 @@
     }
   }
 
+  &--wysiwyg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+
+    .icon {
+      fill: $color-black;
+    }
+
+    &, &:hover {
+      background-color: transparent;
+    }
+
+    &:hover .icon {
+      fill: $color--primary--hover;
+    }
+
+    &.is-active .icon {
+      fill: $color--primary;
+    }
+  }
+
   &[disabled] {
     &, &:hover {
       color: $color-white;

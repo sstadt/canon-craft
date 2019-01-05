@@ -22,12 +22,6 @@
   }
 }
 
-.wysiwyg {
-  [contenteditable="true"] {
-    @include form-input-common();
-  }
-}
-
 .form-input {
   &.select {
     position: relative;

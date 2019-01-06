@@ -10,6 +10,12 @@
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.italic() }", @click="commands.italic")
             span.u-hidden Italic
             icon(name="italic", :size="iconSize")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.underline() }", @click="commands.italic")
+            span.u-hidden Underline
+            icon(name="underline", :size="iconSize")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.strike() }", @click="commands.italic")
+            span.u-hidden Strikethrough
+            icon(name="strikethrough", :size="iconSize")
         .wysiwyg__control-group
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.heading({ level: 2 }) }", @click="commands.heading({ level: 2 })")
             span.u-hidden H2
@@ -18,6 +24,13 @@
             span.u-hidden H3
             icon(name="h3", :size="iconSize")
         .wysiwyg__control-group
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.heading({ level: 2 })")
+            span.u-hidden Unordered List
+            icon(name="unordered-list", :size="iconSize")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.heading({ level: 3 })")
+            span.u-hidden Ordered List
+            icon(name="ordered-list", :size="iconSize")
+        .wysiwyg__control-group
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.link")
             span.u-hidden Link
             icon(name="link", :size="iconSize")
@@ -25,9 +38,12 @@
 </template>
 
 <script>
-  import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-  import { Bold, Heading, Italic, Link } from 'tiptap-extensions'
   import TurndownService from 'turndown'
+  import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+  import {
+    Bold, Italic, Underline, Strike,
+    Heading, BulletList, OrderedList, Link
+  } from 'tiptap-extensions'
 
   import Icon from '@/components/ui/Icon.vue'
 
@@ -47,10 +63,14 @@
         extensions: [
           new Bold(),
           new Italic(),
+          new Underline(),
+          new Strike(),
           new Heading({ levels: [2, 3] }),
+          // new BulletList(),
+          // new OrderedList(),
           new Link()
         ],
-        content: 'The local magistrate has been having trouble with kobolds nearby. He\'s offered a reward in gold for anyoone who can clear out their nest.',
+        content: 'The local magistrate has been having trouble with kobolds nearby. He\'s offered a reward in gold for anyone skilled enough to clear out their nest.',
         onUpdate: this.update
       })
     },

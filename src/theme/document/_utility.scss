@@ -11,12 +11,20 @@
   margin-bottom: 0;
 }
 
+.u-mb-content {
+  margin-bottom: $content-gutter;
+}
+
 .u-mt {
   margin-top: $grid-gutter;
 }
 
 .u-mt-0 {
   margin-top: 0;
+}
+
+.u-mt-content {
+  margin-top: $content-gutter;
 }
 
 .u-mr {

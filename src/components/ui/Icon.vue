@@ -39,5 +39,9 @@
   .icon {
     fill: #000;
     transition: 0.3s ease all;
+
+    &--underline {
+      transform: translateY(22%);
+    }
   }
 </style>

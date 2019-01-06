@@ -10,19 +10,19 @@
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.italic() }", @click="commands.italic")
             span.u-hidden Italic
             icon(name="italic", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.underline() }", @click="commands.italic")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.underline() }", @click="commands.underline")
             span.u-hidden Underline
             icon(name="underline", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.strike() }", @click="commands.italic")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.strike() }", @click="commands.strike")
             span.u-hidden Strikethrough
             icon(name="strikethrough", :size="iconSize")
         .wysiwyg__control-group
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.heading({ level: 2 }) }", @click="commands.heading({ level: 2 })")
             span.u-hidden H2
-            icon(name="h2", :size="iconSize")
+            icon(name="h2", :size="headingIconSize")
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.heading({ level: 3 }) }", @click="commands.heading({ level: 3 })")
             span.u-hidden H3
-            icon(name="h3", :size="iconSize")
+            icon(name="h3", :size="headingIconSize")
         .wysiwyg__control-group
           button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.heading({ level: 2 })")
             span.u-hidden Unordered List
@@ -55,7 +55,8 @@
     data () {
       return {
         editor: null,
-        iconSize: '16px'
+        iconSize: '14px',
+        headingIconSize: '17px'
       }
     },
     mounted () {

@@ -1,28 +1,10 @@
 
-@mixin form-input-common {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #cacaca;
-  background-color: $body-bg--main;
-  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
-  line-height: 1.5;
-  font-size: rem(16);
-  -webkit-appearance: none;
-  transition: 0.3s ease all;
-  border-radius: 0;
+// dialog inputs
+// @mixin dialog-input-common {
+//   // TODO
+// }
 
-  &:focus {
-    box-shadow: 0 0 5px #cacaca;
-    outline: none;
-  }
-
-  &.error {
-    border-color: $color--error;
-  }
-}
-
-.form-input {
+@mixin field-common {
   &.select {
     position: relative;
 
@@ -38,15 +20,84 @@
     }
   }
 
-  & + .form-input,
+  & + [class*="-input"],
   & + .button {
     margin-top: $content-gutter;
   }
 
-  label {
+  label,
+  .label {
     display: block;
     margin-bottom: 4px;
+    font-family: $font-body--main;
   }
+
+  textarea {
+    resize: vertical;
+  }
+
+  select {
+    padding-right: 30px;
+  }
+
+  &.error {
+    color: $color--error;
+  }
+}
+
+// shared input
+@mixin input-common {
+  display: block;
+  width: 100%;
+  font-size: rem(16);
+  transition: 0.3s ease all;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+// form inputs
+@mixin form-input-common {
+  @include input-common;
+  padding: 8px;
+  border: 1px solid $form-field--neutral;
+  background-color: $body-bg--main;
+  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+  line-height: 1.5;
+
+  &:focus {
+    box-shadow: 0 0 5px #cacaca;
+    outline: none;
+  }
+
+  &.error {
+    border-color: $form-field--error;
+  }
+}
+
+// game inputs
+@mixin game-input-common {
+  @include input-common;
+  border: 0px;
+  padding: 10px 12px;
+  margin-left: -12px;
+  margin-right: -12px;
+  border-radius: 4px;
+  border: none;
+  background-color: $body-bg--main;
+
+  &:focus {
+    background-color: $form-field--focus;
+    outline: none;
+  }
+
+  &.error {
+    border: 1px solid $form-field--error;
+  }
+}
+
+// administrative forms i.e. login/signup, account management
+.form-input {
+  @include field-common;
 
   [type='text'],
   [type='password'],
@@ -64,18 +115,80 @@
   [type='color'],
   textarea,
   select {
-    @include form-input-common();
+    @include form-input-common;
+  }
+}
+
+// game inputs, content entry
+.game-input {
+  @include field-common;
+
+  label,
+  .label {
+    text-transform: uppercase;
+    font-size: rem(10);
+    font-weight: bold;
   }
 
-  textarea {
-    resize: vertical;
+  [type='text'],
+  [type='password'],
+  [type='date'],
+  [type='datetime'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='week'],
+  [type='email'],
+  [type='number'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='url'],
+  [type='color'],
+  textarea,
+  select,
+  .wysiwyg [contenteditable="true"] {
+    @include game-input-common;
+  }
+}
+
+.objective-input {
+  display: flex;
+  align-items: flex-start;
+
+  span {
+    flex-grow: 0;
+    line-height: 34px;
+    padding: 0 4px;
   }
 
-  select {
-    padding-right: 30px;
+  textarea,
+  [type='text'],
+  [type='number'] {
+    @include game-input-common;
+    width: auto;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 8px;
   }
 
-  .error {
-    color: $color--error;
+  textarea,
+  [type="text"] {
+    flex-grow: 1;
+  }
+
+  [type="number"]::-webkit-outer-spin-button,
+  [type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  [type="number"] {
+    width: 50px;
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+
+  &--add {
+    font-size: rem(10);
   }
 }

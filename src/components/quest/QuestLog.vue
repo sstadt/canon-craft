@@ -14,18 +14,7 @@
         icon(name="compass-rose", size="30px")
     modal(ref="newQuestModal")
       template(slot="content")
-        form(@submit.prevent="saveQuest", novalidate)
-          .form-input
-            label(for="new_quest_title") Title
-            input(type="text", name="title", id="new_quest_title", placeholder="Name", v-model="newQuestTitle", v-validate="'required'")
-            span.error(v-show="errors.has('title')") {{ errors.first('title') }}
-          .form-input(v-for="objective in newQuestObjectives", :key="objective.created_on")
-            .objective-input {{ objective.description }}
-          a.button.button--text Add Objective
-          .form-input
-            label Instructions
-            wysiwyg(v-model="newQuestDescription")
-          button(type="submit", class="button") Save
+        quest-form(:quest="newQuest", @save="saveQuest")
 </template>
 
 <script>
@@ -35,20 +24,22 @@
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
-  import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import QuestForm from '@/components/quest/QuestForm.vue'
 
   export default {
     name: 'QuestLog',
-    components: { Icon, Modal, Wysiwyg },
+    components: { Icon, Modal, QuestForm },
     props: {
       gameId: String,
       isGameMaster: Boolean
     },
     data () {
       return {
-        newQuestTitle: '',
-        newQuestDescription: '',
-        newQuestObjectives: [ new Objective() ]
+        newQuest: new Quest({
+          title: '',
+          description: '',
+          objectives: [ new Objective() ]
+        })
       }
     },
     computed: {
@@ -65,8 +56,8 @@
       newQuest () {
         this.$refs.newQuestModal.open()
       },
-      saveQuest () {
-        console.log('save!')
+      saveQuest (arg) {
+        console.log('save!', arg)
       }
     }
   }

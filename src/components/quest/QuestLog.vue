@@ -3,7 +3,7 @@
   .quest-log
     .quest-log__header
       h2.quest-log__title Quest Log
-      a.button.button--icon(@click="newQuest", v-if="isGameMaster")
+      a.button.button--icon(@click="createQuest", v-if="isGameMaster")
         .u-hidden New Quest
         icon(name="quest")
     transition(name="fade", mode="out-in")
@@ -35,11 +35,7 @@
     },
     data () {
       return {
-        newQuest: new Quest({
-          title: '',
-          description: '',
-          objectives: [ new Objective() ]
-        })
+        newQuest: {}
       }
     },
     computed: {
@@ -53,7 +49,14 @@
       }
     },
     methods: {
-      newQuest () {
+      createQuest () {
+        this.newQuest = new Quest({
+          title: '',
+          description: '',
+          created_by: this.currentUser.uid,
+          game: this.gameId,
+          objectives: [ new Objective() ]
+        })
         this.$refs.newQuestModal.open()
       },
       saveQuest (arg) {

@@ -35,14 +35,14 @@
     min-height: 100vh;
     width: 100%;
     overflow-y: auto;
+    background-color: $overlay-bg;
 
     &__overlay {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: $overlay-bg;
+      right: 0;
+      bottom: 0;
     }
 
     &__content {
@@ -54,6 +54,7 @@
       background-color: $body-bg--main;
       min-width: 500px;
       max-width: 100%;
+      margin-bottom: 50px;
     }
 
     &__title {

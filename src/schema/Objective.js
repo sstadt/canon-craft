@@ -1,5 +1,5 @@
 
-export default class Quest {
+export default class Objective {
   constructor () {
     this.created_on = new Date().getTime()
     this.goal = 1

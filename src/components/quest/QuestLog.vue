@@ -21,6 +21,7 @@
   import { mapState } from 'vuex'
   import Quest from '@/schema/Quest'
   import Objective from '@/schema/Objective'
+  import { getSampleQuest } from '@/lib/config.sample-quests'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
@@ -51,16 +52,15 @@
     methods: {
       createQuest () {
         this.newQuest = new Quest({
-          title: 'New Quest',
-          description: 'The local magistrate has been having trouble with kobolds nearby. He\'s offered a reward in gold for anyone skilled enough to clear out their nest.',
+          ...getSampleQuest(),
           created_by: this.currentUser.uid,
           game: this.gameId,
           objectives: [ new Objective() ]
         })
         this.$refs.newQuestModal.open()
       },
-      saveQuest (arg) {
-        console.log('save!', arg)
+      saveQuest (quest) {
+        console.log('save!', quest)
       }
     }
   }

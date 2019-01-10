@@ -14,7 +14,7 @@
         icon(name="compass-rose", size="30px")
     modal(ref="newQuestModal")
       template(slot="content")
-        quest-form(:quest="newQuest", @save="saveQuest")
+        quest-form(:quest="newQuest", @submit="saveQuest")
 </template>
 
 <script>
@@ -51,8 +51,8 @@
     methods: {
       createQuest () {
         this.newQuest = new Quest({
-          title: '',
-          description: '',
+          title: 'New Quest',
+          description: 'The local magistrate has been having trouble with kobolds nearby. He\'s offered a reward in gold for anyone skilled enough to clear out their nest.',
           created_by: this.currentUser.uid,
           game: this.gameId,
           objectives: [ new Objective() ]

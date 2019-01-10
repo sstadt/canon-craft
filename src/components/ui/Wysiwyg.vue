@@ -4,35 +4,35 @@
     editor-menu-bar(:editor="editor")
       .wysiwyg__controls(slot-scope="{ commands, isActive }")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.bold() }", @click="commands.bold")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.bold() }", @click="commands.bold", @mousedown.prevent)
             span.u-hidden Bold
             icon(name="bold", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.italic() }", @click="commands.italic")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.italic() }", @click="commands.italic", @mousedown.prevent)
             span.u-hidden Italic
             icon(name="italic", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.underline() }", @click="commands.underline")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.underline() }", @click="commands.underline", @mousedown.prevent)
             span.u-hidden Underline
             icon(name="underline", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.strike() }", @click="commands.strike")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.strike() }", @click="commands.strike", @mousedown.prevent)
             span.u-hidden Strikethrough
             icon(name="strikethrough", :size="iconSize")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.heading({ level: 2 }) }", @click="commands.heading({ level: 2 })")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.heading({ level: 2 }) }", @click="commands.heading({ level: 2 })", , @mousedown.prevent)
             span.u-hidden H2
             icon(name="h2", :size="headingIconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.heading({ level: 3 }) }", @click="commands.heading({ level: 3 })")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.heading({ level: 3 }) }", @click="commands.heading({ level: 3 })", @mousedown.prevent)
             span.u-hidden H3
             icon(name="h3", :size="headingIconSize")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.bullet_list() }", @click="commands.bullet_list")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.bullet_list() }", @click="commands.bullet_list", @mousedown.prevent)
             span.u-hidden Unordered List
             icon(name="unordered-list", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list")
+          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list", @mousedown.prevent)
             span.u-hidden Ordered List
             icon(name="ordered-list", :size="iconSize")
         //-
           .wysiwyg__control-group
-            button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.link")
+            button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.link() }", @click="commands.link", @mousedown.prevent)
               span.u-hidden Link
               icon(name="link", :size="iconSize")
     editor-content(:editor="editor")
@@ -53,6 +53,9 @@
   export default {
     name: 'Wysiwyg',
     components: { EditorContent, EditorMenuBar, Icon },
+    props: {
+      value: String
+    },
     data () {
       return {
         editor: null,
@@ -73,7 +76,7 @@
           new OrderedList(),
           new Link()
         ],
-        content: 'The local magistrate has been having trouble with kobolds nearby. He\'s offered a reward in gold for anyone skilled enough to clear out their nest.',
+        content: this.value,
         onUpdate: this.update
       })
     },
@@ -85,7 +88,7 @@
         let html = getHTML()
         let markdown = turndownService.turndown(html)
 
-        console.log(html, markdown)
+        this.$emit('input', markdown)
       }
     }
   }

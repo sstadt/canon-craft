@@ -24,16 +24,17 @@
             span.u-hidden H3
             icon(name="h3", :size="headingIconSize")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.heading({ level: 2 })")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.bullet_list() }", @click="commands.bullet_list")
             span.u-hidden Unordered List
             icon(name="unordered-list", :size="iconSize")
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.heading({ level: 3 })")
+          button.button.button--wysiwyg(:class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list")
             span.u-hidden Ordered List
             icon(name="ordered-list", :size="iconSize")
-        .wysiwyg__control-group
-          button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.link")
-            span.u-hidden Link
-            icon(name="link", :size="iconSize")
+        //-
+          .wysiwyg__control-group
+            button.button.button--wysiwyg(:class="{ 'is-active': isActive.link() }", @click="commands.link")
+              span.u-hidden Link
+              icon(name="link", :size="iconSize")
     editor-content(:editor="editor")
 </template>
 
@@ -42,7 +43,7 @@
   import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
   import {
     Bold, Italic, Underline, Strike,
-    Heading, BulletList, OrderedList, Link
+    Heading, ListItem, BulletList, OrderedList, Link
   } from 'tiptap-extensions'
 
   import Icon from '@/components/ui/Icon.vue'
@@ -67,8 +68,9 @@
           new Underline(),
           new Strike(),
           new Heading({ levels: [2, 3] }),
-          // new BulletList(),
-          // new OrderedList(),
+          new ListItem(),
+          new BulletList(),
+          new OrderedList(),
           new Link()
         ],
         content: 'The local magistrate has been having trouble with kobolds nearby. He\'s offered a reward in gold for anyone skilled enough to clear out their nest.',

@@ -7,20 +7,20 @@
         .u-hidden New Quest
         icon(name="quest")
     transition(name="fade", mode="out-in")
-      .quest-log__quests(v-if="isPopulated")
-        p Quest list
-      .content-loader(v-else)
+      .quest-log__quests
+        p(v-for="quest in quests") {{ quest.title }}
+      //- .content-loader(v-else)
         p.content-loader__title Loading Quests...
         icon(name="compass-rose", size="30px")
-    modal(ref="newQuestModal")
+    modal(ref="newQuestModal", v-if="isGameMaster")
       template(slot="content")
         quest-form(:quest="newQuest", @submit="saveQuest")
 </template>
 
 <script>
   import { mapState } from 'vuex'
-  import Quest from '@/schema/Quest'
-  import Objective from '@/schema/Objective'
+  import { Quest } from '@/schema/Quest'
+  import { Objective } from '@/schema/Objective'
   import { getSampleQuest } from '@/lib/config.sample-quests'
 
   import Icon from '@/components/ui/Icon.vue'
@@ -47,20 +47,24 @@
       }),
       isPopulated () {
         return this.populatedGames.indexOf(this.gameId) > -1
+      },
+      quests () {
+        return this.allQuests.filter((quest) => quest.game === this.gameId)
       }
     },
     methods: {
       createQuest () {
-        this.newQuest = new Quest({
+        this.newQuest = Quest({
           ...getSampleQuest(),
           created_by: this.currentUser.uid,
           game: this.gameId,
-          objectives: [ new Objective() ]
+          objectives: [ Objective() ]
         })
         this.$refs.newQuestModal.open()
       },
       saveQuest (quest) {
-        console.log('save!', quest)
+        this.$refs.newQuestModal.close()
+        this.$store.dispatch('quests/create', quest)
       }
     }
   }

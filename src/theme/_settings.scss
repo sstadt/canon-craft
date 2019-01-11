@@ -1,4 +1,9 @@
 
+
+// ---------------------------------
+//   Colors
+// ---------------------------------
+
 // color pallette
 $color-white: #fff;
 $color-charcoal: #666;
@@ -16,7 +21,10 @@ $color-orange: #db8a16;
 $color-transparent-black: rgba(0, 0, 0, 0.6);
 $color-transparent-red: rgba($color-dark-red, 0.14);
 
-// color scheme
+// ---------------------------------
+//   Color Usage
+// ---------------------------------
+
 $color--primary: $color-red;
 $color--primary--hover: darken($color--primary, 5%);
 $color--secondary: $color-tan;
@@ -33,6 +41,20 @@ $body-bg--darkest: darken($color-dark-red, 5%);
 
 $overlay-bg: $color-transparent-black;
 
+// shadows
+$drop-shadow: 0 3px 8px rgba($color-dark-red, 0.1);
+$drop-shadow-light: 0 3px 8px rgba($color-dark-red, 0.05);
+
+// forms
+$form-field--neutral: $color-light-grey;
+$form-field--focus: lighten($color-tan, 15%);
+$form-field--error: $color--error;
+$form-field--warning: $color--warning;
+
+// ---------------------------------
+//   Type
+// ---------------------------------
+
 // fonts
 $font-header--main: 'shangrila', serif;
 $font-body--main: 'Oxygen', sans-serif;
@@ -46,6 +68,10 @@ $navbar-text--link: $body-text--accent;
 
 $content-gutter: 1rem;
 
+// ---------------------------------
+//   Document
+// ---------------------------------
+
 // media queries
 $break--tablet: 768px;
 $break--desktop: 1024px;
@@ -56,13 +82,3 @@ $grid-column-count: 12;
 $block-grid-column-count: 8;
 
 $container-max-width: 1600px;
-
-// shadows
-$drop-shadow: 0 3px 8px rgba($color-dark-red, 0.1);
-$drop-shadow-light: 0 3px 8px rgba($color-dark-red, 0.05);
-
-// forms
-$form-field--neutral: $color-light-grey;
-$form-field--focus: lighten($color-tan, 15%);
-$form-field--error: $color--error;
-$form-field--warning: $color--warning;

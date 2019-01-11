@@ -41,10 +41,16 @@
       currentUser () {
         if (!this.dataInitialized && this.loggedIn) {
           this.dataInitialized = true
-          this.$store.dispatch('games/init')
+          this.populateData()
         } else if (this.dataInitialized && !this.loggedIn) {
           this.dataInitialized = false
         }
+      }
+    },
+    methods: {
+      populateData () {
+        this.$store.dispatch('games/populate')
+        this.$store.dispatch('quests/populate')
       }
     }
   }

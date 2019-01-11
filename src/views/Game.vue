@@ -148,7 +148,6 @@
       },
       populateGameData () {
         this.$store.dispatch('characters/populate', this.game.id)
-        this.$store.dispatch('quests/populate', this.game.id)
       },
       editGame () {
         this.$refs.editGameModal.open()

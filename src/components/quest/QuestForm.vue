@@ -27,7 +27,7 @@
 </template>
 
 <script>
-  import Objective from '@/schema/Objective.js'
+  import { Objective } from '@/schema/Objective.js'
 
   import Icon from '@/components/ui/Icon.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
@@ -43,7 +43,7 @@
     },
     methods: {
       addObjective () {
-        this.quest.objectives.push(new Objective())
+        this.quest.objectives.push(Objective())
       },
       removeObjective (index) {
         this.quest.objectives.splice(index, 1)

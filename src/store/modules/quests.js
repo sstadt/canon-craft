@@ -1,23 +1,14 @@
 
-var gameRefs = {};
-var gameUnsubscribes = [];
+var unsubscribeOwnedQuests;
+var unsubscribePlayedQuests;
 
-const populateGame = (gameId, rootState, commit) => {
-  console.log(`populating quests for ${gameId}`)
-  if (!gameRefs[gameId]) {
-    gameRefs[gameId] = rootState.db.collection('quests').where('game', '==', gameId)
-
-    commit('GAME_POPULATED', gameId)
-
-    let unsubscribe = gameRefs[gameId].onSnapshot(snapshot =>
-      snapshot.docChanges().forEach(change =>
-        characterChangeHandler(change, commit)))
-
-    gameUnsubscribes.push(unsubscribe)
-  }
+const setupGamesWatcher = (ref, commit) => {
+  return ref.onSnapshot(snapshot =>
+    snapshot.docChanges().forEach(change =>
+      questChangeHandler(change, commit)))
 }
 
-const characterChangeHandler = (change, commit) => {
+const questChangeHandler = (change, commit) => {
   switch (change.type) {
     case 'added':
       commit('ADD_QUEST', { ...change.doc.data(), id: change.doc.id })
@@ -35,8 +26,7 @@ const characterChangeHandler = (change, commit) => {
 }
 
 const state = {
-  all: [],
-  populatedGames: []
+  all: []
 }
 
 const mutations = {
@@ -54,7 +44,7 @@ const mutations = {
   GAME_POPULATED (state, gameId) {
     state.populatedGames.push(gameId)
   },
-  CLEAR_GAMES () {
+  CLEAR_QUESTS () {
     for (let i = 0, j = gameUnsubscribes.length; i < j; i++) {
       gameUnsubscribes[i]()
     }
@@ -65,8 +55,18 @@ const mutations = {
 }
 
 const actions = {
-  populate ({ rootState, commit }, gameId) {
-    populateGame(gameId, rootState, commit)
+  populate ({ rootState, commit }) {
+    let userId = rootState.user.currentUser.uid
+    let ownedQuestRef = rootState.db.collection('quests').where('created_by', '==', userId)
+    let playedQuestRef = rootState.db.collection('quests').where('players', 'array-contains', userId)
+
+    unsubscribeOwnedQuests = setupGamesWatcher(ownedQuestRef, commit)
+    unsubscribePlayedQuests = setupGamesWatcher(playedQuestRef, commit)
+  },
+  create ({ rootState }, quest) {
+    let gamesRef = rootState.db.collection('quests')
+
+    gamesRef.add(quest)
   },
   update ({ rootState }, quest) {
     let charRef = rootState.db.collection('quests').doc(quest.id)
@@ -81,7 +81,9 @@ const actions = {
     charRef.set(updatedCharacter, { merge: true })
   },
   clear ({ commit }) {
-    commit('CLEAR_GAMES')
+    unsubscribeOwnedQuests()
+    unsubscribePlayedQuests()
+    commit('CLEAR_QUESTS')
   }
 }
 

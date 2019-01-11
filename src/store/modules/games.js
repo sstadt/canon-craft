@@ -47,7 +47,7 @@ const mutations = {
 }
 
 const actions = {
-  init ({ commit, rootState }) {
+  populate ({ commit, rootState }) {
     let userId = rootState.user.currentUser.uid
     let ownedGamesRef = rootState.db.collection('games').where('created_by', '==', userId)
     let playedGamesRef = rootState.db.collection('games').where('players', 'array-contains', userId)

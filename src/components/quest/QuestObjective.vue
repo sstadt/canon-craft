@@ -4,7 +4,7 @@
     label.quest__objective__status(:for="objectiveId", :class="objectiveStatusClass", @click="toggleCompletion")
       span(v-if="objective.goal > 1") {{ objective.completed }}/{{ objective.goal }}:&nbsp;
       span {{ objective.description }}
-    select.quest__objective__select(v-if="isGameMaster && objective.goal > 1", ref="selectMenu", :id="objectiveId", v-model="currentStatus")
+    select.quest__objective__select(v-if="isGameMaster && objective.goal > 1", :id="objectiveId", v-model="currentStatus")
       option(value="0") 0 of {{ objective.goal }}
       option(v-for="n in (0, parseInt(objective.goal, 10))", :value="n", :key="n") {{ n }} of {{ objective.goal }}
 </template>

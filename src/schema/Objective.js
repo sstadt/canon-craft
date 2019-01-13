@@ -6,17 +6,12 @@ a function in place of a
 constructor
 ********************************/
 
-import { hash } from '@/lib/util'
+import uniqid from 'uniqid'
 
 export const Objective = () => {
-  let rand = Math.random()
-  let time = new Date().getTime()
-  let str = String((Math.random() + new Date().getTime()) * 1000)
-  let id = Math.abs(hash(str))
-
   return {
-    id: String(id),
-    created_on: time,
+    id: uniqid(),
+    created_on: new Date(),
     goal: 1,
     completed: 0,
     description: 'New Objective'

@@ -23,6 +23,19 @@ h1, h2, h3, h4, h5, h6, p {
   }
 }
 
+h1 { font-size: rem($h1-size); }
+.h1 { font-size: rem($h1-size) !important; }
+h2 { font-size: rem($h2-size); }
+.h2 { font-size: rem($h2-size) !important; }
+h3 { font-size: rem($h3-size); }
+.h3 { font-size: rem($h3-size) !important; }
+h4 { font-size: rem($h4-size); }
+.h4 { font-size: rem($h4-size) !important; }
+h5 { font-size: rem($h5-size); }
+.h5 { font-size: rem($h5-size) !important; }
+h6 { font-size: rem($h6-size); }
+.h6 { font-size: rem($h6-size) !important; }
+
 /* Links
 --------------------------------- */
 

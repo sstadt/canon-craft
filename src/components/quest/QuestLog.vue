@@ -8,7 +8,13 @@
         icon(name="quest")
     transition(name="fade", mode="out-in")
       .quest-log__quests
-        p(v-for="quest in quests") {{ quest.title }}
+        quest(
+          v-for="quest in quests",
+          :quest="quest",
+          :game-id="gameId",
+          :is-game-master="isGameMaster",
+          :key="quest.id"
+        )
       //- .content-loader(v-else)
         p.content-loader__title Loading Quests...
         icon(name="compass-rose", size="30px")
@@ -19,17 +25,18 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { Quest } from '@/schema/Quest'
-  import { Objective } from '@/schema/Objective'
+  import { Quest as newQuest } from '@/schema/Quest'
+  import { Objective as newObjective } from '@/schema/Objective'
   import { getSampleQuest } from '@/lib/config.sample-quests'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
+  import Quest from '@/components/quest/Quest.vue'
   import QuestForm from '@/components/quest/QuestForm.vue'
 
   export default {
     name: 'QuestLog',
-    components: { Icon, Modal, QuestForm },
+    components: { Icon, Modal, Quest, QuestForm },
     props: {
       gameId: String,
       isGameMaster: Boolean
@@ -54,11 +61,11 @@
     },
     methods: {
       createQuest () {
-        this.newQuest = Quest({
+        this.newQuest = newQuest({
           ...getSampleQuest(),
           created_by: this.currentUser.uid,
           game: this.gameId,
-          objectives: [ Objective() ]
+          objectives: [ newObjective() ]
         })
         this.$refs.newQuestModal.open()
       },

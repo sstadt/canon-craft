@@ -1,7 +1,7 @@
 
 <template lang="pug">
   .quest-form
-    form(@submit.prevent="saveQuest", novalidate)
+    form(@submit.prevent="save", novalidate)
       h2.u-mb-content Quest Details
       .game-input
         label(for="new_quest_title") Title
@@ -23,7 +23,12 @@
         a.button.button--text.objective-input--add(@click="addObjective") Add Objective
       .game-input
         wysiwyg(v-model="quest.description")
-      button(type="submit", class="button") Save Quest
+      .controls
+        .controls__group(v-if="quest.id")
+          button.button.button--small(type="button", class="button", @click="removeQuest") Delete Quest
+        .controls__group
+          button.button.button--small(type="button", class="button" @click="cancel") Cancel
+          button.button.button--small(type="submit", class="button") Save Quest
 </template>
 
 <script>
@@ -48,8 +53,14 @@
       removeObjective (index) {
         this.quest.objectives.splice(index, 1)
       },
-      saveQuest () {
+      save () {
         this.$emit('submit', this.quest)
+      },
+      cancel () {
+        this.$emit('cancel')
+      },
+      removeQuest () {
+        this.$emit('remove')
       }
     }
   }

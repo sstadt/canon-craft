@@ -45,12 +45,7 @@ const mutations = {
     state.populatedGames.push(gameId)
   },
   CLEAR_QUESTS () {
-    for (let i = 0, j = gameUnsubscribes.length; i < j; i++) {
-      gameUnsubscribes[i]()
-    }
-
-    gameRefs = {}
-    gameUnsubscribes = []
+    state.all = []
   }
 }
 
@@ -69,16 +64,19 @@ const actions = {
     gamesRef.add(quest)
   },
   update ({ rootState }, quest) {
-    let charRef = rootState.db.collection('quests').doc(quest.id)
-    let updatedCharacter = {}
+    let questRef = rootState.db.collection('quests').doc(quest.id)
+    let updatedQuest = {}
 
     for (let key in quest) {
       if (quest.hasOwnProperty(key) && key !== 'id') {
-        updatedCharacter[key] = quest[key]
+        updatedQuest[key] = quest[key]
       }
     }
 
-    charRef.set(updatedCharacter, { merge: true })
+    questRef.set(updatedQuest, { merge: true })
+  },
+  remove ({ rootState }, questId) {
+    console.log(`delete ${questId}`)
   },
   clear ({ commit }) {
     unsubscribeOwnedQuests()

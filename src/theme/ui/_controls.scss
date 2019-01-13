@@ -1,0 +1,14 @@
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+
+  &__group > * {
+    margin-left: 0;
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

@@ -12,6 +12,5 @@ export const getSampleQuest = () => {
   let min = 0
   let index = Math.floor(Math.random() * (+max - +min)) + +min
 
-  console.log(max, min, index)
   return quests[index]
 }

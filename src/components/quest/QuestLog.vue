@@ -16,6 +16,7 @@
             :is-game-master="isGameMaster",
             :key="quest.id",
             @edit="editQuest(quest)"
+            @update="updateQuest"
           )
       //- .content-loader(v-else)
         p.content-loader__title Loading Quests...
@@ -33,6 +34,7 @@
   import { Quest as newQuest } from '@/schema/Quest'
   import { Objective as newObjective } from '@/schema/Objective'
   import { getSampleQuest } from '@/lib/config.sample-quests'
+  import { clone } from '@/lib/util'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
@@ -83,10 +85,11 @@
         this.$refs.newQuestModal.close()
       },
       editQuest (quest) {
-        this.currentQuest = JSON.parse(JSON.stringify(quest))
+        this.currentQuest = clone(quest)
         this.$refs.editQuestModal.open()
       },
       saveQuest () {
+        // NOTE: for saving the full current quest i.e. new quest or edit quest modal
         this.$refs.editQuestModal.close()
         this.$store.dispatch('quests/update', this.currentQuest)
       },
@@ -96,6 +99,10 @@
       removeQuest () {
         this.$refs.editQuestModal.close()
         this.$store.dispatch('quests/remove', this.currentQuest.id)
+      },
+      updateQuest (updatedQuest) {
+        // NOTE: For passing a partial quest direct to update i.e. quick objective/player updates
+        this.$store.dispatch('quests/update', updatedQuest)
       }
     }
   }

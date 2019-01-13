@@ -10,7 +10,7 @@
       .game-input
         h3.label Objectives
         transition-group(name="slide-fade-left")
-          .objective-input(v-for="(objective, index) in quest.objectives", :key="objective.created_on")
+          .objective-input(v-for="(objective, index) in quest.objectives", :key="objective.id")
             input(type="number", :max="objective.goal", v-model="objective.completed")
             span /
             input(type="number", min="1", v-model="objective.goal")

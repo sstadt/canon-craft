@@ -8,19 +8,24 @@
         icon(name="quest")
     transition(name="fade", mode="out-in")
       .quest-log__quests
-        quest(
-          v-for="quest in quests",
-          :quest="quest",
-          :game-id="gameId",
-          :is-game-master="isGameMaster",
-          :key="quest.id"
-        )
+        transition-group(name="slide-fade-left")
+          quest(
+            v-for="quest in quests",
+            :quest="quest",
+            :game-id="gameId",
+            :is-game-master="isGameMaster",
+            :key="quest.id",
+            @edit="editQuest(quest)"
+          )
       //- .content-loader(v-else)
         p.content-loader__title Loading Quests...
         icon(name="compass-rose", size="30px")
     modal(ref="newQuestModal", v-if="isGameMaster")
       template(slot="content")
-        quest-form(:quest="newQuest", @submit="saveQuest")
+        quest-form(:quest="newQuest", @submit="saveNewQuest", @cancel="closeNewQuestModal")
+    modal(ref="editQuestModal", v-if="isGameMaster")
+      template(slot="content")
+        quest-form(:quest="currentQuest", @submit="saveQuest", @cancel="cancelEditQuest", @remove="removeQuest")
 </template>
 
 <script>
@@ -43,7 +48,8 @@
     },
     data () {
       return {
-        newQuest: {}
+        newQuest: {},
+        currentQuest: {}
       }
     },
     computed: {
@@ -69,9 +75,27 @@
         })
         this.$refs.newQuestModal.open()
       },
-      saveQuest (quest) {
+      saveNewQuest (quest) {
         this.$refs.newQuestModal.close()
         this.$store.dispatch('quests/create', quest)
+      },
+      closeNewQuestModal () {
+        this.$refs.newQuestModal.close()
+      },
+      editQuest (quest) {
+        this.currentQuest = JSON.parse(JSON.stringify(quest))
+        this.$refs.editQuestModal.open()
+      },
+      saveQuest () {
+        this.$refs.editQuestModal.close()
+        this.$store.dispatch('quests/update', this.currentQuest)
+      },
+      cancelEditQuest () {
+        this.$refs.editQuestModal.close()
+      },
+      removeQuest () {
+        this.$refs.editQuestModal.close()
+        this.$store.dispatch('quests/remove', this.currentQuest.id)
       }
     }
   }

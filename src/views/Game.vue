@@ -9,7 +9,7 @@
             span.u-hidden Settings
             icon(name="cog")
         game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
-        .game_description {{ game.description }}
+        .game__description {{ game.description }}
       .column.small-12.medium-4
         game-characters(:characters="characters")
         quest-log(:game-id="game.id", :is-game-master="isGameMaster")

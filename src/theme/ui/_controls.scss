@@ -3,12 +3,23 @@
   display: flex;
   justify-content: space-between;
 
-  &__group > * {
-    margin-left: 0;
-    margin-right: 10px;
+  &:not(:first-child) {
+    margin-top: $content-gutter;
+  }
 
-    &:last-child {
-      margin-right: 0;
+  &__group {
+    &:only-child {
+      margin-left: auto;
+    }
+
+    & > * {
+      margin-left: 0;
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
+
 }

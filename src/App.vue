@@ -2,12 +2,12 @@
 <template lang="pug">
   #app
     icon-store
+    toast
+    loading-indicator
     navbar
     .main-content
       transition(name="fade", mode="out-in")
         router-view
-    toast
-    loading-indicator
 </template>
 
 <script>
@@ -34,7 +34,6 @@
       })
     },
     created () {
-      console.warn('App (re)loaded')
       this.$store.dispatch('user/init')
     },
     watch: {

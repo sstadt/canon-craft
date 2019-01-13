@@ -76,7 +76,7 @@ const actions = {
     questRef.set(updatedQuest, { merge: true })
   },
   remove ({ rootState }, questId) {
-    console.log(`delete ${questId}`)
+    rootState.db.collection('quests').doc(questId).delete()
   },
   clear ({ commit }) {
     unsubscribeOwnedQuests()

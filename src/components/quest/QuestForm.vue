@@ -25,9 +25,9 @@
         wysiwyg(v-model="quest.description")
       .controls
         .controls__group(v-if="quest.id")
-          button.button.button--small(type="button", class="button", @click="removeQuest") Delete Quest
+          confirm-button(label="Delete Quest", :small="true", @confirmed="removeQuest")
         .controls__group
-          button.button.button--small(type="button", class="button" @click="cancel") Cancel
+          button.button.button--small.button--secondary(type="button", class="button" @click="cancel") Cancel
           button.button.button--small(type="submit", class="button") Save Quest
 </template>
 
@@ -36,10 +36,11 @@
 
   import Icon from '@/components/ui/Icon.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import ConfirmButton from '@/components/ui/ConfirmButton.vue'
 
   export default {
     name: 'QuestForm',
-    components: { Icon, Wysiwyg },
+    components: { Icon, Wysiwyg, ConfirmButton },
     props: {
       quest: {
         type: Object,

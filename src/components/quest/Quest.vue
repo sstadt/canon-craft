@@ -10,6 +10,15 @@
       :is-game-master="isGameMaster",
       @update-objective="updateObjectives"
     )
+    //- need to make this a child component
+    button.button.button--icon(
+      type="button",
+      v-if="isGameMaster",
+      v-for="character in characters",
+      @click="toggleCharacterShare(character.id)"
+    )
+      span.u-hidden Toggle availability for {{ character.name }}
+      img(:src="character.avatar")
 </template>
 
 <script>

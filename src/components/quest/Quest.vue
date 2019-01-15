@@ -3,33 +3,34 @@
   .quest
     button.button.button--text.h3.quest__title(type="button", v-if="isGameMaster", @click="editQuest") {{ quest.title }}
     h3.quest__title(v-else) {{ quest.title }}
-    quest-objective(
-      v-for="objective in quest.objectives",
-      :key="objective.id",
-      :objective="objective",
-      :is-game-master="isGameMaster",
-      @update-objective="updateObjectives"
-    )
-    //- need to make this a child component
-    button.button.button--icon(
-      type="button",
-      v-if="isGameMaster",
-      v-for="character in characters",
-      @click="toggleCharacterShare(character.id)"
-    )
-      span.u-hidden Toggle availability for {{ character.name }}
-      img(:src="character.avatar")
+    .quest__characters(v-if="isGameMaster")
+      quest-character(
+        v-for="character in characters",
+        :key="character.id",
+        :character="character",
+        :quest="quest",
+        @selected="togglePlayer(character.player)"
+      )
+    .quest__objectives
+      quest-objective(
+        v-for="objective in quest.objectives",
+        :key="objective.id",
+        :objective="objective",
+        :is-game-master="isGameMaster",
+        @update-objective="updateObjectives"
+      )
 </template>
 
 <script>
   import { mapState } from 'vuex'
-  import { clone } from '@/lib/util'
+  import { clone, debounce } from '@/lib/util'
 
   import QuestObjective from '@/components/quest/QuestObjective.vue'
+  import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
   export default {
     name: 'Quest',
-    components: { QuestObjective },
+    components: { QuestObjective, QuestCharacter },
     props: {
       quest: Object,
       gameId: String,
@@ -56,7 +57,22 @@
 
         updatedQuest.objectives[objectiveIndex].completed = completed
         this.$emit('update', updatedQuest)
-      }
+      },
+      togglePlayer: debounce(function (uid) {
+        let playerIndex = this.quest.players.indexOf(uid)
+        let updatedQuest = {
+          id: this.quest.id,
+          players: clone(this.quest.players)
+        }
+
+        if (playerIndex > -1) {
+          updatedQuest.players.splice(playerIndex, 1)
+        } else {
+          updatedQuest.players.push(uid)
+        }
+
+        this.$emit('update', updatedQuest)
+      }, 500)
     }
   }
 </script>

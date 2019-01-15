@@ -33,7 +33,7 @@
 <style lang="scss">
   .auth {
     &__form {
-      width: 340px;
+      width: 100%;
       max-width: 100%;
     }
 

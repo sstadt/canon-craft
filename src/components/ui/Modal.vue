@@ -22,10 +22,10 @@
       }
     },
     methods: {
-      open() {
+      open () {
         this.isVisible = true
       },
-      close() {
+      close () {
         this.isVisible = false
       }
     }
@@ -52,14 +52,23 @@
 
     &__content {
       position: absolute;
-      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      padding: 65px;
-      background-color: $body-bg--main;
-      min-width: 500px;
-      max-width: 100%;
       margin-bottom: 50px;
+      max-width: 100%;
+      background-color: $body-bg--main;
+      padding: 30px;
+
+      @include mobile-only {
+        min-height: 100vh;
+        width: 100%;
+      }
+
+      @include tablet-up {
+        top: 50px;
+        min-width: 500px;
+        padding: 65px;
+      }
     }
 
     &__title {

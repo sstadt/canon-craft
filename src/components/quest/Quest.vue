@@ -2,7 +2,7 @@
 <template lang="pug">
   .quest
     button.button.button--text.h3.quest__title(type="button", v-if="isGameMaster", @click="editQuest") {{ quest.title }}
-    h3.quest__title(v-else) {{ quest.title }}
+    button.button.button--text.h3.quest__title(type="button", v-else, @click="showDetails") {{ quest.title }}
     .quest__characters(v-if="isGameMaster")
       quest-character(
         v-for="character in characters",
@@ -19,18 +19,20 @@
         :is-game-master="isGameMaster",
         @update-objective="updateObjectives"
       )
+    missive(ref="questDetails", :title="quest.title", :content="quest.description")
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import { clone, debounce } from '@/lib/util'
 
+  import Missive from '@/components/ui/Missive.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
   import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
   export default {
     name: 'Quest',
-    components: { QuestObjective, QuestCharacter },
+    components: { Missive, QuestObjective, QuestCharacter },
     props: {
       quest: Object,
       gameId: String,
@@ -72,7 +74,10 @@
         }
 
         this.$emit('update', updatedQuest)
-      }, 500)
+      }, 500),
+      showDetails () {
+        this.$refs.questDetails.open();
+      }
     }
   }
 </script>
@@ -81,9 +86,14 @@
   .quest {
     margin-top: $content-gutter;
 
+
     &__title {
       color: $body-text--main;
       line-height: 2;
+
+      &:focus {
+        outline: none;
+      }
 
       &:hover {
         color: $color--primary--hover;

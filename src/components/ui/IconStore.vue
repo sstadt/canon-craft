@@ -10,6 +10,7 @@
       <g id="icon-cog"><img svg-inline src="@/assets/icons/cog.svg" /></g>
       <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
       <g id="icon-times"><img svg-inline src="@/assets/icons/times.svg" /></g>
+      <g id="icon-users"><img svg-inline src="@/assets/icons/users.svg" /></g>
       <!-- wysiwyg icons -->
       <g id="icon-bold"><img svg-inline src="@/assets/icons/bold.svg" /></g>
       <g id="icon-italic"><img svg-inline src="@/assets/icons/italic.svg" /></g>

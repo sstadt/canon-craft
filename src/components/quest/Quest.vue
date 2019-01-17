@@ -4,6 +4,9 @@
     button.button.button--text.h3.quest__title(type="button", v-if="isGameMaster", @click="editQuest") {{ quest.title }}
     button.button.button--text.h3.quest__title(type="button", v-else, @click="showDetails") {{ quest.title }}
     .quest__characters(v-if="isGameMaster")
+      button.button.button--icon.button--flex.quest__characters__toggle-all(type="button", @click="toggleAll")
+        span.u-hidden Toggle All Characters
+        icon(name="users")
       quest-character(
         v-for="character in characters",
         :key="character.id",
@@ -19,7 +22,7 @@
         :is-game-master="isGameMaster",
         @update-objective="updateObjectives"
       )
-    missive(ref="questDetails", :title="quest.title", :content="quest.description")
+    missive(ref="questDetails", :title="quest.title")
       template(slot="content")
         .objectives
           p(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
@@ -32,6 +35,7 @@
 
   import VueMarkdown from 'vue-markdown'
   import Missive from '@/components/ui/Missive.vue'
+  import Icon from '@/components/ui/Icon.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
   import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
@@ -40,6 +44,7 @@
     components: {
       VueMarkdown,
       Missive,
+      Icon,
       QuestObjective,
       QuestCharacter
     },
@@ -85,8 +90,20 @@
 
         this.$emit('update', updatedQuest)
       }, 500),
+      toggleAll: debounce(function () {
+        let newPlayers = []
+
+        if (this.characters.length > this.quest.players.length) {
+          newPlayers = clone(this.characters).map(character => character.player)
+        }
+
+        this.$emit('update', {
+          id: this.quest.id,
+          players: newPlayers
+        });
+      }),
       showDetails () {
-        this.$refs.questDetails.open();
+        this.$refs.questDetails.open()
       }
     }
   }
@@ -106,6 +123,16 @@
 
       &:hover {
         color: $color--primary--hover;
+      }
+    }
+
+    &__characters {
+      display: flex;
+
+      &__toggle-all {
+        line-height: 32px;
+        width: 32px;
+        margin-right: 8px;
       }
     }
 

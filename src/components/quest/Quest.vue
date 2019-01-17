@@ -20,19 +20,29 @@
         @update-objective="updateObjectives"
       )
     missive(ref="questDetails", :title="quest.title", :content="quest.description")
+      template(slot="content")
+        .objectives
+          p(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
+        vue-markdown {{ quest.description }}
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import { clone, debounce } from '@/lib/util'
 
+  import VueMarkdown from 'vue-markdown'
   import Missive from '@/components/ui/Missive.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
   import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
   export default {
     name: 'Quest',
-    components: { Missive, QuestObjective, QuestCharacter },
+    components: {
+      VueMarkdown,
+      Missive,
+      QuestObjective,
+      QuestCharacter
+    },
     props: {
       quest: Object,
       gameId: String,
@@ -86,7 +96,6 @@
   .quest {
     margin-top: $content-gutter;
 
-
     &__title {
       color: $body-text--main;
       line-height: 2;
@@ -98,6 +107,10 @@
       &:hover {
         color: $color--primary--hover;
       }
+    }
+
+    .objectives {
+      margin-bottom: 30px;
     }
   }
 </style>

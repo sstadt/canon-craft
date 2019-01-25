@@ -103,8 +103,8 @@
         } else if (this.game.id && this.populatedGames.length > 0) {
           this.checkPermissions()
         } else {
-          let unwatchPopulatedGames = this.$watch('populatedGames', () => {
-            if (this.populatedGames.indexOf(this.game.id) > -1) {
+          let unwatchPopulatedGames = this.$watch('characters', () => {
+            if (this.populatedGames.indexOf(this.game.id) > -1 && this.characters) {
               unwatchPopulatedGames()
               this.checkPermissions()
             }

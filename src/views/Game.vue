@@ -3,28 +3,40 @@
   .container.u-mt.game(v-if="game && isAllowed")
     .row
       .column.small-12.medium-8
-        h1.u-mb
+        .game-input.game-input--header(v-if="isGameMaster")
+          input.h1(type="text", v-model="game.name")
+        h1.u-mb(v-else)
           span.game__title {{ game.name }}
-          button.button.button--icon(v-if="isGameMaster", @click="editGame")
+          //- button.button.button--icon(v-if="isGameMaster", @click="editGame")
             span.u-hidden Settings
             icon(name="cog")
         game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
-        .game__description {{ game.description }}
+        .game__description(v-if="isGameMaster")
+          wysiwyg(v-model="game.description")
+        .game__description(v-else, v-html="game.description")
       .column.small-12.medium-4
         game-characters(:characters="characters")
         quest-log(:game-id="game.id", :is-game-master="isGameMaster")
-    modal(ref="editGameModal")
+    //- TODO: this is for game settings, not copy
+    //- TODO: move this into its own component
+    //- modal(ref="editGameModal")
       template(slot="content")
         form(@submit.prevent="updateGame", novalidate)
-          .form-input
-            input(type="text", name="name", placeholder="Name", v-model="game.name", v-validate="'required'")
+          .game-input
+            label(for="current_game_name") Name
+            input(type="text", name="name", id="current_game_name", placeholder="Name", v-model="game.name", v-validate="'required'")
             span.error(v-show="errors.has('name')") {{ errors.first('name') }}
-          wysiwyg(v-model="game.description")
-          button(type="submit") Update Game
+          .game-input
+            wysiwyg(v-model="game.description")
+          .controls
+            .control__group
+              button.button.button--small(type="submit") Update Game
 </template>
 
 <script>
   import { mapState } from 'vuex'
+
+  import { debounce } from '@/lib/util.js'
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import GameCharacters from '@/components/game/GameCharacters.vue'
@@ -70,6 +82,12 @@
       },
       characters () {
         return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
+      },
+      description () {
+        return this.$sanitize(this.game.description)
+      },
+      name () {
+        return this.game.name
       }
     },
     created () {
@@ -92,6 +110,16 @@
       isLoggedIn (newVal, oldVal) {
         if (oldVal && !newVal) {
           this.$router.push('/')
+        }
+      },
+      name (newVal, oldVal) {
+        if (this.isGameMaster && oldVal && newVal !== oldVal) {
+          this.updateGame()
+        }
+      },
+      description (newVal, oldVal) {
+        if (this.isGameMaster && oldVal && newVal !== oldVal) {
+          this.updateGame()
         }
       }
     },
@@ -149,10 +177,10 @@
       populateGameData () {
         this.$store.dispatch('characters/populate', this.game.id)
       },
-      editGame () {
-        this.$refs.editGameModal.open()
-      },
-      updateGame () {
+      // editGame () {
+      //   this.$refs.editGameModal.open()
+      // },
+      updateGame: debounce(function () {
         let updatedGame = {
           id: this.game.id,
           name: this.game.name,
@@ -160,16 +188,20 @@
         }
 
         this.$store.dispatch('games/update', updatedGame)
-        this.$refs.editGameModal.close()
-      }
+        // this.$refs.editGameModal.close()
+      }, 5000)
     }
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .game {
     &__title {
       margin-right: 10px;
+    }
+
+    [contenteditable="true"]:focus {
+      outline: none;
     }
   }
 </style>

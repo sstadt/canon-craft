@@ -27,12 +27,12 @@
         .controls__group(v-if="quest.id")
           confirm-button(label="Delete Quest", :small="true", @confirmed="removeQuest")
         .controls__group
-          button.button.button--small.button--secondary(type="button", class="button" @click="cancel") Cancel
-          button.button.button--small(type="submit", class="button") Save Quest
+          button.button.button--small.button--secondary(type="button", @click="cancel") Cancel
+          button.button.button--small(type="submit") Save Quest
 </template>
 
 <script>
-  import { Objective } from '@/schema/Objective.js'
+  import { Objective as newObjective } from '@/schema/Objective.js'
 
   import Icon from '@/components/ui/Icon.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
@@ -49,7 +49,7 @@
     },
     methods: {
       addObjective () {
-        this.quest.objectives.push(Objective())
+        this.quest.objectives.push(newObjective())
       },
       removeObjective (index) {
         this.quest.objectives.splice(index, 1)

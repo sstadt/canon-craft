@@ -39,7 +39,6 @@
 </template>
 
 <script>
-  import TurndownService from 'turndown'
   import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
   import {
     Bold, Italic, Underline, Strike,
@@ -47,8 +46,6 @@
   } from 'tiptap-extensions'
 
   import Icon from '@/components/ui/Icon.vue'
-
-  const turndownService = new TurndownService()
 
   export default {
     name: 'Wysiwyg',
@@ -76,7 +73,7 @@
           new OrderedList(),
           new Link()
         ],
-        content: this.value,
+        content: this.$sanitize(this.value),
         onUpdate: this.update
       })
     },
@@ -85,10 +82,10 @@
     },
     methods: {
       update ({ getHTML }) {
-        let html = getHTML()
-        let markdown = turndownService.turndown(html)
+        let raw = getHTML()
+        let html = this.$sanitize(raw)
 
-        this.$emit('input', markdown)
+        this.$emit('input', html)
       }
     }
   }

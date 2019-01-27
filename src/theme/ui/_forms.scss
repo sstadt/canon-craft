@@ -147,6 +147,17 @@
   .wysiwyg [contenteditable="true"] {
     @include game-input-common;
   }
+
+  &--header [type='text'] {
+    color: $body-text--main;
+    font-weight: bold;
+    padding: 0;
+    margin-bottom: $content-gutter;
+
+    &:focus {
+      background-color: transparent;
+    }
+  }
 }
 
 .objective-input {

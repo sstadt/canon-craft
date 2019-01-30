@@ -1,6 +1,17 @@
 
 <template lang="pug">
   .wysiwyg
+    editor-menu-bubble(:editor="editor")
+      .menububble(slot-scope="{ commands, isActive, getMarkAttrs, menu }", :class="{ 'is-active': menu.isActive }", :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`")
+        form.menububble__form(v-if="linkMenuIsActive", @submit.prevent="setLinkUrl(commands.link, linkUrl)")
+          input.menububble__input(type="text", v-model="linkUrl", placeholder="https://", ref="linkInput", @keydown.esc="hideLinkMenu")
+          button.menububble__button(type="button", @click="setLinkUrl(commands.link, null)")
+            span.u-hidden Save Link
+            icon(name="link", size="14")
+        template(v-else)
+          button.menububble__button(@click="showLinkMenu(getMarkAttrs('link'))", :class="{ 'is-active': isActive.link() }")
+            span.u-hidden Add Link
+            icon(name="link", size="14")
     editor-menu-bar(:editor="editor")
       .wysiwyg__controls(slot-scope="{ commands, isActive }")
         .wysiwyg__control-group
@@ -30,16 +41,11 @@
           button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list", @mousedown.prevent)
             span.u-hidden Ordered List
             icon(name="ordered-list", :size="iconSize")
-        //-
-          .wysiwyg__control-group
-            button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.link() }", @click="commands.link", @mousedown.prevent)
-              span.u-hidden Link
-              icon(name="link", :size="iconSize")
     editor-content(:editor="editor")
 </template>
 
 <script>
-  import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+  import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap'
   import {
     Bold, Italic, Underline, Strike,
     Heading, ListItem, BulletList, OrderedList, Link
@@ -49,7 +55,7 @@
 
   export default {
     name: 'Wysiwyg',
-    components: { EditorContent, EditorMenuBar, Icon },
+    components: { EditorContent, EditorMenuBar, EditorMenuBubble, Icon },
     props: {
       value: String
     },
@@ -57,7 +63,9 @@
       return {
         editor: null,
         iconSize: '14px',
-        headingIconSize: '17px'
+        headingIconSize: '17px',
+        linkUrl: null,
+        linkMenuIsActive: false
       }
     },
     mounted () {
@@ -74,25 +82,41 @@
           new Link()
         ],
         content: this.$sanitize(this.value),
-        onUpdate: this.update
+        onUpdate: this.onUpdate
       })
     },
     beforeDestroy () {
       this.editor.destroy()
     },
     methods: {
-      update ({ getHTML }) {
+      onUpdate ({ getHTML }) {
         let raw = getHTML()
         let html = this.$sanitize(raw)
 
         this.$emit('input', html)
+      },
+      showLinkMenu (attrs) {
+        this.linkUrl = attrs.href
+        this.linkMenuIsActive = true
+        this.$nextTick(() => this.$refs.linkInput.focus())
+      },
+      hideLinkMenu () {
+        this.linkUrl = null
+        this.linkMenuIsActive = false
+      },
+      setLinkUrl (command, url) {
+        command({ href: url })
+        this.hideLinkMenu()
+        this.editor.focus()
       }
     }
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .wysiwyg {
+    position: relative;
+
     &__controls {
       display: flex;
     }
@@ -104,5 +128,64 @@
         margin-right: 10px;
       }
     }
+
   }
+
+  .menububble {
+    position: absolute;
+    display: flex;
+    z-index: 20;
+    background: #000;
+    border-radius: 5px;
+    padding: .3rem;
+    margin-bottom: .5rem;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .2s,visibility .2s;
+
+    &.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &__button {
+      display: inline-flex;
+      background: rgba(0,0,0,0);
+      border: 0;
+      color: #fff;
+      padding: .2rem .5rem;
+      margin-right: .2rem;
+      border-radius: 3px;
+      padding: 6px;
+
+      .icon {
+        fill: $body-text--light;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        background-color: hsla(0,0%,100%,.1);
+      }
+
+      &.is-active {
+        background-color: hsla(0,0%,100%,.2);
+      }
+    }
+
+    &__form {
+      display: flex;
+      align-items: center;
+    }
+
+    &__input {
+      border: none;
+      background: rgba(0,0,0,0);
+      color: $body-text--light;
+    }
+  }
+
 </style>

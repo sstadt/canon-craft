@@ -5,8 +5,10 @@ export default {
     'strong', 'em', 'ul',
     'a', 'p', 'br',
     'ul', 'ol', 'li',
+    'img'
   ],
   allowedAttributes: {
-    'a': [ 'href' ]
+    'a': [ 'href' ],
+    'img': [ 'src' ]
   }
 }

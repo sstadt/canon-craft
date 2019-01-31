@@ -21,6 +21,7 @@
       <g id="icon-ordered-list"><img svg-inline src="@/assets/icons/ordered-list.svg" /></g>
       <g id="icon-unordered-list"><img svg-inline src="@/assets/icons/unordered-list.svg" /></g>
       <g id="icon-link"><img svg-inline src="@/assets/icons/link.svg" /></g>
+      <g id="icon-image"><img svg-inline src="@/assets/icons/image.svg" /></g>
     </defs>
   </svg>
 </template>

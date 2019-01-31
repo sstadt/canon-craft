@@ -41,6 +41,10 @@
           button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list", @mousedown.prevent)
             span.u-hidden Ordered List
             icon(name="ordered-list", :size="iconSize")
+        .wysiwyg__control-group
+          button.button.button--wysiwyg(type="button", @click="showImagePrompt(commands.image)", @mousedown.prevent)
+            span.u-hidden Add Image
+            icon(name="image", :size="iconSize")
     editor-content(:editor="editor")
 </template>
 
@@ -48,7 +52,8 @@
   import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap'
   import {
     Bold, Italic, Underline, Strike,
-    Heading, ListItem, BulletList, OrderedList, Link
+    Heading, ListItem, BulletList, OrderedList,
+    Link, Image
   } from 'tiptap-extensions'
 
   import Icon from '@/components/ui/Icon.vue'
@@ -79,7 +84,8 @@
           new ListItem(),
           new BulletList(),
           new OrderedList(),
-          new Link()
+          new Link(),
+          new Image()
         ],
         content: this.$sanitize(this.value),
         onUpdate: this.onUpdate
@@ -108,6 +114,13 @@
         command({ href: url })
         this.hideLinkMenu()
         this.editor.focus()
+      },
+      showImagePrompt(command) {
+        let src = prompt('Enter the url of your image here')
+
+        if (src != null) {
+          command({ src })
+        }
       }
     }
   }

@@ -26,14 +26,13 @@
       template(slot="content")
         .objectives
           p(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
-        vue-markdown {{ quest.description }}
+        div(v-html="description")
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import { clone, debounce } from '@/lib/util'
 
-  import VueMarkdown from 'vue-markdown'
   import Missive from '@/components/ui/Missive.vue'
   import Icon from '@/components/ui/Icon.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
@@ -42,7 +41,6 @@
   export default {
     name: 'Quest',
     components: {
-      VueMarkdown,
       Missive,
       Icon,
       QuestObjective,
@@ -59,6 +57,9 @@
       }),
       characters () {
         return this.allCharacters.filter(character => character.game === this.gameId)
+      },
+      description () {
+        return this.$sanitize(quest.description)
       }
     },
     methods: {

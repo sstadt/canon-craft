@@ -11,13 +11,17 @@
             span.u-hidden Settings
             icon(name="cog")
         game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
-        .game__description(v-if="isGameMaster")
-          wysiwyg(v-model="game.description")
-        .game__description(v-else, v-html="game.description")
+        tabs
+          tab(heading="Game Log", :selected="true")
+            p Game Log
+          tab(heading="Description")
+            .game__description(v-if="isGameMaster")
+              wysiwyg(v-model="game.description")
+            .game__description(v-else, v-html="game.description")
       .column.small-12.medium-4
         game-characters(:characters="characters")
         quest-log(:game-id="game.id", :is-game-master="isGameMaster")
-    //- TODO: this is for game settings, not copy
+    //- TODO: this is for game settings, not game copy
     //- TODO: move this into its own component
     //- modal(ref="editGameModal")
       template(slot="content")
@@ -45,16 +49,14 @@
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import Tab from '@/components/ui/Tab.vue'
+  import Tabs from '@/components/ui/Tabs.vue'
 
   export default {
     name: 'Game',
     components: {
-      GameInviteLink,
-      GameCharacters,
-      QuestLog,
-      Icon,
-      Modal,
-      Wysiwyg
+      GameInviteLink, GameCharacters, QuestLog,
+      Icon, Modal, Wysiwyg, Tab, Tabs
     },
     data () {
       return {

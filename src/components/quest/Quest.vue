@@ -59,7 +59,7 @@
         return this.allCharacters.filter(character => character.game === this.gameId)
       },
       description () {
-        return this.$sanitize(quest.description)
+        return this.$sanitize(this.quest.description)
       }
     },
     methods: {

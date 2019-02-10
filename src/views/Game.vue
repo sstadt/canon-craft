@@ -12,8 +12,8 @@
             icon(name="cog")
         game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
         tabs
-          tab(heading="Game Log", :selected="true")
-            p Game Log
+          tab(heading="Journal", :selected="true")
+            game-journal
           tab(heading="Description")
             .game__description(v-if="isGameMaster")
               wysiwyg(v-model="game.description")
@@ -44,6 +44,7 @@
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import GameCharacters from '@/components/game/GameCharacters.vue'
+  import GameJournal from '@/components/game/GameJournal.vue'
   import QuestLog from '@/components/quest/QuestLog.vue'
 
   import Icon from '@/components/ui/Icon.vue'
@@ -55,7 +56,8 @@
   export default {
     name: 'Game',
     components: {
-      GameInviteLink, GameCharacters, QuestLog,
+      GameInviteLink, GameCharacters, GameJournal,
+      QuestLog,
       Icon, Modal, Wysiwyg, Tab, Tabs
     },
     data () {

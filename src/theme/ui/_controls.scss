@@ -12,6 +12,10 @@
       margin-left: auto;
     }
 
+    &--right {
+      align-self: flex-end;
+    }
+
     & > * {
       margin-left: 0;
       margin-right: 10px;

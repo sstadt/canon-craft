@@ -1,11 +1,11 @@
 
 <template lang="pug">
-  .game-log__entry Log Entry
+  .game-journal__entry Journal Entry
 </template>
 
 <script>
   export default {
-    name: 'GameLogEntry'
+    name: 'GameJournalEntry'
   }
 </script>
 

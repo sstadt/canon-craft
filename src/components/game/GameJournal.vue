@@ -8,12 +8,14 @@
 </template>
 
 <script>
+  import { JournalEntry as newJournalEntry } from '@/schema/JournalEntry.js'
+
   import DatePicker from '@/components/ui/DatePicker.vue'
-  import GameLogEntry from '@/components/game/GameJournal.vue'
+  import GameJournalEntry from '@/components/game/GameJournalEntry.vue'
 
   export default {
     name: 'GameLog',
-    components: { DatePicker, GameLogEntry },
+    components: { DatePicker, GameJournalEntry },
     data() {
       return {
         newDate: new Date(),

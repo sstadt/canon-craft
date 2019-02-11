@@ -188,7 +188,8 @@
         let updatedGame = {
           id: this.game.id,
           name: this.game.name,
-          description: this.game.description
+          description: this.game.description,
+          journal: this.game.journal
         }
 
         this.$store.dispatch('games/update', updatedGame)

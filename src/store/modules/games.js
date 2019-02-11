@@ -64,6 +64,7 @@ const actions = {
       created_by,
       description: '',
       players: [],
+      journal: [],
       config: {}
     })
   },

@@ -10,10 +10,16 @@ import user from './modules/user'
 import games from './modules/games'
 import characters from './modules/characters'
 import quests from './modules/quests'
+import journal from './modules/journal'
 
 Vue.use(Vuex)
 
-const state = { auth, db }
+const state = {
+  auth,
+  db, // TODO: deprecate this in favor of collection references
+  gamesCollection: db.collection('games'),
+  questsCollection: db.collection('quests')
+}
 
 export default new Vuex.Store({
   state,
@@ -23,6 +29,7 @@ export default new Vuex.Store({
     user,
     games,
     characters,
-    quests
+    quests,
+    journal
   }
 })

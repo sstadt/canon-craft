@@ -12,6 +12,10 @@
       margin-left: auto;
     }
 
+    &--left {
+      align-self: flex-start;
+    }
+
     &--right {
       align-self: flex-end;
     }

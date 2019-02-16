@@ -1,6 +1,6 @@
 
-var unsubscribeOwnedQuests;
-var unsubscribePlayedQuests;
+var unsubscribeOwnedQuests
+var unsubscribePlayedQuests
 
 const setupGamesWatcher = (ref, commit) => {
   return ref.onSnapshot(snapshot =>
@@ -44,7 +44,7 @@ const mutations = {
   GAME_POPULATED (state, gameId) {
     state.populatedGames.push(gameId)
   },
-  CLEAR_QUESTS () {
+  CLEAR_QUESTS (state) {
     state.all = []
   }
 }
@@ -52,15 +52,16 @@ const mutations = {
 const actions = {
   populate ({ rootState, commit }) {
     let userId = rootState.user.currentUser.uid
-    let ownedQuestRef = rootState.db.collection('quests').where('created_by', '==', userId)
-    let playedQuestRef = rootState.db.collection('quests').where('players', 'array-contains', userId)
+    let ownedQuestRef = rootState.db.collection('quests')
+      .where('created_by', '==', userId)
+    let playedQuestRef = rootState.db.collection('quests')
+      .where('players', 'array-contains', userId)
 
     unsubscribeOwnedQuests = setupGamesWatcher(ownedQuestRef, commit)
     unsubscribePlayedQuests = setupGamesWatcher(playedQuestRef, commit)
   },
   create ({ rootState }, quest) {
     let gamesRef = rootState.db.collection('quests')
-
     gamesRef.add(quest)
   },
   update ({ rootState }, quest) {

@@ -10,9 +10,9 @@ import uniqid from 'uniqid'
 
 export const JournalEntry = () => {
   return {
-    id: uniqid(),
     title: 'New Log Entry',
     date: new Date(),
+    published: false,
     description: 'Synopsis of events'
   }
 }

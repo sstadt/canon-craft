@@ -13,7 +13,7 @@
         game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
         tabs
           tab(heading="Journal", :selected="true")
-            game-journal
+            journal
           tab(heading="Description")
             .game__description(v-if="isGameMaster")
               wysiwyg(v-model="game.description")
@@ -44,8 +44,8 @@
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
   import GameCharacters from '@/components/game/GameCharacters.vue'
-  import GameJournal from '@/components/game/GameJournal.vue'
   import QuestLog from '@/components/quest/QuestLog.vue'
+  import Journal from '@/components/journal/Journal.vue'
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
@@ -56,13 +56,14 @@
   export default {
     name: 'Game',
     components: {
-      GameInviteLink, GameCharacters, GameJournal,
-      QuestLog,
+      GameInviteLink, GameCharacters,
+      QuestLog, Journal,
       Icon, Modal, Wysiwyg, Tab, Tabs
     },
     data () {
       return {
-        isAllowed: false
+        isAllowed: false,
+        initialized: false
       }
     },
     computed: {
@@ -117,12 +118,12 @@
         }
       },
       name (newVal, oldVal) {
-        if (this.isGameMaster && oldVal && newVal !== oldVal) {
+        if (this.initialized && this.isGameMaster && oldVal && newVal !== oldVal) {
           this.updateGame()
         }
       },
       description (newVal, oldVal) {
-        if (this.isGameMaster && oldVal && newVal !== oldVal) {
+        if (this.initialized && this.isGameMaster && oldVal && newVal !== oldVal) {
           this.updateGame()
         }
       }
@@ -179,7 +180,9 @@
         }, 10000)
       },
       populateGameData () {
+        this.initialized = true
         this.$store.dispatch('characters/populate', this.game.id)
+        this.$store.dispatch('journal/populate', this.game.id)
       },
       // editGame () {
       //   this.$refs.editGameModal.open()
@@ -188,8 +191,7 @@
         let updatedGame = {
           id: this.game.id,
           name: this.game.name,
-          description: this.game.description,
-          journal: this.game.journal
+          description: this.game.description
         }
 
         this.$store.dispatch('games/update', updatedGame)

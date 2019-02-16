@@ -78,6 +78,7 @@ const actions = {
       }
     }
 
+    console.log(updatedGame)
     gameRef.set(updatedGame, { merge: true })
   },
   clear ({ commit }) {

@@ -1,11 +1,14 @@
 
 <template lang="pug">
-  .game-journal__entry Journal Entry
+  .journal__entry {{ entry.title }}
 </template>
 
 <script>
   export default {
-    name: 'GameJournalEntry'
+    name: 'JournalEntry',
+    props: {
+      entry: Object
+    }
   }
 </script>
 

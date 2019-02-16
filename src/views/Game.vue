@@ -1,40 +1,24 @@
 
 <template lang="pug">
-  .container.u-mt.game(v-if="game && isAllowed")
-    .row
-      .column.small-12.medium-8
-        .game-input.game-input--header(v-if="isGameMaster")
-          input.h1(type="text", v-model="game.name")
-        h1.u-mb(v-else)
-          span.game__title {{ game.name }}
-          //- button.button.button--icon(v-if="isGameMaster", @click="editGame")
-            span.u-hidden Settings
-            icon(name="cog")
-        game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
-        tabs
-          tab(heading="Journal", :selected="true")
-            journal
-          tab(heading="Description")
-            .game__description(v-if="isGameMaster")
-              wysiwyg(v-model="game.description")
-            .game__description(v-else, v-html="game.description")
-      .column.small-12.medium-4
-        game-characters(:characters="characters")
-        quest-log(:game-id="game.id", :is-game-master="isGameMaster")
-    //- TODO: this is for game settings, not game copy
-    //- TODO: move this into its own component
-    //- modal(ref="editGameModal")
-      template(slot="content")
-        form(@submit.prevent="updateGame", novalidate)
-          .game-input
-            label(for="current_game_name") Name
-            input(type="text", name="name", id="current_game_name", placeholder="Name", v-model="game.name", v-validate="'required'")
-            span.error(v-show="errors.has('name')") {{ errors.first('name') }}
-          .game-input
-            wysiwyg(v-model="game.description")
-          .controls
-            .control__group
-              button.button.button--small(type="submit") Update Game
+  transition(name="fade")
+    .container.u-mt.game(v-if="game && isAllowed")
+      .row
+        .column.small-12.medium-8
+          .game-input.game-input--header(v-if="isGameMaster")
+            input.h1(type="text", v-model="game.name")
+          h1.u-mb(v-else)
+            span.game__title {{ game.name }}
+          game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
+          tabs
+            tab(heading="Journal", :selected="true")
+              journal
+            tab(heading="Description")
+              .game__description(v-if="isGameMaster")
+                wysiwyg(v-model="game.description")
+              .game__description(v-else, v-html="game.description")
+        .column.small-12.medium-4
+          game-characters(:characters="characters")
+          quest-log(:game-id="game.id", :is-game-master="isGameMaster")
 </template>
 
 <script>
@@ -184,9 +168,6 @@
         this.$store.dispatch('characters/populate', this.game.id)
         this.$store.dispatch('journal/populate', this.game.id)
       },
-      // editGame () {
-      //   this.$refs.editGameModal.open()
-      // },
       updateGame: debounce(function () {
         let updatedGame = {
           id: this.game.id,
@@ -195,7 +176,6 @@
         }
 
         this.$store.dispatch('games/update', updatedGame)
-        // this.$refs.editGameModal.close()
       }, 5000)
     }
   }

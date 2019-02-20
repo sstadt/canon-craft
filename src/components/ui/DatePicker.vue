@@ -19,6 +19,11 @@
       return {
         currentDate: new Date()
       }
+    },
+    watch: {
+      currentDate () {
+        this.$emit('input', this.currentDate)
+      }
     }
   }
 </script>

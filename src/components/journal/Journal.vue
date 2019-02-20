@@ -4,10 +4,15 @@
     .controls
       .controls__group--left
         primary-button(label="New Entry", :small="true", @click="newEntry")
-    .game-journal__new-entry
-      date-picker(v-model="newDate")
     .game-journal__entries
-      game-journal-entry(v-for="entry in entries", :key="entry.id", :entry="entry")
+      div(v-for="entry in entries", :key="entry.id")
+        journal-editor(
+          v-if="isGameMaster", 
+          :entry="entry",
+          @remove="removeEntry(entry.id)"
+          @save="saveEntry"
+        )
+        journal-entry(v-else, :entry="entry")
 </template>
 
 <script>
@@ -15,12 +20,15 @@
   import { JournalEntry as newJournalEntry } from '@/schema/JournalEntry.js'
 
   import PrimaryButton from '@/components/ui/PrimaryButton.vue'
-  import DatePicker from '@/components/ui/DatePicker.vue'
-  import GameJournalEntry from '@/components/journal/JournalEntry.vue'
+  import JournalEntry from '@/components/journal/JournalEntry.vue'
+  import JournalEditor from '@/components/journal/JournalEditor.vue'
 
   export default {
     name: 'Journal',
-    components: { PrimaryButton, DatePicker, GameJournalEntry },
+    components: { PrimaryButton, JournalEntry, JournalEditor },
+    props: {
+      isGameMaster: Boolean
+    },
     data() {
       return {
         newDate: new Date()
@@ -34,11 +42,22 @@
     methods: {
       newEntry () {
         this.$store.dispatch('journal/create', newJournalEntry())
+      },
+      removeEntry (id) {
+        this.$store.dispatch('journal/remove', id)
+      },
+      saveEntry (entry) {
+        console.log(entry)
+        this.$store.dispatch('journal/update', entry)
       }
     }
   }
 </script>
 
 <style scoped lang="scss">
-
+  .game-journal {
+    & > .controls {
+      margin-bottom: $grid-gutter;
+    }
+  }
 </style>

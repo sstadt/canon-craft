@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  button.button(type="button", :class="buttonClass" @click="$emit('click')")
+  button.button(:type="buttonType", :class="buttonClass" @click="$emit('click')")
     span {{ label }}
 </template>
 
@@ -21,6 +21,15 @@
       secondary: {
         type: Boolean,
         default: false
+      },
+      submit: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {
+        buttonType: (this.submit) ? 'submit' : 'button'
       }
     },
     computed: {

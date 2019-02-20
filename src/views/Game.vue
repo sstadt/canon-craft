@@ -11,7 +11,7 @@
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
           tabs
             tab(heading="Journal", :selected="true")
-              journal
+              journal(:is-game-master="isGameMaster")
             tab(heading="Description")
               .game__description(v-if="isGameMaster")
                 wysiwyg(v-model="game.description")

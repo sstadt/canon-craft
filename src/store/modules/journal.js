@@ -66,16 +66,23 @@ const actions = {
   create ({ state }, entry) {
     state.ref.add(entry)
   },
-  update ({ state }, entry) {
+  update ({ state, rootState }, entry) {
+    // let entryRef = state.ref
+    // TODO: this is not saving... the date, other fields are saving
+
+    let journalEntryRef = rootState.gamesCollection.doc(state.gameId)
+      .collection('journalEntries').doc(entry.id)
     let updatedEntry = {}
 
     for (let key in entry) {
       if (entry.hasOwnProperty(key) && key !== 'id') {
-        updatedQuest[key] = entry[key]
+        updatedEntry[key] = entry[key]
       }
     }
 
-    state.ref.set(updatedEntry, { merge: true })
+    console.log('---updating entry')
+    console.log(updatedEntry)
+    journalEntryRef.set(updatedEntry, { merge: true })
   },
   remove ({ rootState, state }, entryId) {
     rootState.gamesCollection.doc(state.gameId)

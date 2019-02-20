@@ -47,7 +47,10 @@ const routes = [
   }
 ];
 
-const router = new Router({ routes })
+const router = new Router({
+  mode: 'history',
+  routes
+})
 
 /**
  * Set Page Titles

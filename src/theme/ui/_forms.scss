@@ -199,3 +199,13 @@
     width: 34px;
   }
 }
+
+.toggle-input {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  label {
+    margin-right: 4px;
+  }
+}

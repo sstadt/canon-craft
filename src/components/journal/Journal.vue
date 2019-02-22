@@ -47,7 +47,6 @@
         this.$store.dispatch('journal/remove', id)
       },
       saveEntry (entry) {
-        console.log(entry)
         this.$store.dispatch('journal/update', entry)
       }
     }

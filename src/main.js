@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueSanitize from 'vue-sanitize'
 import VeeValidate from 'vee-validate'
 import VueMoment from 'vue-moment'
+import ToggleButton from 'vue-js-toggle-button'
 // import axios from 'axios'
 // import VueAxios from 'vue-axios'
 
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 Vue.use(VueSanitize, sanitizeConfig)
 Vue.use(VeeValidate)
 Vue.use(VueMoment)
+Vue.use(ToggleButton)
 // Vue.use(VueAxios, axios) // TODO: to be used for blog state management
 
 new Vue({

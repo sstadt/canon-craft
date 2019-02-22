@@ -1,12 +1,21 @@
 
 <template lang="pug">
-  button.button(:type="buttonType", :class="buttonClass" @click="$emit('click')")
+  button.button(
+    :type="buttonType", 
+    :class="buttonClass", 
+    :disabled="disabled", 
+    @click="$emit('click')"
+  )
+    icon(v-if="icon", :name="icon", :size="iconSize")
     span {{ label }}
 </template>
 
 <script>
+  import Icon from '@/components/ui/Icon.vue'
+
   export default {
-    name: 'MyComponent',
+    name: 'PrimaryButton',
+    components: { Icon },
     props: {
       label: String,
       icon: String,
@@ -25,6 +34,10 @@
       submit: {
         type: Boolean,
         default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -35,10 +48,14 @@
     computed: {
       buttonClass () {
         return {
-          'button--small': this.small === true,
+          'button--primary': this.secondary === false,
+          'button--secondary': this.secondary === true,
           'button--hollow': this.hollow === true,
-          'button--secondary': this.secondary === true
+          'button--small': this.small === true
         }
+      },
+      iconSize () {
+        return (this.small) ? 12 : 16
       }
     }
   }

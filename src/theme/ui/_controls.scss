@@ -8,6 +8,8 @@
   }
 
   &__group {
+    display: flex;
+    
     &:only-child {
       margin-left: auto;
     }

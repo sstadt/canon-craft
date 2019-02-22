@@ -17,7 +17,7 @@
     },
     data () {
       return {
-        currentDate: new Date()
+        currentDate: this.value
       }
     },
     watch: {

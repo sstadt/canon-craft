@@ -94,7 +94,4 @@
 </script>
 
 <style scoped lang="scss">
-  .journal__editor {
-    margin-bottom: $grid-gutter;
-  }
 </style>

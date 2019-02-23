@@ -95,6 +95,9 @@
         })
       }
     },
+    destroyed () {
+      this.$store.dispatch('journal/clear', this.game.id)
+    },
     watch: {
       isLoggedIn (newVal, oldVal) {
         if (oldVal && !newVal) {

@@ -8,16 +8,11 @@
       display: block;
       position: absolute;
       right: 11px;
-      bottom: 17px;
-      border-top: 6px solid $color-black;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
+      top: calc(50% - 1px);
+      border-top: 4px solid $color-black;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
     }
-  }
-
-  & + [class*="-input"],
-  & + .button {
-    margin-top: $content-gutter;
   }
 
   label,
@@ -46,6 +41,8 @@
   width: 100%;
   font-size: rem(16);
   transition: 0.3s ease all;
+  border: none;
+  background-color: $body-bg--main;
   -webkit-appearance: none;
   border-radius: 0;
 }
@@ -55,7 +52,6 @@
   @include input-common;
   padding: 8px;
   border: 1px solid $form-field--neutral;
-  background-color: $body-bg--main;
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
   line-height: 1.5;
 
@@ -75,8 +71,6 @@
   border: 0px;
   padding: 10px 12px;
   border-radius: 4px;
-  border: none;
-  background-color: $body-bg--main;
 
   &:focus {
     background-color: $form-field--focus;
@@ -91,6 +85,7 @@
 // administrative forms i.e. login/signup, account management
 .form-input {
   @include field-common;
+  margin-bottom: $content-gutter;
 
   [type='text'],
   [type='password'],
@@ -115,6 +110,7 @@
 // game inputs, content entry
 .game-input {
   @include field-common;
+  margin-bottom: $content-gutter;
 
   label,
   .label {
@@ -207,5 +203,17 @@
 
   label {
     margin-right: 4px;
+  }
+}
+
+.controls-input {
+  @include field-common;
+
+  input[type="text"],
+  select {
+    @include input-common;
+    height: 100%;
+    min-height: 35px;
+    padding-left: 12px;
   }
 }

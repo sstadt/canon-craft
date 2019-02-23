@@ -25,8 +25,6 @@
 
 <style scoped lang="scss">
   .journal__entry {
-    margin-bottom: $grid-gutter;
-
     &__date {
       font-size: rem(12);
       color: $body-text--subtitle;

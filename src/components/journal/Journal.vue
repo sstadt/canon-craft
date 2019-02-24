@@ -2,14 +2,17 @@
 <template lang="pug">
   .game-journal
     .controls
-      .controls__group
+      .controls__group.game-journal__controls
+        .controls-input.icon-input.game-journal__search-entries
+          icon(name="search", size="14")
+          input(type="text", v-model="searchParam", placeholder="Search Journal Entries")
         .controls-input.select
           select(v-model="sortBy")
             option(value="recent") Most Recent
             option(value="oldest") Oldest First
         primary-button(v-if="isGameMaster", label="New Entry", :small="true", @click="newEntry")
     .game-journal__entries
-      div(v-if="isGameMaster || entry.published", v-for="entry in entries", :key="entry.id")
+      div(v-if="isGameMaster || entry.published", v-for="entry in journalEntries", :key="entry.id")
         journal-editor(
           v-if="isGameMaster", 
           :entry="entry",
@@ -21,43 +24,68 @@
 
 <script>
   import { mapState } from 'vuex'
+  import { clone, debounce } from '@/lib/util.js'
   import { JournalEntry as newJournalEntry } from '@/schema/JournalEntry.js'
 
+  import Icon from '@/components/ui/Icon.vue'
   import PrimaryButton from '@/components/ui/PrimaryButton.vue'
   import JournalEntry from '@/components/journal/JournalEntry.vue'
   import JournalEditor from '@/components/journal/JournalEditor.vue'
 
   export default {
     name: 'Journal',
-    components: { PrimaryButton, JournalEntry, JournalEditor },
+    components: { Icon, PrimaryButton, JournalEntry, JournalEditor },
     props: {
       isGameMaster: Boolean
     },
     data() {
       return {
         newDate: new Date(),
-        sortBy: 'recent'
+        sortBy: 'recent',
+        searchParam: '',
+        journalEntries: []
       }
     },
     computed: {
       ...mapState({
         entries: state => state.journal.entries
-      }),
-      journalEntries () {
-        let entries
-
-        switch (this.sortBy) {
-          case ('oldest'):
-            entries = this.entries.sort((p, c) => this.sortEntriesByDate(p, c, true))
-            break;
-          default: // 'recent'
-            entries = this.entries.sort((p, c) => this.sortEntriesByDate(p, c, false))
-        }
-
-        return entries
+      })
+    },
+    watch: {
+      sortBy () {
+        this.filterAndSortEntries()
+      },
+      searchParam () {
+        this.filterAndSortEntries()
+      },
+      entries () {
+        this.filterAndSortEntries()
       }
     },
     methods: {
+      filterAndSortEntries: debounce(function () {
+        let entries = (this.searchParam.length > 2) ? this.filterEntries() : this.entries
+        
+        switch (this.sortBy) {
+          case ('oldest'):
+            entries = entries.sort((p, c) => this.sortEntriesByDate(p, c, true))
+            break
+          default: // 'recent'
+            entries = entries.sort((p, c) => this.sortEntriesByDate(p, c, false))
+        }
+
+        this.journalEntries = clone(entries)
+      }, 300),
+      filterEntries () {
+        let searchParam = this.searchParam.toLowerCase()
+
+        return this.entries.filter(entry => {
+          return Boolean(
+            entry.title.toLowerCase().indexOf(searchParam) > -1 || 
+            entry.description.toLowerCase().indexOf(searchParam) > -1
+          )
+        })
+      },
       sortEntriesByDate (entry1, entry2, ascending = false) {
         if (entry1.date.nanoseconds > entry2.date.nanoseconds) {
           return (ascending) ? 1 : -1
@@ -84,14 +112,19 @@
 
 <style scoped lang="scss">
   .game-journal {
-    & > .controls {
+    &__controls {
       margin-bottom: $grid-gutter;
+      flex-grow: 1;
     }
 
     &__entries > *:not(:first-child) {
       margin-top: $grid-gutter;
       padding-top: $grid-gutter;
       border-top: 1px solid #f4f4f4;
+    }
+
+    &__search-entries {
+      flex-grow: 1;
     }
   }
 </style>

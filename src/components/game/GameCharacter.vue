@@ -3,26 +3,43 @@
   .game-character
     .game-character__avatar
       img(:src="character.avatar")
-    p.game-character__name {{ character.name }}
+    a.game-character__name(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
+    p.game-character__name(v-else) {{ character.name }}
     a.button.button--icon.game-character__edit(v-if="isOwner", @click="$refs.editCharacterModal.open()")
       span.u-hidden Edit Character
       icon(name="quill", size="22px")
     modal(ref="editCharacterModal")
       template(slot="content")
         form.edit-character-form(@submit.prevent="updateCharacter", novalidate)
+          .form-input
+            label Character Name
+            input(type="text", name="name", placeholder="Character Name", v-model="name", v-validate="'required'")
+            span.error(v-show="errors.has('name')") {{ errors.first('name') }}
           .edit-character-form__avatar
             img(:src="avatar")
-          .edit-character-form__fields
             .form-input
-              input(type="text", name="name", placeholder="Character Name", v-model="name", v-validate="'required'")
-              span.error(v-show="errors.has('name')") {{ errors.first('name') }}
-            .form-input
+              label Avatar
               input(type="text", name="avatar", placeholder="Character Image", v-model="avatar", v-validate="'required'")
               span.error(v-show="errors.has('avatar')") {{ errors.first('avatar') }}
-            button.button.button--small(type="submit") Save
+          .form-input
+            label Character Sheet URL
+            input(type="text", name="url", placeholder="https://www.dndbeyond.com/profile/UserName/characters/1234567", v-model="url", v-validate="'required'")
+            span.error(v-show="errors.has('url')") {{ errors.first('url') }}
+          .controls
+            .controls__group
+              button.button.button--small(type="submit") Save
 </template>
 
 <script>
+  /**
+   * NOTE: This is a TEMPORARY component
+   * 
+   * This will eventually be replaced with a standalone
+   * character feature that allows for a full character
+   * sheet.
+   * 
+   * Only perform bug fixes and minor enhancements here.
+   */
   import { mapState } from 'vuex'
 
   import Icon from '@/components/ui/Icon.vue'
@@ -37,7 +54,8 @@
     data () {
       return {
         name: this.character.name,
-        avatar: this.character.avatar
+        avatar: this.character.avatar,
+        url: this.character.url || ''
       }
     },
     computed: {
@@ -46,6 +64,9 @@
       }),
       isOwner () {
         return this.currentUser && this.currentUser.uid === this.character.player
+      },
+      showSheetLink () {
+        return this.character.url.length > 0
       }
     },
     methods: {
@@ -55,7 +76,8 @@
             this.$store.dispatch('characters/update', {
               id: this.character.id,
               name: this.name,
-              avatar: this.avatar
+              avatar: this.avatar,
+              url: this.url
             })
             this.$refs.editCharacterModal.close()
           }
@@ -98,15 +120,19 @@
   }
 
   .edit-character-form {
-    display: flex;
-
     &__avatar {
-      max-width: 50px;
-      flex-shrink: 0;
-    }
+      display: flex;
+      align-items: flex-start;
 
-    &__fields {
-      padding-left: 10px;
+      .form-input {
+        flex-grow: 1;
+      }
+
+      img {
+        flex-shrink: 0;
+        max-width: 66px;
+        margin-right: 10px;
+      }
     }
   }
 </style>

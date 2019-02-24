@@ -12,14 +12,15 @@
             option(value="oldest") Oldest First
         primary-button(v-if="isGameMaster", label="New Entry", :small="true", @click="newEntry")
     .game-journal__entries
-      div(v-if="isGameMaster || entry.published", v-for="entry in journalEntries", :key="entry.id")
-        journal-editor(
-          v-if="isGameMaster", 
-          :entry="entry",
-          @remove="removeEntry(entry.id)"
-          @save="saveEntry"
-        )
-        journal-entry(v-else-if="entry.published", :entry="entry")
+      transition-group(name="slide-fade-left")
+        div(v-if="isGameMaster || entry.published", v-for="entry in journalEntries", :key="entry.id")
+          journal-editor(
+            v-if="isGameMaster", 
+            :entry="entry",
+            @remove="removeEntry(entry.id)"
+            @save="saveEntry"
+          )
+          journal-entry(v-else-if="entry.published", :entry="entry")
 </template>
 
 <script>

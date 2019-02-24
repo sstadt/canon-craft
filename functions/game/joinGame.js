@@ -54,7 +54,8 @@ module.exports = functions.https.onCall((invite, context) => {
             game: gameId,
             player: userId,
             name: 'New Character',
-            avatar: '//placehold.it/80x80'
+            avatar: '//placehold.it/80x80',
+            url: ''
           })
         }
 

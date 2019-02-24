@@ -30,7 +30,8 @@
     padding-right: 30px;
   }
 
-  &.error {
+  &.error,
+  .error {
     color: $color--error;
   }
 }

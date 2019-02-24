@@ -23,7 +23,7 @@
               span.error(v-show="errors.has('avatar')") {{ errors.first('avatar') }}
           .form-input
             label Character Sheet URL
-            input(type="text", name="url", placeholder="https://www.dndbeyond.com/profile/UserName/characters/1234567", v-model="url", v-validate="'required'")
+            input(type="text", name="url", placeholder="https://www.dndbeyond.com/profile/UserName/characters/1234567", v-model="url", v-validate="'url'")
             span.error(v-show="errors.has('url')") {{ errors.first('url') }}
           .controls
             .controls__group

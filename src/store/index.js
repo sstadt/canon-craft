@@ -4,13 +4,14 @@ import Vuex from 'vuex'
 
 import { auth, db } from './firebase.js'
 
+import characters from './modules/characters'
+import games from './modules/games'
+import journal from './modules/journal'
 import loading from './modules/loading'
+import posts from './modules/posts'
+import quests from './modules/quests'
 import toast from './modules/toast'
 import user from './modules/user'
-import games from './modules/games'
-import characters from './modules/characters'
-import quests from './modules/quests'
-import journal from './modules/journal'
 
 Vue.use(Vuex)
 
@@ -24,12 +25,13 @@ const state = {
 export default new Vuex.Store({
   state,
   modules: {
-    loading,
-    toast,
-    user,
-    games,
     characters,
+    games,
+    journal,
+    loading,
+    posts,
     quests,
-    journal
+    toast,
+    user
   }
 })

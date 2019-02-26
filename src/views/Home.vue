@@ -33,6 +33,9 @@ var count = 1
 export default {
   name: 'Home',
   components: { Hero },
+  created () {
+    this.$store.dispatch('posts/populate')
+  },
   methods: {
     toast (message) {
       this.$store.dispatch('toast/send', `${count}: ${message}`)

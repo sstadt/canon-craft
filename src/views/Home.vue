@@ -1,46 +1,49 @@
 
 <template lang="pug">
   .home
-    hero(title="Lorem Ipsum Dolor")
-      router-link.button.button--small(to="/games") My Games
-      a.button.button--small(@click="toast('foo')") Toast
+    hero(:title="firstPost.title", :image="firstPost.image.url")
+      //- a.button.button--small Toast
+      router-link.button.button--small(to="/games", v-if="currentUser.uid") My Games
     .container
       .row.reverse-tablet-up
         .column.small-12.medium-3
-          a.card.card--quest(v-for="n in 2")
-            img(src="//placehold.it/335x150")
-            .card__content
-              h3.card__title Recent Quest
-              p.card__status 0/1: Lorem Ipsum
-              p.card__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+          quest-card(v-for="n in 2", :key="n")
         .column.small-12.medium-9
           .feature
-            h2.feature__title Most Recent Blog Post
-            p.feature__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. #[a.feature__cta read more]
-          .row.small-up-1.medium-up-3.large-up-4
-            .column(v-for="n in 6")
-              a.card.card--lore
-                img(src="//placehold.it/335x150")
-                .card__content
-                  h3.card__title Recent Post
+            //- h2.feature__title Most Recent Blog Post
+            .u-content(v-html="featureSynopsis") #[a.feature__cta read more]
+          //- .row.small-up-1.medium-up-3.large-up-4
+          //-   .column(v-for="n in 6")
+          //-     post-card
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+
 import Hero from '@/components/ui/Hero.vue'
+import PostCard from '@/components/card/PostCard.vue'
+import QuestCard from '@/components/card/QuestCard.vue'
 
 var count = 1
 
 export default {
   name: 'Home',
-  components: { Hero },
+  components: { Hero, PostCard, QuestCard },
+  computed: {
+    ...mapState({
+      posts: state => state.posts.all,
+      currentUser: state => state.user.currentUser
+    }),
+    firstPost () {
+      return (this.posts.length > 0) ? this.posts[0] : {}
+    },
+    featureSynopsis () {
+      return (this.firstPost.content) ? this.$sanitize(this.firstPost.content.html) : ''
+    }
+  },
   created () {
     this.$store.dispatch('posts/populate')
-  },
-  methods: {
-    toast (message) {
-      this.$store.dispatch('toast/send', `${count}: ${message}`)
-      count++
-    }
   }
 }
 </script>

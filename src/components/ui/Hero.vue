@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  .hero
+  .hero(:style="heroBackgroundImage")
     .container
       h1.hero__title {{ title }}
       .hero__controls
@@ -11,14 +11,21 @@
   export default {
     name: 'Hero',
     props: {
-      title: String
+      title: String,
+      image: String
+    },
+    computed: {
+      heroBackgroundImage () {
+        return {
+          'background-image': `url(${this.image})`
+        }
+      }
     }
   }
 </script>
 
 <style scoped lang="scss">
   .hero {
-    background-image: url('//placehold.it/1920x1080');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -43,6 +50,7 @@
       color: $color-white;
       font-weight: normal;
       letter-spacing: 1.2px;
+      margin-bottom: $content-gutter;
     }
 
     &__controls > * {

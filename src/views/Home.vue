@@ -1,9 +1,9 @@
 
 <template lang="pug">
   .home
-    hero(v-if="firstPost.image", :title="firstPost.title", :image="firstPost.image.url")
-      //- a.button.button--small Toast
-      router-link.button.button--small(to="/games", v-if="currentUser && currentUser.uid") My Games
+    transition(name="slide-fade-down")
+      hero(v-if="firstPost.image", :title="firstPost.title", :image="firstPost.image.url")
+        router-link.button.button--small(to="/games", v-if="currentUser && currentUser.uid") My Games
     .container
       .row
         .column.small-12.medium-9

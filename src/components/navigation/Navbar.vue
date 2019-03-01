@@ -37,10 +37,8 @@
     background-color: $body-bg--dark;
 
     &__container {
-      @include tablet-up {
-        display: flex;
-        justify-content: space-between;
-      }
+      display: flex;
+      justify-content: space-between;
     }
 
     &__right {

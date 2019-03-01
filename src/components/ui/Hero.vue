@@ -51,6 +51,10 @@
       font-weight: normal;
       letter-spacing: 1.2px;
       margin-bottom: $content-gutter;
+
+      @include tablet-up {
+        font-size: rem(40);
+      }
     }
 
     &__controls > * {

@@ -44,6 +44,16 @@ p, ul, li {
   }
 }
 
+.u-content {
+  p {
+    line-height: 1.6;
+
+    @include tablet-up {
+      line-height: 2;
+    }
+  }
+}
+
 /* Links
 --------------------------------- */
 

@@ -1,13 +1,11 @@
 
 <template lang="pug">
   .home
-    hero(:title="firstPost.title", :image="firstPost.image.url")
+    hero(v-if="firstPost.image", :title="firstPost.title", :image="firstPost.image.url")
       //- a.button.button--small Toast
-      router-link.button.button--small(to="/games", v-if="currentUser.uid") My Games
+      router-link.button.button--small(to="/games", v-if="currentUser && currentUser.uid") My Games
     .container
-      .row.reverse-tablet-up
-        .column.small-12.medium-3
-          quest-card(v-for="n in 2", :key="n")
+      .row
         .column.small-12.medium-9
           .feature
             //- h2.feature__title Most Recent Blog Post
@@ -15,6 +13,8 @@
           //- .row.small-up-1.medium-up-3.large-up-4
           //-   .column(v-for="n in 6")
           //-     post-card
+        .column.small-12.medium-3
+          quest-card(v-for="n in 2", :key="n")
 </template>
 
 <script>

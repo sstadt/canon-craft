@@ -8,7 +8,7 @@
       .navbar__right
         transition-group(name="fade")
           router-link.navbar__link(to="/games", key="games", v-if="loggedIn") Games
-          router-link.navbar__link(to="/styleguide", key="styleguide") Styleguide
+          //- router-link.navbar__link(to="/styleguide", key="styleguide") Styleguide
         user-login
 </template>
 

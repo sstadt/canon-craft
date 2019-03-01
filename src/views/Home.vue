@@ -25,8 +25,6 @@ import Hero from '@/components/ui/Hero.vue'
 import PostCard from '@/components/card/PostCard.vue'
 import QuestCard from '@/components/card/QuestCard.vue'
 
-var count = 1
-
 export default {
   name: 'Home',
   components: { Hero, PostCard, QuestCard },

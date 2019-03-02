@@ -17,30 +17,33 @@
             span :
             textarea(placeholder="Don't forget the objective!", rows="1", v-model="objective.description")
             transition(name="fade")
-              button.button.button--icon(@click="removeObjective(index)", v-if="quest.objectives.length > 1")
-                span.u-hidden Remove Objective
-                icon(name="times", size="12px")
-        a.button.button--text.objective-input--add(@click="addObjective") Add Objective
+              icon-button(v-if="quest.objectives.length > 1", label="Remove Objective", icon="times", size="12px", @click="removeObjective(index)")
+        primary-button(label="Add Objective", :text="true", classes="objective-input--add", @click="addObjective")
       .game-input
         wysiwyg(v-model="quest.description")
       .controls
         .controls__group(v-if="quest.id")
           confirm-button(label="Delete Quest", :small="true", @confirmed="removeQuest")
         .controls__group
-          button.button.button--small.button--secondary(type="button", @click="cancel") Cancel
-          button.button.button--small(type="submit") Save Quest
+          primary-button(label="Cancel", :small="true", :secondary="true", @click="cancel")
+          submit-button(label="Save Quest", :small="true")
 </template>
 
 <script>
   import { Objective as newObjective } from '@/schema/Objective.js'
 
-  import Icon from '@/components/ui/Icon.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+  import SubmitButton from '@/components/buttons/SubmitButton.vue'
+  import IconButton from '@/components/buttons/IconButton.vue'
   import ConfirmButton from '@/components/buttons/ConfirmButton.vue'
 
   export default {
     name: 'QuestForm',
-    components: { Icon, Wysiwyg, ConfirmButton },
+    components: {
+      Wysiwyg, 
+      PrimaryButton, SubmitButton, IconButton, ConfirmButton
+    },
     props: {
       quest: {
         type: Object,

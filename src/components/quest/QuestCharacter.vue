@@ -1,16 +1,17 @@
 
 <template lang="pug">
   .quest__character(:class="charClass")
-    button.button.button--icon(type="button", @click="selected")
-      span.u-hidden {{ buttonLabel }}
-      img.quest__character__image(:src="character.avatar")
+    icon-button(:label="buttonLabel", :image="character.avatar", image-classes="quest__character__image", @click="selected")
 </template>
 
 <script>
   import { mapState } from 'vuex'
 
+  import IconButton from '@/components/buttons/IconButton.vue'
+
   export default {
     name: 'QuestCharacter',
+    components: { IconButton },
     props: {
       character: Object,
       quest: Object
@@ -37,7 +38,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .quest__character {
     display: inline-block;
 

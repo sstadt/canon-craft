@@ -4,18 +4,16 @@
     .modal(v-if="isVisible")
       .modal__overlay(@click="close")
       .modal__content
-        a.button.button--icon.modal__close(href="#", @click.prevent="close")
-          span.u-hidden Close Modal
-          icon(name="times")
+        icon-button(label="Close Modal", icon="times", classes="modal__close", @click="close")
         slot(name="content")
 </template>
 
 <script>
-  import Icon from '@/components/ui/Icon.vue'
+  import IconButton from '@/components/buttons/IconButton.vue'
 
   export default {
     name: 'Modal',
-    components: { Icon },
+    components: { IconButton },
     data() {
       return {
         isVisible: false

@@ -6,7 +6,7 @@
         game-card(:game="game")
       .column(v-if="games.length < 4")
         a.card.card--cta.card--new-game(@click="newGame")
-          button.button.button--secondary New Game
+          primary-button(label="New Game", :secondary="true")
     modal(ref="newGameModal")
       template(slot="content")
         h2 New Game
@@ -21,11 +21,12 @@
   import { mapState } from 'vuex'
 
   import Modal from '@/components/ui/Modal.vue'
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import GameCard from '@/components/card/GameCard.vue'
 
   export default {
     name: 'GameBrowser',
-    components: { Modal, GameCard },
+    components: { Modal, PrimaryButton, GameCard },
     data () {
       return {
         newGameName: ''

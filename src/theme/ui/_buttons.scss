@@ -81,18 +81,15 @@
 
   &--full {
     width: 100%;
-  }
-
-  &--google {
     position: relative;
-
+  
     .icon {
       position: absolute;
       top: 50%;
       left: 12px;
       transform: translateY(-50%);
       fill: $body-text--light;
-    }
+    } 
   }
 
   &--text {

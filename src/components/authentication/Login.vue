@@ -9,27 +9,27 @@
       .form-input
         input(type="password", name="password", placeholder="Password", v-model="password", v-validate="'required'")
         span.error(v-show="errors.has('password')") {{ errors.first('password') }}
-      button.button.button--full(type="submit") Sign In
-    button.button.button--full.button--google(type="button", @click="googleLogin")
-      icon(name="google")
-      span Sign in with Google
+      submit-button(label="Sign In", :wide="true")
+    primary-button(label="Sign in with Google", icon="google", :wide="true", @click="googleLogin")
     .auth__links
       a(href="#", @click.prevent="switchView('Signup')") Sign Up
       a(href="#", @click.prevent="switchView('ForgotPassword')") forgot password?
 </template>
 
 <script>
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+  import SubmitButton from '@/components/buttons/SubmitButton.vue'
   import Icon from '@/components/ui/Icon.vue'
 
   export default {
     name: 'Login',
+    components: { PrimaryButton, SubmitButton, Icon },
     data () {
       return {
         email: '',
         password: ''
       }
     },
-    components: { Icon },
     methods: {
       switchView (view) {
         this.$emit('change-auth-view', view)
@@ -51,9 +51,9 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .login {
-    .button--google {
+    button[type="button"] {
       margin-top: $content-gutter;
     }
   }

@@ -1,12 +1,10 @@
 
 <template lang="pug">
   .quest
-    button.button.button--text.h3.quest__title(type="button", v-if="isGameMaster", @click="editQuest") {{ quest.title }}
-    button.button.button--text.h3.quest__title(type="button", v-else, @click="showDetails") {{ quest.title }}
+    primary-button(v-if="isGameMaster", :text="true", :label="quest.title", classes="h3 quest__title", @click="editQuest")
+    primary-button(v-else, :text="true", :label="quest.title", classes="h3 quest__title", @click="showDetails")
     .quest__characters(v-if="isGameMaster")
-      button.button.button--icon.button--flex.quest__characters__toggle-all(type="button", @click="toggleAll")
-        span.u-hidden Toggle All Characters
-        icon(name="users")
+      icon-button(label="Toggle All Characters", :flex="true", icon="users", classes="quest__characters__toggle-all", @click="toggleAll")
       quest-character(
         v-for="character in characters",
         :key="character.id",
@@ -33,6 +31,8 @@
   import { mapState } from 'vuex'
   import { clone, debounce } from '@/lib/util'
 
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+  import IconButton from '@/components/buttons/IconButton.vue'
   import Missive from '@/components/ui/Missive.vue'
   import Icon from '@/components/ui/Icon.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
@@ -41,10 +41,9 @@
   export default {
     name: 'Quest',
     components: {
-      Missive,
-      Icon,
-      QuestObjective,
-      QuestCharacter
+      PrimaryButton, IconButton,
+      Missive, Icon,
+      QuestObjective, QuestCharacter
     },
     props: {
       quest: Object,

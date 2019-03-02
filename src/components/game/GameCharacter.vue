@@ -5,9 +5,14 @@
       img(:src="character.avatar")
     a.game-character__name(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
     p.game-character__name(v-else) {{ character.name }}
-    a.button.button--icon.game-character__edit(v-if="isOwner", @click="$refs.editCharacterModal.open()")
-      span.u-hidden Edit Character
-      icon(name="quill", size="22px")
+    icon-button(
+      v-if="isOwner",
+      label="Edit Character",
+      icon="quill",
+      size="22px",
+      classes="game-character__edit",
+      @click="$refs.editCharacterModal.open()"
+    )
     modal(ref="editCharacterModal")
       template(slot="content")
         form.edit-character-form(@submit.prevent="updateCharacter", novalidate)
@@ -27,7 +32,7 @@
             span.error(v-show="errors.has('url')") {{ errors.first('url') }}
           .controls
             .controls__group
-              button.button.button--small(type="submit") Save
+              submit-button(label="Save", :small="true")
 </template>
 
 <script>
@@ -42,12 +47,14 @@
    */
   import { mapState } from 'vuex'
 
-  import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
+
+  import SubmitButton from '@/components/buttons/SubmitButton.vue'
+  import IconButton from '@/components/buttons/IconButton.vue'
 
   export default {
     name: 'GameCharacter',
-    components: { Modal, Icon },
+    components: { Modal, SubmitButton, IconButton },
     props: {
       character: Object
     },

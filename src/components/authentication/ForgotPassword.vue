@@ -8,14 +8,17 @@
       .form-input
         input(type="email", name="email", placeholder="Email", v-model="email", v-validate="'required|email'")
         span.error(v-show="errors.has('email')") {{ errors.first('email') }}
-      button.button.button--full(type="submit") Send Reset Instructions
+      submit-button(label="Send Reset Instructons", :wide="true")
     .auth__links
       a(href="#", @click.prevent="switchView('Login')") Login
 </template>
 
 <script>
+  import SubmitButton from '@/components/buttons/SubmitButton.vue'
+
   export default {
     name: 'ForgotPassword',
+    components: { SubmitButton },
     data () {
       return {
         requestSubmitted: false,

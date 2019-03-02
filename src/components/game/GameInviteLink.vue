@@ -6,17 +6,19 @@
     .game-invite__qrcode
       qrcode-vue(:value="inviteLink")
     .game-invite__btn.game-invite__btn--reset
-      button.button.button--text(@click="resetLink",:disabled="!hasInviteLink") Reset Link
+      primary-button(label="Reset Link", :text="true", :disabled="!hasInviteLink", @click="resetLink")
     .game-invite__btn.game-invite__btn--copy
-      button.button.button--text(@click="copyLink") Copy Link
+      primary-button(label="Copy Link", :text="true", @click="copyLink")
 </template>
 
 <script>
   import QrcodeVue from 'qrcode.vue'
 
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+
   export default {
     name: 'GameInviteLink',
-    components: { QrcodeVue },
+    components: { QrcodeVue, PrimaryButton },
     props: {
       slug: String,
       game: String

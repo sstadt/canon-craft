@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  import { getClassesFromString } from '@/lib/util.js'
+
   import Icon from '@/components/ui/Icon.vue'
 
   export default {
@@ -19,6 +21,10 @@
     props: {
       label: String,
       icon: String,
+      classes: {
+        type: String,
+        defalt: ''
+      },
       small: {
         type: Boolean,
         default: false
@@ -28,6 +34,18 @@
         default: false
       },
       secondary: {
+        type: Boolean,
+        default: false
+      },
+      wide: {
+        type: Boolean,
+        deafult: false
+      },
+      text: {
+        type: Boolean,
+        default: false
+      },
+      flex: {
         type: Boolean,
         default: false
       },
@@ -47,11 +65,17 @@
     },
     computed: {
       buttonClass () {
+        let additionalClasses = getClassesFromString(this.classes || '')
+        
         return {
+          ...additionalClasses,
           'button--primary': this.secondary === false,
           'button--secondary': this.secondary === true,
           'button--hollow': this.hollow === true,
-          'button--small': this.small === true
+          'button--small': this.small === true,
+          'button--full': this.wide === true,
+          'button--text': this.text === true,
+          'button--flex': this.flex === true
         }
       },
       iconSize () {

@@ -3,9 +3,7 @@
   .quest-log
     .quest-log__header
       h2.quest-log__title Quest Log
-      a.button.button--icon(@click="createQuest", v-if="isGameMaster")
-        .u-hidden New Quest
-        icon(name="quest")
+      icon-button(v-if="isGameMaster", label="New Quest", icon="quest", @click="createQuest")
     transition(name="fade", mode="out-in")
       .quest-log__quests
         transition-group(name="slide-fade-left")
@@ -36,14 +34,14 @@
   import { getSampleQuest } from '@/lib/config.sample-quests'
   import { clone } from '@/lib/util'
 
-  import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
   import Quest from '@/components/quest/Quest.vue'
   import QuestForm from '@/components/quest/QuestForm.vue'
+  import IconButton from '@/components/buttons/IconButton.vue'
 
   export default {
     name: 'QuestLog',
-    components: { Icon, Modal, Quest, QuestForm },
+    components: { IconButton, Modal, Quest, QuestForm },
     props: {
       gameId: String,
       isGameMaster: Boolean
@@ -108,7 +106,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .quest-log {
     &__header {
       position: relative;

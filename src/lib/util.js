@@ -35,3 +35,13 @@ export const hash = (str) => {
 export const clone = (obj) => {
 	return JSON.parse(JSON.stringify(obj))
 }
+
+export const getClassesFromString = (str) => {
+	let classes = str || ''
+	let classesObj = {}
+	
+	classes.split(' ').forEach(item => 
+		classesObj[item] = true)
+
+	return classesObj
+}

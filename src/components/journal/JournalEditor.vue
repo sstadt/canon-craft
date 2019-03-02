@@ -2,15 +2,18 @@
 <template lang="pug">
   .journal__editor(v-if="entry.id")
     form(@submit.prevent="save", novalidate)
-      .game-input
-        label(:for="titleId") Title
-        input(type="text", name="title", :id="titleId", v-model="entry.title", v-validate="'required'")
-        span.error(v-show="errors.has('title')") {{ errors.first('title') }}
-      .game-input
-        label Date
-        date-picker(v-model="date")
-      .game-input
-        wysiwyg(v-model="entry.description")
+      transition(name="slide-fade-left", mode="out-in")
+        div(v-if="editing")
+          .game-input
+            label(:for="titleId") Title
+            input(type="text", name="title", :id="titleId", v-model="entry.title", v-validate="'required'")
+            span.error(v-show="errors.has('title')") {{ errors.first('title') }}
+          .game-input
+            label Date
+            date-picker(v-model="date")
+          .game-input
+            wysiwyg(v-model="entry.description")
+        journal-entry(v-else, :entry="entry")
       .controls
         .controls__group
           confirm-button(label="Delete", :small="true", @confirmed="removeEntry")
@@ -18,27 +21,34 @@
           .toggle-input
             label {{ publishedLabel }}
             toggle-button(v-model="entry.published")
-          primary-button(label="Save", :submit="true", :small="true")
-          //- TODO: publish/unpublish button
+          submit-button(v-if="editing", label="Save", :small="true")
+          primary-button(v-else, label="Edit", :small="true", @click="editing = true")
 </template>
 
 <script>
   import { clone, debounce } from '@/lib/util'
 
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
-  import ConfirmButton from '@/components/ui/ConfirmButton.vue'
-  import PrimaryButton from '@/components/ui/PrimaryButton.vue'
   import DatePicker from '@/components/ui/DatePicker.vue'
+  import ConfirmButton from '@/components/buttons/ConfirmButton.vue'
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+  import SubmitButton from '@/components/buttons/SubmitButton.vue'
+  import JournalEntry from '@/components/journal/JournalEntry.vue'
 
   export default {
     name: 'JournalEditor',
-    components: { Wysiwyg, ConfirmButton, PrimaryButton, DatePicker },
+    components: {
+      Wysiwyg, ConfirmButton, DatePicker, 
+      PrimaryButton, SubmitButton,
+      JournalEntry
+    },
     props: {
       entry: Object
     },
     data () {
       return {
         date: new Date(this.entry.date.seconds * 1000),
+        editing: false,
         updated: false,
         saving: false
       }
@@ -64,6 +74,7 @@
         }
       },
       save: debounce(function () {
+        console.log('save')
         let updatedEntry = {
           id: this.entry.id,
           title: this.entry.title,
@@ -72,6 +83,7 @@
           description: this.$sanitize(this.entry.description)
         }
         
+        this.editing = false
         this.saving = true
         this.$emit('save', updatedEntry)
       }, 100)

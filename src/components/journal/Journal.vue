@@ -13,7 +13,7 @@
         primary-button(v-if="isGameMaster", label="New Entry", :small="true", @click="newEntry")
     .game-journal__entries
       transition-group(name="slide-fade-left")
-        div(v-if="isGameMaster || entry.published", v-for="entry in journalEntries", :key="entry.id")
+        .game-journal__entry-wrapper(v-if="isGameMaster || entry.published", v-for="entry in journalEntries", :key="entry.id")
           journal-editor(
             v-if="isGameMaster", 
             :entry="entry",
@@ -29,7 +29,7 @@
   import { JournalEntry as newJournalEntry } from '@/schema/JournalEntry.js'
 
   import Icon from '@/components/ui/Icon.vue'
-  import PrimaryButton from '@/components/ui/PrimaryButton.vue'
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import JournalEntry from '@/components/journal/JournalEntry.vue'
   import JournalEditor from '@/components/journal/JournalEditor.vue'
 
@@ -126,6 +126,10 @@
 
     &__search-entries {
       flex-grow: 1;
+    }
+
+    &__entry-wrapper {
+      margin-bottom: $grid-gutter;
     }
   }
 </style>

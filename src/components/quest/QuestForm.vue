@@ -36,7 +36,7 @@
 
   import Icon from '@/components/ui/Icon.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
-  import ConfirmButton from '@/components/ui/ConfirmButton.vue'
+  import ConfirmButton from '@/components/buttons/ConfirmButton.vue'
 
   export default {
     name: 'QuestForm',

@@ -1,7 +1,7 @@
 
 <template lang="pug">
   button.button(
-    :type="buttonType", 
+    type="button", 
     :class="buttonClass", 
     :disabled="disabled", 
     @click="$emit('click')"

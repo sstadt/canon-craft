@@ -74,7 +74,6 @@
         }
       },
       save: debounce(function () {
-        console.log('save')
         let updatedEntry = {
           id: this.entry.id,
           title: this.entry.title,

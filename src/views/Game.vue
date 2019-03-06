@@ -14,7 +14,7 @@
               journal(:is-game-master="isGameMaster")
             tab(heading="Description")
               .game__description(v-if="isGameMaster")
-                wysiwyg(v-model="game.description")
+                wysiwyg(v-model="gameDescription")
               .game__description(v-else, v-html="game.description")
         .column.small-12.medium-4
           game-characters(:characters="characters")
@@ -47,7 +47,8 @@
     data () {
       return {
         isAllowed: false,
-        initialized: false
+        initialized: false,
+        gameDescription: ''
       }
     },
     computed: {
@@ -72,9 +73,9 @@
       characters () {
         return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
       },
-      description () {
-        return this.$sanitize(this.game.description)
-      },
+      // description () {
+      //   return this.game.description
+      // },
       name () {
         return this.game.name
       }
@@ -109,7 +110,7 @@
           this.updateGame()
         }
       },
-      description (newVal, oldVal) {
+      gameDescription (newVal, oldVal) {
         if (this.initialized && this.isGameMaster && oldVal && newVal !== oldVal) {
           this.updateGame()
         }
@@ -168,6 +169,7 @@
       },
       populateGameData () {
         this.initialized = true
+        this.gameDescription = this.game.description
         this.$store.dispatch('characters/populate', this.game.id)
         this.$store.dispatch('journal/populate', this.game.id)
       },
@@ -175,7 +177,7 @@
         let updatedGame = {
           id: this.game.id,
           name: this.game.name,
-          description: this.game.description
+          description: this.gameDescription
         }
 
         this.$store.dispatch('games/update', updatedGame)

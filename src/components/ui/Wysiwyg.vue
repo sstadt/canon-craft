@@ -15,36 +15,18 @@
     editor-menu-bar(:editor="editor")
       .wysiwyg__controls(slot-scope="{ commands, isActive }")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.bold() }", @click="commands.bold", @mousedown.prevent)
-            span.u-hidden Bold
-            icon(name="bold", :size="iconSize")
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.italic() }", @click="commands.italic", @mousedown.prevent)
-            span.u-hidden Italic
-            icon(name="italic", :size="iconSize")
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.underline() }", @click="commands.underline", @mousedown.prevent)
-            span.u-hidden Underline
-            icon(name="underline", :size="iconSize")
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.strike() }", @click="commands.strike", @mousedown.prevent)
-            span.u-hidden Strikethrough
-            icon(name="strikethrough", :size="iconSize")
+          wysiwyg-button(label="Bold", icon="bold", :size="iconSize", :class="{ 'is-active': isActive.bold() }", @click="commands.bold")
+          wysiwyg-button(label="Italic", icon="italic", :size="iconSize", :class="{ 'is-active': isActive.italic() }", @click="commands.italic")
+          wysiwyg-button(label="Underline", icon="underline", :size="iconSize", :class="{ 'is-active': isActive.underline() }", @click="commands.underline")
+          wysiwyg-button(label="Strikethrough", icon="strikethrough", :size="iconSize", :class="{ 'is-active': isActive.strike() }", @click="commands.strike")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.heading({ level: 2 }) }", @click="commands.heading({ level: 2 })", , @mousedown.prevent)
-            span.u-hidden H2
-            icon(name="h2", :size="headingIconSize")
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.heading({ level: 3 }) }", @click="commands.heading({ level: 3 })", @mousedown.prevent)
-            span.u-hidden H3
-            icon(name="h3", :size="headingIconSize")
+          wysiwyg-button(label="H2", icon="h2", :size="headingIconSize", :class="{ 'is-active': isActive.heading({ level: 2 }) }", @click="commands.heading({ level: 2 })")
+          wysiwyg-button(label="H3", icon="h3", :size="headingIconSize", :class="{ 'is-active': isActive.heading({ level: 3 }) }", @click="commands.heading({ level: 3 })")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.bullet_list() }", @click="commands.bullet_list", @mousedown.prevent)
-            span.u-hidden Unordered List
-            icon(name="unordered-list", :size="iconSize")
-          button.button.button--wysiwyg(type="button", :class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list", @mousedown.prevent)
-            span.u-hidden Ordered List
-            icon(name="ordered-list", :size="iconSize")
+          wysiwyg-button(label="Unordered List", icon="unordered-list", :size="iconSize", :class="{ 'is-active': isActive.bullet_list() }", @click="commands.bullet_list")
+          wysiwyg-button(label="Ordered List", icon="ordered-list", :size="iconSize", :class="{ 'is-active': isActive.ordered_list() }", @click="commands.ordered_list")
         .wysiwyg__control-group
-          button.button.button--wysiwyg(type="button", @click="showImagePrompt(commands.image)", @mousedown.prevent)
-            span.u-hidden Add Image
-            icon(name="image", :size="iconSize")
+          wysiwyg-button(label="Add Image", icon="image", :size="iconSize", @click="showImagePrompt(commands.image)")
     editor-content(:editor="editor")
 </template>
 
@@ -57,10 +39,14 @@
   } from 'tiptap-extensions'
 
   import Icon from '@/components/ui/Icon.vue'
+  import WysiwygButton from '@/components/buttons/WysiwygButton.vue'
 
   export default {
     name: 'Wysiwyg',
-    components: { EditorContent, EditorMenuBar, EditorMenuBubble, Icon },
+    components: { 
+      EditorContent, EditorMenuBar, EditorMenuBubble, 
+      Icon, WysiwygButton
+    },
     props: {
       value: String
     },

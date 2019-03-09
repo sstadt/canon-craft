@@ -1,16 +1,24 @@
 
 <template lang="pug">
-  a.card.card--quest
-    img(v-lazy="'//placehold.it/335x150'")
+  router-link.card.card--quest(:to="gameLink")
+    //- img(v-if="quest.image", v-lazy="quest.image")
     .card__content
-      h3.card__title Recent Quest
-      p.card__status 0/1: Lorem Ipsum
-      p.card__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
+      h3.card__title {{ quest.title }}
+      p.card__status(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
+      //- p.card__description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.
 </template>
 
 <script>
   export default {
-    name: 'QuestCard'
+    name: 'QuestCard',
+    props: {
+      quest: Object
+    },
+    computed: {
+      gameLink () {
+        return `/game/${this.quest.game}`
+      }
+    }
   }
 </script>
 

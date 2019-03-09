@@ -4,7 +4,7 @@ const { generateGameLink } = require('../services/game.js');
 
 module.exports = functions.firestore
   .document('games/{gameId}')
-  .onUpdate((change, context) => {
+  .onUpdate(change => {
     const gameData = change.after.data();
 
     if (!gameData.inviteLink) {

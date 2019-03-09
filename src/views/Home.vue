@@ -14,7 +14,7 @@
           //-   .column(v-for="n in 6")
           //-     post-card
         .column.small-12.medium-3
-          quest-card(v-for="n in 2", :key="n")
+          quest-card(v-for="quest in recentQuests", :quest="quest", :key="quest.id")
 </template>
 
 <script>
@@ -31,13 +31,21 @@ export default {
   computed: {
     ...mapState({
       posts: state => state.posts.all,
-      currentUser: state => state.user.currentUser
+      currentUser: state => state.user.currentUser,
+      quests: state => state.quests.all
     }),
     firstPost () {
       return (this.posts.length > 0) ? this.posts[0] : {}
     },
     featureSynopsis () {
       return (this.firstPost.content) ? this.$sanitize(this.firstPost.content.html) : ''
+    },
+    recentQuests () {
+      return this.quests.sort((p, c) => {
+        if (p.last_updated > p.last_updated) return 1
+        if (p.last_updated < c.last_updated) return -1
+        return 0
+      }).slice(0, 3)
     }
   },
   created () {

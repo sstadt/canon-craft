@@ -26,7 +26,6 @@ Vue.use(VueMoment)
 Vue.use(ToggleButton)
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: '/images/loader.gif',
   loading: '/images/loader.gif',
   attempt: 1
 })

@@ -73,9 +73,6 @@
       characters () {
         return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
       },
-      // description () {
-      //   return this.game.description
-      // },
       name () {
         return this.game.name
       }

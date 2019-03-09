@@ -5,6 +5,7 @@ import VueSanitize from 'vue-sanitize'
 import VeeValidate from 'vee-validate'
 import VueMoment from 'vue-moment'
 import ToggleButton from 'vue-js-toggle-button'
+import VueLazyload from 'vue-lazyload'
 
 import App from './App.vue'
 
@@ -23,6 +24,12 @@ Vue.use(VueSanitize, sanitizeConfig)
 Vue.use(VeeValidate)
 Vue.use(VueMoment)
 Vue.use(ToggleButton)
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: '/images/loader.gif',
+  loading: '/images/loader.gif',
+  attempt: 1
+})
 
 new Vue({
   router,

@@ -6,7 +6,7 @@
     :disabled="disabled", 
     @click="$emit('click')"
   )
-    img(v-if="image", :src="image", :class="imgClass")
+    img(v-if="image", v-lazy="image", :class="imgClass")
     icon(v-else="icon", :name="icon", :size="size")
     span.u-hidden {{ label }}
 </template>

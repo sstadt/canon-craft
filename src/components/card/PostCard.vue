@@ -1,7 +1,7 @@
 
 <template lang="pug">
   a.card.card--lore
-    img(src="//placehold.it/335x150")
+    img(v-lazy="'//placehold.it/335x150'")
     .card__content
       h3.card__title Recent Post
 </template>

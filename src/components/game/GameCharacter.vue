@@ -2,7 +2,7 @@
 <template lang="pug">
   .game-character
     .game-character__avatar
-      img(:src="character.avatar")
+      img(v-lazy="character.avatar")
     a.game-character__name(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
     p.game-character__name(v-else) {{ character.name }}
     icon-button(
@@ -21,7 +21,7 @@
             input(type="text", name="name", placeholder="Character Name", v-model="name", v-validate="'required'")
             span.error(v-show="errors.has('name')") {{ errors.first('name') }}
           .edit-character-form__avatar
-            img(:src="avatar")
+            img(v-lazy="avatar")
             .form-input
               label Avatar
               input(type="text", name="avatar", placeholder="Character Image", v-model="avatar", v-validate="'required'")

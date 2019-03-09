@@ -1,7 +1,7 @@
 
 <template lang="pug">
   router-link.card.card--game(:to="gameLink")
-    img(src="//placehold.it/335x150")
+    img(v-lazy="'//placehold.it/335x150'")
     .card__content
       h3.card__title {{ game.name }}
       p.card__description Your Role: {{ role }}

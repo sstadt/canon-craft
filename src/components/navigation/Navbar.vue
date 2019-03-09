@@ -4,7 +4,7 @@
     .navbar__container.container
       .navbar__left
         router-link.navbar__logo(to="/")
-          img(src="@/assets/images/logo-CanonCraft.svg")
+          img(src="/images/logo-CanonCraft.svg")
       .navbar__right
         transition-group(name="fade")
           router-link.navbar__link(to="/games", key="games", v-if="loggedIn") Games

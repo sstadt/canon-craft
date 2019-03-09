@@ -10,4 +10,11 @@ html, body {
 
 img {
   max-width: 100%;
+
+  &[lazy="error"],
+  &[lazy="loading"] {
+    margin: 0 auto;
+    display: block;
+    max-width: 30px;
+  }
 }

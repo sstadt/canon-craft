@@ -5,9 +5,9 @@
       .modal__overlay
       .modal__content
         icon-button(label="Close Modal", icon="times", classes="modal__close", @click="close")
-        h3.missive__title(v-if="title") {{ title }}
-        transition(name="slide-fade-down")
-          .missive__content(v-if="showText")
+        transition-group(name="fade")
+          h3.missive__title(v-if="title && showText", key="title") {{ title }}
+          .missive__content(v-if="showText", key="body")
             slot(name="content")
 </template>
 

@@ -79,7 +79,7 @@
         }
       },
       iconSize () {
-        return (this.small) ? 12 : 16
+        return (this.small) ? '12px' : '16px'
       }
     }
   }

@@ -37,8 +37,12 @@
 
 <style scoped lang="scss">
   .icon {
-    fill: #000;
+    fill: $body-text--main;
     transition: 0.3s ease all;
+
+    .missive & {
+      fill: $body-text--light;
+    }
 
     &--underline {
       transform: translateY(22%);

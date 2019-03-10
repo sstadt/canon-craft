@@ -97,5 +97,5 @@ $container-max-width: 1600px;
 //   Exports
 // ---------------------------------
 
-@value breakTablet: $break--tablet;
-@value breakDesktop: $break--desktop;
+@value breakTablet: #{$break--tablet};
+@value breakDesktop: #{$break--desktop};

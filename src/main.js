@@ -15,6 +15,8 @@ import store from './store'
 
 import sanitizeConfig from './lib/config.sanitize.js'
 
+const cssVars = require('./theme/_settings.scss')
+
 // vendor css
 // require('node/module/style.css')
 
@@ -32,10 +34,12 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 
+console.log(cssVars)
+
 Vue.use(VueMq, {
   breakpoints: {
-    mobile: 768,
-    tablet: 1024,
+    mobile: parseInt(cssVars.breakTablet, 10),
+    tablet: parseInt(cssVars.breakDesktop, 10),
     desktop: Infinity
   }
 })

@@ -97,12 +97,29 @@
     padding: 0;
     letter-spacing: normal;
 
+    .icon {
+      fill: $color--primary;
+      vertical-align: middle;
+
+      &:not(:last-child) {
+        margin-right: 4px;
+      }
+
+      &:not(:first-child) {
+        margin-left: 4px;
+      }
+    }
+
     &, &:hover {
       background-color: transparent;
     }
 
     &:hover {
       color: $color--primary--hover;
+
+      .icon {
+        fill: $color--primary--hover;
+      }
     }
   }
 

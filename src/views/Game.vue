@@ -6,16 +6,16 @@
         .column.small-12.medium-8
           .game-input.game-input--header(v-if="isGameMaster")
             input.h1(type="text", v-model="game.name")
-          h1.u-mb(v-else)
-            span.game__title {{ game.name }}
+          h1.game__title(v-else)
+            span {{ game.name }}
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
           game-characters(v-if="$mq === 'mobile'", :characters="characters")
           tabs
-            tab(heading="Description")
+            tab(heading="Description", :selected="true")
               .game__description(v-if="isGameMaster")
                 wysiwyg(v-model="gameDescription")
               .game__description(v-else, v-html="game.description")
-            tab(heading="Journal", :selected="true")
+            tab(heading="Journal")
               journal(:is-game-master="isGameMaster")
             tab(v-if="$mq === 'mobile'", heading="Quest Log")
               quest-log(:game-id="game.id", :is-game-master="isGameMaster")
@@ -189,7 +189,9 @@
 <style lang="scss">
   .game {
     &__title {
-      margin-right: 10px;
+      @include tablet-up {
+        margin-bottom: $grid-gutter;
+      }
     }
 
     [contenteditable="true"]:focus {

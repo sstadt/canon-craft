@@ -1,7 +1,8 @@
 
 <template lang="pug">
   .game-characters
-    game-character(v-for="character in characters", :character="character", :key="character.id")
+    game-character(v-for="n in 6", :character="characters[0]", :key="n")
+    //- game-character(v-for="character in characters", :character="character", :key="character.id")
 </template>
 
 <script>
@@ -18,6 +19,13 @@
 
 <style scoped lang="scss">
   .game-characters {
-    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+
+    @include mobile-only {
+      margin-top: 20px;
+      margin-bottom: 0;
+    }
   }
 </style>

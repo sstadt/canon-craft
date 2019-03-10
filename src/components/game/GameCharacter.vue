@@ -1,18 +1,13 @@
 
 <template lang="pug">
   .game-character
-    .game-character__avatar
+    icon-button.game-character__avatar(v-if="isOwner", label="Edit Character", :image="character.avatar", @click="$refs.editCharacterModal.open()")
+    a.game-character__avatar(v-else-if="showSheetLink", :href="character.url", target="_blank")
       img(v-lazy="character.avatar")
-    a.game-character__name(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
-    p.game-character__name(v-else) {{ character.name }}
-    icon-button(
-      v-if="isOwner",
-      label="Edit Character",
-      icon="quill",
-      size="22px",
-      classes="game-character__edit",
-      @click="$refs.editCharacterModal.open()"
-    )
+    .game-character__avatar(v-else)
+      img(v-lazy="character.avatar")
+    a.game-character__name.u-hidden-mobile-only(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
+    p.game-character__name.u-hidden-mobile-only(v-else) {{ character.name }}
     modal(ref="editCharacterModal")
       template(slot="content")
         form.edit-character-form(@submit.prevent="updateCharacter", novalidate)
@@ -27,8 +22,12 @@
               input(type="text", name="avatar", placeholder="Character Image", v-model="avatar", v-validate="'required'")
               span.error(v-show="errors.has('avatar')") {{ errors.first('avatar') }}
           .form-input
-            label Character Sheet URL
+            label 
+              span Character Sheet URL
             input(type="text", name="url", placeholder="https://www.dndbeyond.com/profile/UserName/characters/1234567", v-model="url", v-validate="'url'")
+            a.button.button--text(v-if="!errors.has('url') && url.length > 0", :href="url", target="_blank")
+              span open character
+              icon(name="external-link", size="12px")
             span.error(v-show="errors.has('url')") {{ errors.first('url') }}
           .controls
             .controls__group
@@ -47,6 +46,7 @@
    */
   import { mapState } from 'vuex'
 
+  import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
 
   import SubmitButton from '@/components/buttons/SubmitButton.vue'
@@ -54,7 +54,7 @@
 
   export default {
     name: 'GameCharacter',
-    components: { Modal, SubmitButton, IconButton },
+    components: { Icon, Modal, SubmitButton, IconButton },
     props: {
       character: Object
     },
@@ -97,17 +97,25 @@
 <style scoped lang="scss">
   .game-character {
     position: relative;
-    padding-right: 30px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 15px;
 
-    &:not(:last-child) {
-      margin-bottom: 10px;
+    @include mobile-only {
+      margin-right: 15px;
+    }
+
+    @include tablet-up {
+      width: calc(50% - 10px);
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
     }
 
     &__avatar {
-      max-width: 34px;
+      max-width: 40px;
       flex-shrink: 0;
     }
 

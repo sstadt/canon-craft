@@ -104,6 +104,12 @@
   display: none !important;
 }
 
+.u-hidden-mobile-only {
+  @include mobile-only {
+    display: none !important;
+  }
+}
+
 /* Misc
 --------------------------------- */
 

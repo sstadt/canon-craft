@@ -92,3 +92,10 @@ $grid-column-count: 12;
 $block-grid-column-count: 8;
 
 $container-max-width: 1600px;
+
+// ---------------------------------
+//   Exports
+// ---------------------------------
+
+@value breakTablet: $break--tablet;
+@value breakDesktop: $break--desktop;

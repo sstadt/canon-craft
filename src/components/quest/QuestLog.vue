@@ -1,9 +1,12 @@
 
 <template lang="pug">
   .quest-log
-    .quest-log__header
+    .quest-log__header(v-if="$mq !== 'mobile'")
       h2.quest-log__title Quest Log
-      icon-button(v-if="isGameMaster", label="New Quest", icon="quest", @click="createQuest")
+      icon-button(v-if="isGameMaster", label="New Quest", icon="add-quest", @click="createQuest")
+    .controls(v-if="$mq === 'mobile' && isGameMaster")
+      .controls__group
+        primary-button(label="New Quest", :small="true", @click="createQuest")
     transition(name="fade", mode="out-in")
       .quest-log__quests
         transition-group(name="slide-fade-left")
@@ -13,7 +16,7 @@
             :game-id="gameId",
             :is-game-master="isGameMaster",
             :key="quest.id",
-            @edit="editQuest(quest)"
+            @edit="editQuest(quest)",
             @update="updateQuest"
           )
       //- .content-loader(v-else)
@@ -38,10 +41,14 @@
   import Quest from '@/components/quest/Quest.vue'
   import QuestForm from '@/components/quest/QuestForm.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
 
   export default {
     name: 'QuestLog',
-    components: { IconButton, Modal, Quest, QuestForm },
+    components: { 
+      IconButton, PrimaryButton, Modal, 
+      Quest, QuestForm
+    },
     props: {
       gameId: String,
       isGameMaster: Boolean
@@ -111,11 +118,18 @@
     &__header {
       position: relative;
 
-      .button {
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
+      @include mobile-only {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      @include tablet-up {
+        .button {
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+        }
       }
     }
 

@@ -21,6 +21,7 @@
     "vue-lazyload": "^1.2.6",
     "vue-markdown": "^2.2.4",
     "vue-moment": "^4.0.0",
+    "vue-mq": "^1.0.1",
     "vue-router": "^3.0.1",
     "vue-sanitize": "^0.2.0",
     "vue-svg-inline-loader": "^1.2.6",

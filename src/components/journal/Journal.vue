@@ -1,16 +1,15 @@
 
 <template lang="pug">
   .game-journal
-    .controls
-      .controls__group.game-journal__controls
-        .controls-input.icon-input.game-journal__search-entries
-          icon(name="search", size="14")
-          input(type="text", v-model="searchParam", placeholder="Search Journal Entries")
-        .controls-input.select
-          select(v-model="sortBy")
-            option(value="recent") Most Recent
-            option(value="oldest") Oldest First
-        primary-button(v-if="isGameMaster", label="New Entry", :small="true", @click="newEntry")
+    .game-journal__controls
+      .controls-input.icon-input.game-journal__search-entries
+        icon(name="search", size="14")
+        input(type="text", v-model="searchParam", placeholder="Search Journal Entries")
+      .controls-input.select.game-journal__sort-entries
+        select(v-model="sortBy")
+          option(value="recent") Most Recent
+          option(value="oldest") Oldest First
+      primary-button(v-if="isGameMaster", label="New Entry", :small="true", @click="newEntry")
     .game-journal__entries
       transition-group(name="slide-fade-left")
         .game-journal__entry-wrapper(v-if="isGameMaster || entry.published", v-for="entry in journalEntries", :key="entry.id")
@@ -113,9 +112,20 @@
 
 <style scoped lang="scss">
   .game-journal {
+    
     &__controls {
-      margin-bottom: $grid-gutter;
+      display: flex;
       flex-grow: 1;
+      margin-bottom: $content-gutter;
+
+      @include mobile-only {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      @include tablet-up {
+        margin-bottom: $grid-gutter;
+      }
     }
 
     &__entries > *:not(:first-child) {
@@ -126,6 +136,23 @@
 
     &__search-entries {
       flex-grow: 1;
+
+      @include mobile-only {
+        width: calc(100% - 135px);
+      }
+    }
+
+    &__sort-entries {
+      @include mobile-only {
+        width: 135px;
+      }
+    }
+
+    &__search-entries,
+    &__sort-entries {
+      @include mobile-only {
+        margin-bottom: 10px;
+      }
     }
 
     &__entry-wrapper {

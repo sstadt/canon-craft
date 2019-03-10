@@ -8,10 +8,12 @@
       <g id="icon-compass-rose"><img svg-inline src="@/assets/icons/compass-rose.svg" /></g>
       <g id="icon-quill"><img svg-inline src="@/assets/icons/quill.svg" /></g>
       <g id="icon-cog"><img svg-inline src="@/assets/icons/cog.svg" /></g>
-      <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
       <g id="icon-times"><img svg-inline src="@/assets/icons/times.svg" /></g>
       <g id="icon-users"><img svg-inline src="@/assets/icons/users.svg" /></g>
       <g id="icon-search"><img svg-inline src="@/assets/icons/search.svg" /></g>
+      <!-- quest icons -->
+      <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
+      <g id="icon-add-quest"><img svg-inline src="@/assets/icons/add-quest.svg" /></g>
       <!-- wysiwyg icons -->
       <g id="icon-bold"><img svg-inline src="@/assets/icons/bold.svg" /></g>
       <g id="icon-italic"><img svg-inline src="@/assets/icons/italic.svg" /></g>

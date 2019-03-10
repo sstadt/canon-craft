@@ -9,6 +9,7 @@
           h1.u-mb(v-else)
             span.game__title {{ game.name }}
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
+          game-characters(v-if="$mq === 'mobile'", :characters="characters")
           tabs
             tab(heading="Journal", :selected="true")
               journal(:is-game-master="isGameMaster")
@@ -16,7 +17,9 @@
               .game__description(v-if="isGameMaster")
                 wysiwyg(v-model="gameDescription")
               .game__description(v-else, v-html="game.description")
-        .column.small-12.medium-4
+            tab(v-if="$mq === 'mobile'", heading="Quest Log")
+              quest-log(:game-id="game.id", :is-game-master="isGameMaster")
+        .column.small-12.medium-4(v-if="$mq !== 'mobile'")
           game-characters(:characters="characters")
           quest-log(:game-id="game.id", :is-game-master="isGameMaster")
 </template>

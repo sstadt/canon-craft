@@ -1,5 +1,6 @@
 
 import Vue from 'vue'
+import './registerServiceWorker'
 
 import VueSanitize from 'vue-sanitize'
 import VeeValidate from 'vee-validate'
@@ -30,11 +31,9 @@ Vue.use(ToggleButton)
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  loading: '/images/loader.gif',
+  loading: '/img/loader.gif',
   attempt: 1
 })
-
-console.log(cssVars)
 
 Vue.use(VueMq, {
   breakpoints: {

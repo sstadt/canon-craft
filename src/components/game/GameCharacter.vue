@@ -3,12 +3,12 @@
   .game-character
     icon-button.game-character__avatar(v-if="isOwner", label="Edit Character", :image="character.avatar", @click="$refs.editCharacterModal.open()")
     a.game-character__avatar(v-else-if="showSheetLink", :href="character.url", target="_blank")
-      img(v-lazy="character.avatar")
+      img(:src="avatar")
     .game-character__avatar(v-else)
-      img(v-lazy="character.avatar")
+      img(:src="avatar")
     a.game-character__name.u-hidden-mobile-only(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
     p.game-character__name.u-hidden-mobile-only(v-else) {{ character.name }}
-    modal(ref="editCharacterModal")
+    modal(v-if="isOwner", ref="editCharacterModal")
       template(slot="content")
         form.edit-character-form(@submit.prevent="updateCharacter", novalidate)
           .form-input
@@ -61,7 +61,6 @@
     data () {
       return {
         name: this.character.name,
-        avatar: this.character.avatar,
         url: this.character.url || ''
       }
     },
@@ -74,6 +73,9 @@
       },
       showSheetLink () {
         return this.character.url.length > 0
+      },
+      avatar () {
+        return (this.character.avatar.length > 0) ? this.character.avatar : '/img/ph-CharacterAvatar.jpg';
       }
     },
     methods: {

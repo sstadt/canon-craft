@@ -3,9 +3,9 @@
   .game-character
     icon-button.game-character__avatar(v-if="isOwner", label="Edit Character", :image="character.avatar", @click="$refs.editCharacterModal.open()")
     a.game-character__avatar(v-else-if="showSheetLink", :href="character.url", target="_blank")
-      img(:src="avatar")
+      img(v-lazy="avatar")
     .game-character__avatar(v-else)
-      img(:src="avatar")
+      img(v-lazy="avatar")
     a.game-character__name.u-hidden-mobile-only(v-if="showSheetLink", :href="character.url", target="_blank") {{ character.name }}
     p.game-character__name.u-hidden-mobile-only(v-else) {{ character.name }}
     modal(v-if="isOwner", ref="editCharacterModal")

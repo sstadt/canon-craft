@@ -1,7 +1,7 @@
 
 {
-  "name": "canon-craft",
-  "short_name": "canon-craft",
+  "name": "CanonCraft",
+  "short_name": "Canon Craft",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -16,6 +16,6 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
+  "background_color": "#410001",
   "theme_color": "#4DBA87"
 }

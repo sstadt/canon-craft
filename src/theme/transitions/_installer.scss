@@ -1,0 +1,9 @@
+
+
+.installer-enter-active, .installer-leave-active {
+  transition: all .3s ease;
+}
+
+.installer-enter, .installer-leave-active {
+  transform: translateY(calc(100% + #{$grid-gutter}));
+}

@@ -12,6 +12,7 @@
       <g id="icon-users"><img svg-inline src="@/assets/icons/users.svg" /></g>
       <g id="icon-search"><img svg-inline src="@/assets/icons/search.svg" /></g>
       <g id="icon-external-link"><img svg-inline src="@/assets/icons/external-link.svg" /></g>
+      <g id="icon-ios-share"><img svg-inline src="@/assets/icons/ios-share.svg" /></g>
       <!-- quest icons -->
       <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
       <g id="icon-add-quest"><img svg-inline src="@/assets/icons/add-quest.svg" /></g>

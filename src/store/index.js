@@ -4,14 +4,18 @@ import Vuex from 'vuex'
 
 import { auth, db } from './firebase.js'
 
+// game data
 import characters from './modules/characters'
 import games from './modules/games'
 import journal from './modules/journal'
-import loading from './modules/loading'
 import posts from './modules/posts'
 import quests from './modules/quests'
-import toast from './modules/toast'
 import user from './modules/user'
+
+// ui automation
+import loading from './modules/loading'
+import toast from './modules/toast'
+import installer from './modules/installer'
 
 Vue.use(Vuex)
 
@@ -28,10 +32,11 @@ export default new Vuex.Store({
     characters,
     games,
     journal,
-    loading,
     posts,
     quests,
+    user,
+    loading,
     toast,
-    user
+    installer
   }
 })

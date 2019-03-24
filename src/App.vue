@@ -4,6 +4,7 @@
     icon-store
     toast
     loading-indicator
+    installer
     navbar
     .main-content
       transition(name="fade", mode="out-in")
@@ -15,13 +16,14 @@
 
   import Navbar from '@/components/navigation/Navbar.vue'
 
+  import Installer from '@/components/ui/Installer.vue'
   import IconStore from '@/components/ui/IconStore.vue'
   import Toast from '@/components/ui/Toast.vue'
   import LoadingIndicator from '@/components/ui/LoadingIndicator.vue'
 
   export default {
     name: 'App',
-    components: { Navbar, IconStore, LoadingIndicator, Toast },
+    components: { Navbar, Installer, IconStore, LoadingIndicator, Toast },
     data () {
       return {
         dataInitialized: false

@@ -17,7 +17,7 @@ const app = firebase.initializeApp(config)
 const auth = app.auth()
 const db = firebase.firestore()
 const functions = firebase.functions()
-const settings = { timestampsInSnapshots: true }
+const settings = {}
 
 db.settings(settings)
 

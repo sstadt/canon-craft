@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import './registerServiceWorker'
 
+import Vue2TouchEvents from 'vue2-touch-events'
 import VueSanitize from 'vue-sanitize'
 import VeeValidate from 'vee-validate'
 import VueMoment from 'vue-moment'
@@ -24,6 +25,7 @@ const cssVars = require('./theme/_settings.scss')
 // Vue Setup
 Vue.config.productionTip = false
 
+Vue.use(Vue2TouchEvents)
 Vue.use(VueSanitize, sanitizeConfig)
 Vue.use(VeeValidate)
 Vue.use(VueMoment)

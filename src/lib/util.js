@@ -45,3 +45,12 @@ export const getClassesFromString = (str) => {
 
 	return classesObj
 }
+
+export const isIos = () => {
+  return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase())
+}
+
+// Detects if device is in standalone mode
+export const isInStandaloneMode = () => {
+  return ('standalone' in window.navigator) && (window.navigator.standalone)
+}

@@ -47,5 +47,10 @@
     &--underline {
       transform: translateY(22%);
     }
+
+    h1 &, h2 &, h3 &, h4 &, h5 &, h6 &, p & {
+      letter-spacing: 1px;
+      vertical-align: sub;
+    }
   }
 </style>

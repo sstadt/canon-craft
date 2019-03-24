@@ -5,7 +5,7 @@
       img.installer__image(v-lazy="'/img/icons/apple-touch-icon.png'")
       p.installer__instructions
         | Install this webapp on your iPhone: tap 
-        icon(name="ios-share", :size="20")
+        icon(name="ios-share", size="20px")
         |  and then Add to Homescreen
 </template>
 

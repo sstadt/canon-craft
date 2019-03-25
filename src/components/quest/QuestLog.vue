@@ -1,6 +1,7 @@
 
 <template lang="pug">
   .quest-log
+    primary-button(label="Open Side Panel", @click="$refs.sidePanel.open()")
     .quest-log__header(v-if="$mq !== 'mobile'")
       h2.quest-log__title Quest Log
       icon-button(v-if="isGameMaster", label="New Quest", icon="add-quest", @click="createQuest")
@@ -22,6 +23,55 @@
       //- .content-loader(v-else)
         p.content-loader__title Loading Quests...
         icon(name="compass-rose", size="30px")
+    side-panel(ref="sidePanel", title="Side Panel")
+      template(slot="content")
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
+        p foo
     modal(ref="newQuestModal", v-if="isGameMaster")
       template(slot="content")
         quest-form(:quest="newQuest", @submit="saveNewQuest", @cancel="closeNewQuestModal")
@@ -38,6 +88,7 @@
   import { clone } from '@/lib/util'
 
   import Modal from '@/components/ui/Modal.vue'
+  import SidePanel from '@/components/ui/SidePanel.vue'
   import Quest from '@/components/quest/Quest.vue'
   import QuestForm from '@/components/quest/QuestForm.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
@@ -46,7 +97,7 @@
   export default {
     name: 'QuestLog',
     components: { 
-      IconButton, PrimaryButton, Modal, 
+      IconButton, PrimaryButton, Modal, SidePanel,
       Quest, QuestForm
     },
     props: {

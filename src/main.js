@@ -16,6 +16,7 @@ import router from './router'
 import store from './store'
 
 import sanitizeConfig from './lib/config.sanitize.js'
+import clickOutside from './directives/click-outside.js'
 
 const cssVars = require('./theme/_settings.scss')
 
@@ -44,6 +45,8 @@ Vue.use(VueMq, {
     desktop: Infinity
   }
 })
+
+Vue.directive('click-outside', clickOutside)
 
 new Vue({
   router,

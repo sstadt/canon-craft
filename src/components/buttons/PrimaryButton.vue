@@ -2,9 +2,10 @@
 <template lang="pug">
   button.button(
     type="button", 
+    ref="button",
     :class="buttonClass", 
     :disabled="disabled", 
-    @click="$emit('click')"
+    @click.stop="$emit('click')"
   )
     icon(v-if="icon", :name="icon", :size="iconSize")
     span {{ label }}

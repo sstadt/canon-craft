@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import './registerServiceWorker'
 
+import vClickOutside from 'v-click-outside'
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueSanitize from 'vue-sanitize'
 import VeeValidate from 'vee-validate'
@@ -16,7 +17,6 @@ import router from './router'
 import store from './store'
 
 import sanitizeConfig from './lib/config.sanitize.js'
-import clickOutside from './directives/click-outside.js'
 
 const cssVars = require('./theme/_settings.scss')
 
@@ -26,6 +26,7 @@ const cssVars = require('./theme/_settings.scss')
 // Vue Setup
 Vue.config.productionTip = false
 
+Vue.use(vClickOutside)
 Vue.use(Vue2TouchEvents)
 Vue.use(VueSanitize, sanitizeConfig)
 Vue.use(VeeValidate)
@@ -46,7 +47,7 @@ Vue.use(VueMq, {
   }
 })
 
-Vue.directive('click-outside', clickOutside)
+// Vue.directive('click-outside', clickOutside)
 
 new Vue({
   router,

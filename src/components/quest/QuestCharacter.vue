@@ -47,7 +47,7 @@
     }
 
     &.active .button {
-      border-color: $color--warning;
+      border-color: $body-bg--dark;
     }
 
     &__image {

@@ -20,11 +20,11 @@
         :is-game-master="isGameMaster",
         @update-objective="updateObjectives"
       )
-    missive(ref="questDetails", :title="quest.title")
+    side-panel(ref="questDetails", :title="quest.title")
       template(slot="content")
         .objectives
           p(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
-        div(v-html="description")
+        .content(v-html="description")
 </template>
 
 <script>
@@ -33,8 +33,8 @@
 
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
-  import Missive from '@/components/ui/Missive.vue'
   import Icon from '@/components/ui/Icon.vue'
+  import SidePanel from '@/components/ui/SidePanel.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
   import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
@@ -42,7 +42,7 @@
     name: 'Quest',
     components: {
       PrimaryButton, IconButton,
-      Missive, Icon,
+      Icon, SidePanel,
       QuestObjective, QuestCharacter
     },
     props: {
@@ -89,7 +89,7 @@
         }
 
         this.$emit('update', updatedQuest)
-      }, 500),
+      }, 300),
       toggleAll: debounce(function () {
         let newPlayers = []
 
@@ -101,7 +101,7 @@
           id: this.quest.id,
           players: newPlayers
         });
-      }),
+      }, 300),
       showDetails () {
         this.$refs.questDetails.open()
       }
@@ -137,7 +137,7 @@
     }
 
     .objectives {
-      margin-bottom: 30px;
+      margin-bottom: $content-gutter;
     }
   }
 </style>

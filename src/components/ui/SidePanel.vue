@@ -1,7 +1,7 @@
 
 <template lang="pug">
   transition(name="off-canvas-right")
-    .side-panel(v-if="show", v-touch:swipe.right="close", v-click-outside="dismiss")
+    .side-panel(v-if="show", v-touch:swipe.right="close", v-click-outside="close")
       h2.side-panel__title {{ title }}
       .side-panel__content
         slot(name="content")
@@ -48,15 +48,20 @@
     top: 0;
     right: 0;
     height: 100%;
-    width: 300px;
-    padding: 10px;
+    width: 400px;
     max-width: 90vw;
     background-color: #fff;
     border-left: 5px solid $body-bg--dark;
 
+    &__title {
+      padding: $content-gutter;
+    }
+
     &__content {
+      padding: 0 $content-gutter $content-gutter $content-gutter;
       flex-grow: 1;
       overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 </style>

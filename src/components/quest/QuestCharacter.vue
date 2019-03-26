@@ -1,17 +1,19 @@
 
 <template lang="pug">
   .quest__character(:class="charClass")
+    icon(v-if="isActive", name="check", size="12px")
     icon-button(:label="buttonLabel", :image="character.avatar", image-classes="quest__character__image", @click="selected")
 </template>
 
 <script>
   import { mapState } from 'vuex'
 
+  import Icon from '@/components/ui/Icon.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
 
   export default {
     name: 'QuestCharacter',
-    components: { IconButton },
+    components: { Icon, IconButton },
     props: {
       character: Object,
       quest: Object
@@ -39,15 +41,22 @@
 </script>
 
 <style lang="scss">
+  $quest-character-image-size: 34px;
+
   .quest__character {
     display: inline-block;
+    position: relative;
+
+    & > .icon {
+      position: absolute;
+      top: $quest-character-image-size - 2px;
+      right: 2px;
+      transform: translateY(-100%);
+      fill: $color--success;
+    }
 
     &:not(:last-child) {
       margin-right: 8px;
-    }
-
-    &.active .button {
-      border-color: $body-bg--dark;
     }
 
     &__image {
@@ -57,10 +66,9 @@
 
     .button {
       line-height: 0;
-      border: 4px solid transparent;
       border-radius: 2px;
-      height: 32px;
-      width: 32px;
+      height: $quest-character-image-size;
+      width: $quest-character-image-size;
     }
   }
 </style>

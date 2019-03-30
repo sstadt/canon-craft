@@ -3,7 +3,7 @@
   .journal__entry(v-if="entry.id")
     h3.journal__entry__title {{ entry.title }}
     p.journal__entry__date {{ entryDate | moment('dddd, MMMM Do YYYY') }}
-    .journal__entry__content(v-html="sanitizedContent")
+    .journal__entry__content.content(v-html="sanitizedContent")
 </template>
 
 <script>

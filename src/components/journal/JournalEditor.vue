@@ -6,13 +6,13 @@
         div(v-if="editing")
           .game-input
             label(:for="titleId") Title
-            input(type="text", name="title", :id="titleId", v-model="entry.title", v-validate="'required'")
+            input(type="text", name="title", :id="titleId", v-model="title", v-validate="'required'")
             span.error(v-show="errors.has('title')") {{ errors.first('title') }}
           .game-input
             label Date
             date-picker(v-model="date")
           .game-input
-            wysiwyg(v-model="entry.description")
+            wysiwyg(v-model="description")
         journal-entry(v-else, :entry="entry")
       .controls
         .controls__group
@@ -20,7 +20,7 @@
         .controls__group
           .toggle-input
             label {{ publishedLabel }}
-            toggle-button(v-model="entry.published")
+            toggle-button(v-model="published")
           submit-button(v-if="editing", label="Save", :small="true")
           primary-button(v-else, label="Edit", :small="true", @click="editing = true")
 </template>
@@ -47,6 +47,9 @@
     },
     data () {
       return {
+        title: this.entry.title,
+        description: this.entry.description,
+        published: this.entry.published,
         date: new Date(this.entry.date.seconds * 1000),
         editing: false,
         updated: false,
@@ -57,48 +60,31 @@
       titleId () {
         return `entry_title_${this.entry.id}`
       },
-      isPublished () {
-        return this.entry.published
-      },
       publishedLabel () {
-        return (this.entry.published === true) ? 'Shared' : 'Secret'
+        return (this.published === true) ? 'Shared' : 'Secret'
       }
     },
     methods: {
       removeEntry () {
         this.$emit('remove', this.entry.id)
       },
-      hasUpdated () {
-        if (this.saving === true) {
-          this.saving = false
-        }
-      },
       save: debounce(function () {
         let updatedEntry = {
           id: this.entry.id,
-          title: this.entry.title,
-          published: this.entry.published,
+          title: this.title,
+          published: this.published,
           date: new Date(this.date),
-          description: this.$sanitize(this.entry.description)
+          description: this.$sanitize(this.description)
         }
-        
+        console.log(updatedEntry)
         this.editing = false
         this.saving = true
         this.$emit('save', updatedEntry)
       }, 100)
     },
     watch: {
-      isPublished () {
+      published () {
         this.save()
-      },
-      entry: {
-        handler () {
-          this.hasUpdated()
-        },
-        deep: true
-      },
-      date () {
-        this.hasUpdated()
       }
     }
   }

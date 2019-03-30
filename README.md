@@ -1,26 +1,26 @@
-# when-last-we-played
+# Canon Craft
 
 ## Project setup
 ```
-npm install
+yarn
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+yarn build
 ```
 
-### Run your tests
+### Deploy site to firebase (files only)
 ```
-npm run test
+yarn deploy
 ```
 
-### Lints and fixes files
+### Deploy functions to firebase
 ```
-npm run lint
+firebase deploy
 ```

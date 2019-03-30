@@ -2,7 +2,12 @@
 <template lang="pug">
   .tabs
     .tabs__nav
-      button.tabs__nav__button(type="button", v-for="tab in tabs", :class="{ 'active': tab.active }", @click="activate(tab)") {{ tab.heading }}
+      button.tabs__nav__button(
+        type="button", 
+        v-for="tab in tabs", 
+        :class="{ 'active': tab.active }", 
+        @click="activate(tab)"
+      ) {{ tab.heading }}
     .tabs__content
       slot
 </template>
@@ -18,6 +23,10 @@
     methods: {
       addTab(newTab) {
         this.tabs.push(newTab)
+      },
+      removeTab(tab) {
+        let index = this.tabs.findIndex(t => t.heading === tab.heading)
+        this.tabs.splice(index, 1)
       },
       activate({ heading }) {
         this.tabs.forEach(function (tab) {

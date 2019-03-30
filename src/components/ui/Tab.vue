@@ -17,14 +17,18 @@
         default: false
       }
     },
-    data() {
+    data () {
       return {
         active: false
       };
     },
-    mounted() {
+    mounted () {
       this.active = this.selected
       this.$parent.addTab(this)
+    },
+    beforeDestroy () {
+      this.active = false
+      this.$parent.removeTab(this)
     }
   }
 </script>

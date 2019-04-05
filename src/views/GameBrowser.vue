@@ -6,7 +6,7 @@
         game-card(:game="game")
       .column(v-if="games.length < 4")
         a.card.card--cta.card--new-game(@click="newGame")
-          primary-button(label="New Game", :secondary="true")
+          primary-button(label="New Game", :secondary="true", @click="newGame")
     modal(ref="newGameModal")
       template(slot="content")
         h2 New Game
@@ -58,6 +58,7 @@
         }
       },
       newGame () {
+        console.log('new game')
         this.$refs.newGameModal.open()
       },
       createGame () {

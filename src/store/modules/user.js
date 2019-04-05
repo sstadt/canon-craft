@@ -18,7 +18,7 @@ const mutations = {
   REQUEST_AUTH () {
     state.authRequested = true
   },
-  SET_USER (state, { user }) {
+  SET_USER (state, user) {
     state.loggedIn = true
     state.currentUser = user
     state.authRequested = false
@@ -31,14 +31,14 @@ const mutations = {
 
 const actions = {
   init ({ commit, rootState }) {
-    rootState.auth.onAuthStateChanged((user) => {
+    rootState.auth.onAuthStateChanged(user => {
       commit('AUTH_INITIALIZED')
 
       if (user) {
         if (isSigningUp) {
           isSigningUp = false;
         } else {
-          commit('SET_USER', { user })
+          commit('SET_USER', user)
         }
       } else {
         commit('UNSET_USER')

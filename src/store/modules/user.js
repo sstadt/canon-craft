@@ -2,10 +2,26 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
-var isSigningUp = false;
+var isSigningUp = false
+var userWatcher = null
+
+const userChangeHandler = (change, commit) => {
+  switch (change.type) {
+    case 'added':
+      commit('SET_USER_DATA', { ...change.doc.data(), id: change.doc.id })
+      break
+    case 'modified':
+      commit('UPDATE_USER_DATA', { ...change.doc.data(), id: change.doc.id })
+      break
+    default:
+      console.warn('--- unhandled character change type')
+      console.warn(change.type)
+  }
+}
 
 const state = {
   currentUser: null,
+  userData: null,
   loggedIn: false,
   authRequested: false,
   authInitialized: false
@@ -26,12 +42,24 @@ const mutations = {
   UNSET_USER (state) {
     state.loggedIn = false
     state.currentUser = null
+  },
+  SET_USER_DATA (state, data) {
+    state.userData = data
+  },
+  UPDATE_USER_DATA (state, data) {
+    state.userData = data
   }
 }
 
 const actions = {
   init ({ commit, rootState }) {
     rootState.auth.onAuthStateChanged(user => {
+      userWatcher = rootState.db.collection('users').where('uid', '==', user.uid)
+
+      userWatcher.onSnapshot(snapshot =>
+        snapshot.docChanges().forEach(change =>
+          userChangeHandler(change, commit)))
+  
       commit('AUTH_INITIALIZED')
 
       if (user) {

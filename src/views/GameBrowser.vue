@@ -35,6 +35,7 @@
     computed: {
       ...mapState({
         currentUser: state => state.user.currentUser,
+        userData: state => state.user.userData,
         loggedIn: state => state.user.loggedIn,
         authInitialized: state => state.user.authInitialized,
         games: state => state.games.all
@@ -58,14 +59,17 @@
         }
       },
       newGame () {
-        console.log('new game')
         this.$refs.newGameModal.open()
       },
       createGame () {
         this.$validator.validateAll().then((isValid) => {
           if (isValid) {
             this.$refs.newGameModal.close()
-            this.$store.dispatch('games/create', { name: this.newGameName, created_by: this.currentUser.uid })
+            this.$store.dispatch('games/create', { 
+              name: this.newGameName, 
+              created_by: this.currentUser.uid,
+              campaign: this.userData.config.defaultCampaign
+            })
             this.newGameName = ''
             this.errors.clear()
           }

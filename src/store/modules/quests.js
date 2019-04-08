@@ -52,20 +52,18 @@ const mutations = {
 const actions = {
   populate ({ rootState, commit }) {
     let userId = rootState.user.currentUser.uid
-    let ownedQuestRef = rootState.db.collection('quests')
-      .where('created_by', '==', userId)
-    let playedQuestRef = rootState.db.collection('quests')
-      .where('players', 'array-contains', userId)
+    let ownedQuestRef = rootState.questsCollection.where('created_by', '==', userId)
+    let playedQuestRef = rootState.questsCollection.where('players', 'array-contains', userId)
 
     unsubscribeOwnedQuests = setupGamesWatcher(ownedQuestRef, commit)
     unsubscribePlayedQuests = setupGamesWatcher(playedQuestRef, commit)
   },
   create ({ rootState }, quest) {
-    let gamesRef = rootState.db.collection('quests')
+    let gamesRef = rootState.questsCollection
     gamesRef.add(quest)
   },
   update ({ rootState }, quest) {
-    let questRef = rootState.db.collection('quests').doc(quest.id)
+    let questRef = rootState.questsCollection.doc(quest.id)
     let updatedQuest = {}
 
     for (let key in quest) {
@@ -77,7 +75,7 @@ const actions = {
     questRef.set(updatedQuest, { merge: true })
   },
   remove ({ rootState }, questId) {
-    rootState.db.collection('quests').doc(questId).delete()
+    rootState.questsCollection.doc(questId).delete()
   },
   clear ({ commit }) {
     unsubscribeOwnedQuests()

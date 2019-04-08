@@ -87,11 +87,11 @@
         })
       },
       sortEntriesByDate (entry1, entry2, ascending = false) {
-        if (entry1.date.nanoseconds > entry2.date.nanoseconds) {
+        if (entry1.date.seconds > entry2.date.seconds) {
           return (ascending) ? 1 : -1
         }
 
-        if (entry1.date.nanoseconds < entry2.date.nanoseconds) {
+        if (entry1.date.seconds < entry2.date.seconds) {
           return (ascending) ? -1 : 1
         }
 

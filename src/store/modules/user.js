@@ -54,7 +54,7 @@ const mutations = {
 const actions = {
   init ({ commit, rootState }) {
     rootState.auth.onAuthStateChanged(user => {
-      userWatcher = rootState.db.collection('users').where('uid', '==', user.uid)
+      userWatcher = rootState.usersCollection.where('uid', '==', user.uid)
 
       userWatcher.onSnapshot(snapshot =>
         snapshot.docChanges().forEach(change =>

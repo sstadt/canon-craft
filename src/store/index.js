@@ -21,7 +21,7 @@ Vue.use(Vuex)
 
 const state = {
   auth,
-  db, // TODO: deprecate this in favor of collection references
+  usersCollection: db.collection('users'),
   gamesCollection: db.collection('games'),
   charactersCollection: db.collection('characters'),
   questsCollection: db.collection('quests')

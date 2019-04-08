@@ -3,7 +3,7 @@ var gameWatchers = {};
 
 const populateGame = (gameId, rootState, commit) => {
   if (!gameWatchers[gameId]) {
-    gameWatchers[gameId] = rootState.db.collection('characters').where('game', '==', gameId)
+    gameWatchers[gameId] = rootState.charactersCollection.where('game', '==', gameId)
 
     commit('GAME_POPULATED', gameId)
 
@@ -57,7 +57,7 @@ const actions = {
     populateGame(gameId, rootState, commit)
   },
   update ({ rootState }, character) {
-    let charRef = rootState.db.collection('characters').doc(character.id)
+    let charRef = rootState.charactersCollection.doc(character.id)
     let updatedCharacter = {}
 
     for (let key in character) {

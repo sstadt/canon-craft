@@ -49,15 +49,14 @@ const mutations = {
 const actions = {
   populate ({ commit, rootState }) {
     let userId = rootState.user.currentUser.uid
-    let ownedGamesRef = rootState.db.collection('games').where('created_by', '==', userId)
-    let playedGamesRef = rootState.db.collection('games').where('players', 'array-contains', userId)
+    let ownedGamesRef = rootState.gamesCollection.where('created_by', '==', userId)
+    let playedGamesRef = rootState.gamesCollection.where('players', 'array-contains', userId)
 
     unsubscribeOwnedGames = setupGamesWatcher(ownedGamesRef, commit)
     unsubscribePlayedGames = setupGamesWatcher(playedGamesRef, commit)
   },
   create ({ rootState }, { name, created_by, campaign }) {
-    let gamesRef = rootState.db.collection('games')
-    let now = new Date()
+    let gamesRef = rootState.gamesCollection
 
     gamesRef.add({
       name,
@@ -70,7 +69,7 @@ const actions = {
     })
   },
   update ({ rootState }, game) {
-    let gameRef = rootState.db.collection('games').doc(game.id)
+    let gameRef = rootState.gamesCollection.doc(game.id)
     let updatedGame = {}
 
     for (let key in game) {

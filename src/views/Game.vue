@@ -4,8 +4,7 @@
     .container.u-mt.game(v-if="game && isAllowed")
       .row
         .column.small-12.medium-8
-          .game-input.game-input--header(v-if="isGameMaster")
-            input.h1(type="text", v-model="game.name")
+          auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", :game="true", :h1="true")
           h1.game__title(v-else)
             span {{ game.name }}
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
@@ -34,6 +33,8 @@
   import QuestLog from '@/components/quest/QuestLog.vue'
   import Journal from '@/components/journal/Journal.vue'
 
+  import AutoTextarea from '@/components/forms/AutoTextarea.vue'
+
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
   import Wysiwyg from '@/components/ui/Wysiwyg.vue'
@@ -45,12 +46,14 @@
     components: {
       GameInviteLink, GameCharacters,
       QuestLog, Journal,
+      AutoTextarea,
       Icon, Modal, Wysiwyg, Tab, Tabs
     },
     data () {
       return {
         isAllowed: false,
         initialized: false,
+        gameName: '',
         gameDescription: ''
       }
     },
@@ -75,9 +78,6 @@
       },
       characters () {
         return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
-      },
-      name () {
-        return this.game.name
       }
     },
     created () {
@@ -105,7 +105,7 @@
           this.$router.push('/')
         }
       },
-      name (newVal, oldVal) {
+      gameName (newVal, oldVal) {
         if (this.initialized && this.isGameMaster && oldVal && newVal !== oldVal) {
           this.updateGame()
         }
@@ -169,6 +169,7 @@
       },
       populateGameData () {
         this.initialized = true
+        this.gameName = this.game.name
         this.gameDescription = this.game.description
         this.$store.dispatch('characters/populate', this.game.id)
         this.$store.dispatch('journal/populate', this.game.id)
@@ -176,7 +177,7 @@
       updateGame: debounce(function () {
         let updatedGame = {
           id: this.game.id,
-          name: this.game.name,
+          name: this.gameName,
           description: this.gameDescription
         }
 

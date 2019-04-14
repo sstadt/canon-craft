@@ -140,14 +140,17 @@
     @include game-input-common;
   }
 
-  &--header [type='text'] {
-    color: $body-text--main;
-    font-weight: bold;
-    padding: 0;
-    margin-bottom: $content-gutter;
-
-    &:focus {
-      background-color: transparent;
+  &--header {
+    [type='text'],
+    textarea {
+      color: $body-text--main;
+      font-weight: bold;
+      padding: 0;
+      margin-bottom: $content-gutter;
+  
+      &:focus {
+        background-color: transparent;
+      }
     }
   }
 }

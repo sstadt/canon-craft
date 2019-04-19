@@ -6,17 +6,28 @@ const state = {
 }
 
 const mutations = {
-  ADD_MESSAGE (state, message) {
+  ADD_MESSAGE (state, { text, label, callback }) {
     var id = new Date().getTime()
 
-    state.messages.push({ id, text: message })
+    state.messages.push({ id, text, label, callback })
     setTimeout(() => state.messages.splice(0, 1), timeout)
   }
 }
 
 const actions = {
-  send ({ commit }, message) {
-    commit('ADD_MESSAGE', message)
+  init ({ commit }) {
+    document.addEventListener('application-updated', () => {
+      commit('ADD_MESSAGE', {
+        text: 'Update Available',
+        label: 'Reload',
+        callback: () => {
+          window.location.reload(true)
+        }
+      })
+    })
+  },
+  send ({ commit }, text) {
+    commit('ADD_MESSAGE', { text })
   }
 }
 

@@ -17,15 +17,14 @@ if (process.env.NODE_ENV === 'production') {
       // Content has been cached for offline use.
     },
     updatefound () {
-      console.log('New content is downloading.')
-      // alert('app updated')
+      // New content is downloading.
       updateFound = true
     },
     updated () {
-      console.log('New content is available; please refresh.')
-      if (updateFound && confirm('reload?')) {
+      // New content is available; please refresh.
+      if (updateFound) {
         updateFound = false
-        window.location.reload(true)
+        document.dispatchEvent(new CustomEvent('application-updated'))
       }
     },
     offline () {

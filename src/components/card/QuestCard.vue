@@ -1,7 +1,7 @@
 
 <template lang="pug">
   router-link.card.card--quest(:to="gameLink")
-    //- img(v-if="quest.image", v-lazy="quest.image")
+    img(v-if="quest.image", v-lazy="quest.image")
     .card__content
       h3.card__title {{ quest.title }}
       p.card__status(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}

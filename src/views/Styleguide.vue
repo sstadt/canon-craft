@@ -10,7 +10,7 @@
       h6 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
       p Lorem Ipsum dolor sit amet consecteteur adipiscing elit
       p
-        small Lorem Ipsum dolor sit amet consecteteur adipiscing elit
+        small Lorem Ipsum dolor sit amet consecteteur adipiscing
       ul
         li One item
         li Two item

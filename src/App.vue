@@ -37,6 +37,7 @@
     },
     created () {
       this.$store.dispatch('user/init')
+      this.$store.dispatch('toast/init')
     },
     watch: {
       currentUser () {

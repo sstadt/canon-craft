@@ -3,14 +3,24 @@
   .toast
     transition-group(name="slide-fade-right")
       .toast__message.u-bg-dark(v-for="message in messages", :key="message.id")
-        p(v-html="message.text")
+        p.toast__message__copy(v-html="message.text")
+        primary-button.toast__message__cta(
+          v-if="message.callback", 
+          :small="true", 
+          :secondary="true", 
+          :label="message.label", 
+          @click="message.callback"
+        )
 </template>
 
 <script>
   import { mapState } from 'vuex'
 
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+
   export default {
     name: 'Toast',
+    components: { PrimaryButton },
     computed: {
       ...mapState({
         messages: state => state.toast.messages
@@ -30,6 +40,17 @@
     &__message {
       padding: 20px;
       margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &__copy {
+        line-height: 1.7;
+      }
+
+      &__cta {
+        margin-left: 10px;
+      }
     }
   }
 </style>

@@ -17,5 +17,9 @@ module.exports = {
         `
       }
     }
+  },
+  pwa: {
+    themeColor: '#410001',
+    appleMobileWebAppCapable: 'yes'
   }
 }

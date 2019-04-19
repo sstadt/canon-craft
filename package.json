@@ -1,6 +1,6 @@
 {
   "name": "canon-craft",
-  "version": "0.1.8a",
+  "version": "0.1.8b",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

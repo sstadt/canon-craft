@@ -5,7 +5,7 @@ import 'firebase/auth'
 import { isIos } from '@/lib/util.js'
 
 var isSigningUp = false
-var userWatcher = null
+var unsubscribeUser = null
 
 const userChangeHandler = (change, commit) => {
   switch (change.type) {
@@ -56,12 +56,13 @@ const mutations = {
 const actions = {
   init ({ commit, rootState }) {
     rootState.auth.onAuthStateChanged(user => {
-      userWatcher = rootState.usersCollection.where('uid', '==', user.uid)
+      if (user) {
+        let userRef = rootState.usersCollection.where('uid', '==', user.uid)
+        unsubscribeUser = userRef.onSnapshot(snapshot =>
+          snapshot.docChanges().forEach(change =>
+            userChangeHandler(change, commit)))
+      }
 
-      userWatcher.onSnapshot(snapshot =>
-        snapshot.docChanges().forEach(change =>
-          userChangeHandler(change, commit)))
-  
       commit('AUTH_INITIALIZED')
 
       if (user) {
@@ -125,6 +126,7 @@ const actions = {
     commit('REQUEST_AUTH')
   },
   logout ({ rootState }) {
+    unsubscribeUser()
     rootState.auth.signOut()
   }
 }

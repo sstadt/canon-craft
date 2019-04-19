@@ -2,6 +2,8 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
+import { isIos } from '@/lib/util.js'
+
 var isSigningUp = false
 var userWatcher = null
 
@@ -103,7 +105,12 @@ const actions = {
   },
   googleLogin ({ rootState }) {
     var authProvider = new firebase.auth.GoogleAuthProvider()
-    rootState.auth.signInWithPopup(authProvider)
+
+    if (isIos()) {
+      rootState.auth.signInWithRedirect(authProvider)
+    } else {
+      rootState.auth.signInWithPopup(authProvider)
+    }
   },
   requestReset ({ rootState }, email) {
     rootState.auth.sendPasswordResetEmail(email)

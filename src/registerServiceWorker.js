@@ -2,6 +2,8 @@
 
 import { register } from 'register-service-worker'
 
+var updateFound = false
+
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready () {
@@ -15,12 +17,16 @@ if (process.env.NODE_ENV === 'production') {
       // Content has been cached for offline use.
     },
     updatefound () {
-      // New content is downloading.
+      console.log('New content is downloading.')
+      // alert('app updated')
+      updateFound = true
     },
     updated () {
-      alert('app updated, reloading')
-      window.location.reload
-      // New content is available; please refresh.
+      console.log('New content is available; please refresh.')
+      if (updateFound && confirm('reload?')) {
+        updateFound = false
+        window.location.reload(true)
+      }
     },
     offline () {
       // No internet connection found. App is running in offline mode.

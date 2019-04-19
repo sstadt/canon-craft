@@ -18,6 +18,8 @@ if (process.env.NODE_ENV === 'production') {
       // New content is downloading.
     },
     updated () {
+      alert('app updated, reloading')
+      window.location.reload
       // New content is available; please refresh.
     },
     offline () {

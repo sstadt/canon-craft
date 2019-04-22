@@ -104,8 +104,10 @@
     align-items: center;
     margin-bottom: 15px;
 
-    @include mobile-only {
-      margin-right: 15px;
+    &:not(:last-child) {
+      @include mobile-only {
+        margin-right: 15px;
+      }
     }
 
     @include tablet-up {

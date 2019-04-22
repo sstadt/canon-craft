@@ -8,6 +8,7 @@
   export default {
     name: 'Tab',
     props: {
+      icon: String,
       heading: {
         type: String,
         required: true
@@ -34,4 +35,9 @@
 </script>
 
 <style scoped lang="scss">
+  .tab {
+    @include mobile-only {
+      padding-left: $grid-gutter / 2;
+    }
+  }
 </style>

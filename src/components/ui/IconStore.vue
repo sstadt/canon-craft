@@ -15,6 +15,7 @@
       <g id="icon-ios-share"><img svg-inline src="@/assets/icons/ios-share.svg" /></g>
       <g id="icon-check"><img svg-inline src="@/assets/icons/check.svg" /></g>
       <g id="icon-ok"><img svg-inline src="@/assets/icons/ok.svg" /></g>
+      <g id="icon-info"><img svg-inline src="@/assets/icons/info.svg" /></g>
       <!-- quest icons -->
       <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
       <g id="icon-add-quest"><img svg-inline src="@/assets/icons/add-quest.svg" /></g>

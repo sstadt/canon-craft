@@ -25,6 +25,7 @@
     @include mobile-only {
       margin-top: 20px;
       margin-bottom: 0;
+      justify-content: center;
     }
   }
 </style>

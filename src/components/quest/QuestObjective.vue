@@ -66,6 +66,8 @@
 
     &__status {
       display: block;
+      line-height: 1.7;
+      font-size: rem(14);
 
       &.completed {
         color: $body-text--completed;

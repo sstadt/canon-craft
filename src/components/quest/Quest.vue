@@ -3,15 +3,6 @@
   .quest
     primary-button(v-if="isGameMaster", :text="true", :label="quest.title", classes="h3 quest__title", @click="editQuest")
     primary-button(v-else, :text="true", :label="quest.title", classes="h3 quest__title", @click="showDetails")
-    .quest__characters(v-if="isGameMaster")
-      icon-button(label="Toggle All Characters", :flex="true", icon="users", classes="quest__characters__toggle-all", @click="toggleAll")
-      quest-character(
-        v-for="character in characters",
-        :key="character.id",
-        :character="character",
-        :quest="quest",
-        @selected="togglePlayer(character.player)"
-      )
     .quest__objectives
       quest-objective(
         v-for="objective in quest.objectives",
@@ -20,6 +11,15 @@
         :is-game-master="isGameMaster",
         @update-objective="updateObjectives"
       )
+    .quest__characters(v-if="isGameMaster")
+      quest-character(
+        v-for="character in characters",
+        :key="character.id",
+        :character="character",
+        :quest="quest",
+        @selected="togglePlayer(character.player)"
+      )
+      icon-button(label="Toggle All Characters", :flex="true", icon="users", classes="quest__characters__toggle-all", @click="toggleAll")
     side-panel(ref="questDetails", :title="quest.title")
       template(slot="content")
         .objectives
@@ -128,11 +128,14 @@
 
     &__characters {
       display: flex;
+      justify-content: flex-end;
+      margin-top: 4px;
 
       &__toggle-all {
-        line-height: 32px;
-        width: 32px;
-        margin-right: 8px;
+        line-height: 28px;
+        height: 28px;
+        width: 28px;
+        margin-left: 8px;
       }
     }
 

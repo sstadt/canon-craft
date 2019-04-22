@@ -43,4 +43,7 @@
 </script>
 
 <style scoped lang="scss">
+  .button--icon {
+    line-height: 0;
+  }
 </style>

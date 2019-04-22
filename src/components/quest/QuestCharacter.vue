@@ -41,11 +41,12 @@
 </script>
 
 <style lang="scss">
-  $quest-character-image-size: 34px;
+  $quest-character-image-size: 28px;
 
   .quest__character {
     display: inline-block;
     position: relative;
+    line-height: 0;
 
     & > .icon {
       position: absolute;
@@ -55,8 +56,8 @@
       fill: $color--success;
     }
 
-    &:not(:last-child) {
-      margin-right: 8px;
+    &:not(:first-child) {
+      margin-left: 8px;
     }
 
     &__image {

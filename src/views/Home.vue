@@ -20,6 +20,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { isIos, isInStandaloneMode, once } from '@/lib/util.js'
 
 import Hero from '@/components/ui/Hero.vue'
 import PostCard from '@/components/card/PostCard.vue'

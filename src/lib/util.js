@@ -54,3 +54,10 @@ export const isIos = () => {
 export const isInStandaloneMode = () => {
   return ('standalone' in window.navigator) && (window.navigator.standalone)
 }
+
+export const once = (node, type, callback) => {
+	node.addEventListener(type, function(e) {
+		e.target.removeEventListener(e.type, arguments.callee)
+		return callback(e)
+	});
+}

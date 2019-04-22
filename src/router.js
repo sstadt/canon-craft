@@ -2,11 +2,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from './views/Home.vue'
-import Styleguide from './views/Styleguide.vue'
-import GameBrowser from './views/GameBrowser.vue'
-import Game from './views/Game.vue'
-import JoinGame from './views/JoinGame.vue'
+const Home = () => import('@/views/Home.vue')
+const Styleguide = () => import('@/views/Styleguide.vue')
+const GameBrowser = () => import('@/views/GameBrowser.vue')
+const Game = () => import('@/views/Game.vue')
+const JoinGame = () => import('@/views/JoinGame.vue')
 
 Vue.use(Router)
 

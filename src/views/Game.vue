@@ -9,7 +9,7 @@
             span {{ game.name }}
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
           game-characters(v-if="$mq === 'mobile'", :characters="characters")
-          tabs
+          tabs(:sidebar="true")
             tab(heading="Journal", icon="quill", :selected="true")
               journal(:is-game-master="isGameMaster")
             tab(v-if="$mq === 'mobile'", icon="quest", heading="Quest Log")

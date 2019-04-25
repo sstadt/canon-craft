@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  .tabs
+  .tabs(:class="{ 'tabs--sidebar': this.sidebar }")
     .tabs__nav-wrapper
       .tabs__nav
         button.tabs__nav__button(
@@ -24,6 +24,12 @@
     data() {
       return {
         tabs: []
+      }
+    },
+    props: {
+      sidebar: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -55,65 +61,34 @@
   $tabs-nav-color--desktop--hover: $body-text--main;
 
   .tabs {
-    @include mobile-only {
-      display: flex;
-    }
-
     &__nav {
-      @include mobile-only {
-        position: sticky;
-        display: flex;
-        flex-direction: column;
-        top: 0;
-        margin-left: -#{$grid-gutter / 2};
-        min-height: 100vh;
-        background-color: $body-bg--dark;
-        box-shadow: inset -3px 0px 10px 3px rgba($color-black, 0.5);
-      }
-
-      @include tablet-up {
-        margin-left: -8px;
-        margin-right: -8px;
-        margin-bottom: $content-gutter;
-      }
+      margin-left: -8px;
+      margin-right: -8px;
+      margin-bottom: $content-gutter;
 
       &__button {
         cursor: pointer;
         background-color: transparent;
         position: relative;
         line-height: 1.5;
-        padding: 10px 12px;
-        border-width: 0;
+        border-width: 0 0 2px 0;
         border-style: solid;
         border-color: transparent;
         font-weight: bold;
-        color: $tabs-nav-color;
         transition: 0.3s ease all;
-
-        @include tablet-up {
-          color: $tabs-nav-color--desktop;
-          border-width: 0 0 2px 0;
-          margin: 5px 8px;
-          padding: 0;
-        }
+        padding: 0;
+        color: $tabs-nav-color--desktop;
+        margin: 5px 8px;
 
         .icon {
           fill: $tabs-nav-color;
         }
 
         &:hover {
-          color: $tabs-nav-color--hover;
+          color: $tabs-nav-color--desktop--hover;
 
           .icon {
-            fill: $tabs-nav-color--hover;
-          }
-
-          @include tablet-up {
-            color: $tabs-nav-color--desktop--hover;
-
-            .icon {
-              fill: $tabs-nav-color--desktop--hover;
-            }
+            fill: $tabs-nav-color--desktop--hover;
           }
         }
 
@@ -122,26 +97,11 @@
         }
 
         &.active {
-          color: $tabs-nav-color--hover;
-          border-color: $tabs-nav-color--hover;
+          color: $tabs-nav-color--desktop--hover;
+          border-color: $tabs-nav-color--desktop--hover;
 
           .icon {
-            fill: $tabs-nav-color--hover;
-          }
-
-          @include tablet-up {
-            color: $tabs-nav-color--desktop--hover;
-            border-color: $tabs-nav-color--desktop--hover;
-
-            .icon {
-              fill: $tabs-nav-color--desktop--hover;
-            }
-          }
-        }
-
-        span {
-          @include mobile-only {
-            display: none;
+            fill: $tabs-nav-color--desktop--hover;
           }
         }
       }
@@ -149,6 +109,101 @@
       &__icon {
         @include tablet-up {
           margin-right: 4px;
+        }
+      }
+    }
+
+    &--sidebar {
+      @include mobile-only {
+        display: flex;
+      }
+
+      .tabs {
+        &__nav {
+          margin-left: 0;
+          margin-right: 0;
+          padding-bottom: 0;
+
+          @include tablet-up {
+            margin-left: -8px;
+            margin-right: -8px;
+            margin-bottom: $content-gutter;
+          }
+          
+          @include mobile-only {
+            position: sticky;
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            margin-left: -#{$grid-gutter / 2};
+            min-height: 100vh;
+            background-color: $body-bg--dark;
+            box-shadow: inset -3px 0px 10px 3px rgba($color-black, 0.5);
+          }
+
+          button {
+            margin: 0;
+            padding: 10px 12px;
+            border-width: 0;
+            color: $tabs-nav-color;
+
+            @include tablet-up {
+              color: $tabs-nav-color--desktop;
+              border-width: 0 0 2px 0;
+              margin: 5px 8px;
+              padding: 0;
+            }
+
+            .icon {
+              fill: $tabs-nav-color;
+            }
+
+            &:hover {
+              color: $tabs-nav-color--hover;
+
+              .icon {
+                fill: $tabs-nav-color--hover;
+              }
+
+              @include tablet-up {
+                color: $tabs-nav-color--desktop--hover;
+
+                .icon {
+                  fill: $tabs-nav-color--desktop--hover;
+                }
+              }
+            }
+
+            &.active {
+              color: $tabs-nav-color--hover;
+              border-color: $tabs-nav-color--hover;
+
+              .icon {
+                fill: $tabs-nav-color--hover;
+              }
+
+              @include tablet-up {
+                color: $tabs-nav-color--desktop--hover;
+                border-color: $tabs-nav-color--desktop--hover;
+
+                .icon {
+                  fill: $tabs-nav-color--desktop--hover;
+                }
+              }
+            }
+
+            span {
+              @include mobile-only {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+
+      .tab {
+        @include mobile-only {
+          padding-left: $grid-gutter / 2;
         }
       }
     }

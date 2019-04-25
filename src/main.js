@@ -43,7 +43,8 @@ Vue.use(VueMq, {
   breakpoints: {
     mobile: parseInt(cssVars.breakTablet, 10),
     tablet: parseInt(cssVars.breakDesktop, 10),
-    desktop: Infinity
+    desktop: parseInt(cssVars.breakHd, 10),
+    hd: Infinity
   }
 })
 

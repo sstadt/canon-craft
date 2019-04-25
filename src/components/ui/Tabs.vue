@@ -34,7 +34,15 @@
     },
     computed: {
       iconSize () {
-        return (this.$mq === 'mobile') ? '18' : '9'
+        if (this.$mq === 'mobile') {
+          return (this.sidebar) ? '18' : '9'
+        }
+
+        if (this.$mq === 'tablet') {
+          return (this.sidebar) ? '24' : '9'
+        }
+
+        return '9'
       }
     },
     methods: {
@@ -114,31 +122,39 @@
     }
 
     &--sidebar {
-      @include mobile-only {
-        display: flex;
+      display: flex;
+
+      @include desktop-up {
+        display: block;
       }
 
       .tabs {
         &__nav {
-          margin-left: 0;
+          position: sticky;
+          display: flex;
+          flex-direction: column;
+          top: 0;
+          margin-left: -#{$grid-gutter / 2};
           margin-right: 0;
           padding-bottom: 0;
+          min-height: 100vh;
+          background-color: $body-bg--dark;
+          box-shadow: inset -3px 0px 10px 3px rgba($color-black, 0.5);
 
           @include tablet-up {
+            margin-left: -$grid-gutter;
+          }
+
+          @include desktop-up {
+            display: block;
+            position: inherit;
+            top: auto;
             margin-left: -8px;
             margin-right: -8px;
             margin-bottom: $content-gutter;
-          }
-          
-          @include mobile-only {
-            position: sticky;
-            display: flex;
-            flex-direction: column;
-            top: 0;
-            margin-left: -#{$grid-gutter / 2};
-            min-height: 100vh;
-            background-color: $body-bg--dark;
-            box-shadow: inset -3px 0px 10px 3px rgba($color-black, 0.5);
+            min-height: auto;
+            background-color: transparent;
+            box-shadow: none;
           }
 
           button {
@@ -147,7 +163,7 @@
             border-width: 0;
             color: $tabs-nav-color;
 
-            @include tablet-up {
+            @include desktop-up {
               color: $tabs-nav-color--desktop;
               border-width: 0 0 2px 0;
               margin: 5px 8px;
@@ -165,7 +181,7 @@
                 fill: $tabs-nav-color--hover;
               }
 
-              @include tablet-up {
+              @include desktop-up {
                 color: $tabs-nav-color--desktop--hover;
 
                 .icon {
@@ -182,7 +198,7 @@
                 fill: $tabs-nav-color--hover;
               }
 
-              @include tablet-up {
+              @include desktop-up {
                 color: $tabs-nav-color--desktop--hover;
                 border-color: $tabs-nav-color--desktop--hover;
 
@@ -193,8 +209,10 @@
             }
 
             span {
-              @include mobile-only {
-                display: none;
+              display: none;
+
+              @include desktop-up {
+                display: inline;
               }
             }
           }
@@ -202,8 +220,10 @@
       }
 
       .tab {
-        @include mobile-only {
-          padding-left: $grid-gutter / 2;
+        padding-left: $grid-gutter / 2;
+        
+        @include desktop-up {
+          padding-left: 0;
         }
       }
     }

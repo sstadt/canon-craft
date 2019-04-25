@@ -14,3 +14,7 @@
 @mixin desktop-up {
   @media (min-width: $break--desktop) { @content; }
 }
+
+@mixin hd-up {
+  @media (min-width: $break--hd) { @content; }
+}

@@ -3,22 +3,24 @@
   transition(name="fade")
     .container.u-mt.game(v-if="game && isAllowed")
       .row
-        .column.small-12.medium-8
+        .column.small-12.large-8
           auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", :game="true", :h1="true")
           h1.game__title(v-else)
             span {{ game.name }}
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
-          game-characters(v-if="$mq === 'mobile'", :characters="characters")
+          game-characters(v-if="$mq === 'mobile' || $mq === 'tablet'", :characters="characters")
           tabs(:sidebar="true")
             tab(heading="Journal", icon="quill", :selected="true")
               journal(:is-game-master="isGameMaster")
-            tab(v-if="$mq === 'mobile'", icon="quest", heading="Quest Log")
+            tab(v-if="$mq === 'mobile' || $mq === 'tablet'", icon="quest", heading="Quest Log")
               quest-log(:game-id="game.id", :is-game-master="isGameMaster")
+            tab(heading="NPCs", icon="users", :is-game-master="isGameMaster")
+              npcs(:game-id="game.id")
             tab(heading="Description", icon="info")
               .game__description(v-if="isGameMaster")
                 wysiwyg(v-model="gameDescription")
               .game__description(v-else, v-html="game.description")
-        .column.small-12.medium-4(v-if="$mq !== 'mobile'")
+        .column.small-12.large-4(v-if="$mq !== 'mobile' && $mq !== 'tablet'")
           game-characters(:characters="characters")
           quest-log(:game-id="game.id", :is-game-master="isGameMaster")
 </template>
@@ -32,6 +34,7 @@
   import GameCharacters from '@/components/game/GameCharacters.vue'
   import QuestLog from '@/components/quest/QuestLog.vue'
   import Journal from '@/components/journal/Journal.vue'
+  import Npcs from '@/components/npc/Npcs.vue'
 
   import AutoTextarea from '@/components/forms/AutoTextarea.vue'
 
@@ -45,7 +48,7 @@
     name: 'Game',
     components: {
       GameInviteLink, GameCharacters,
-      QuestLog, Journal,
+      QuestLog, Journal, Npcs,
       AutoTextarea,
       Icon, Modal, Wysiwyg, Tab, Tabs
     },

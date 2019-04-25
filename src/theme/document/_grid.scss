@@ -88,3 +88,7 @@
 @include desktop-up {
   @include block-grid('large');
 }
+
+@include hd-up {
+  @include block-grid('x-large');
+}

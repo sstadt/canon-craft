@@ -1,14 +1,9 @@
 
 <template lang="pug">
   .game-journal
-    .game-journal__controls
-      .controls-input.icon-input.game-journal__search-entries
-        icon(name="search", size="14")
-        input(type="text", v-model="searchParam", placeholder="Search Journal Entries")
-      .controls-input.select.game-journal__sort-entries
-        select(v-model="sortBy")
-          option(value="recent") Most Recent
-          option(value="oldest") Oldest First
+    .game-controls
+      search-control.game-controls__search(v-model="searchParam")
+      sort-control.game-controls__sort(v-model="sortBy", :options="sortOptions")
       primary-button(v-if="isGameMaster", label="New Entry", :small="true", @click="newEntry")
     .game-journal__entries
       transition-group(name="slide-fade-left")
@@ -27,23 +22,37 @@
   import { clone, debounce } from '@/lib/util.js'
   import { JournalEntry as newJournalEntry } from '@/schema/JournalEntry.js'
 
-  import Icon from '@/components/ui/Icon.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import JournalEntry from '@/components/journal/JournalEntry.vue'
   import JournalEditor from '@/components/journal/JournalEditor.vue'
+  import SearchControl from '@/components/forms/SearchControl.vue'
+  import SortControl from '@/components/forms/SortControl.vue'
 
   export default {
     name: 'Journal',
-    components: { Icon, PrimaryButton, JournalEntry, JournalEditor },
+    components: { 
+      PrimaryButton, 
+      JournalEntry, 
+      JournalEditor,
+      SearchControl,
+      SortControl
+    },
     props: {
       isGameMaster: Boolean
     },
     data() {
       return {
+        journalEntries: [],
         newDate: new Date(),
-        sortBy: 'recent',
         searchParam: '',
-        journalEntries: []
+        sortBy: 'recent',
+        sortOptions: [{
+          label: 'Most Recent',
+          value: 'recent'
+        }, {
+          label: 'Oldest First',
+          value: 'oldest'
+        }]
       }
     },
     computed: {
@@ -112,47 +121,10 @@
 
 <style scoped lang="scss">
   .game-journal {
-    
-    &__controls {
-      display: flex;
-      flex-grow: 1;
-      margin-bottom: $content-gutter;
-
-      @include mobile-only {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      @include tablet-up {
-        margin-bottom: $grid-gutter;
-      }
-    }
-
     &__entries > *:not(:first-child) {
       margin-top: $grid-gutter;
       padding-top: $grid-gutter;
       border-top: 1px solid #f4f4f4;
-    }
-
-    &__search-entries {
-      flex-grow: 1;
-
-      @include mobile-only {
-        width: calc(100% - 135px);
-      }
-    }
-
-    &__sort-entries {
-      @include mobile-only {
-        width: 135px;
-      }
-    }
-
-    &__search-entries,
-    &__sort-entries {
-      @include mobile-only {
-        margin-bottom: 10px;
-      }
     }
 
     &__entry-wrapper {

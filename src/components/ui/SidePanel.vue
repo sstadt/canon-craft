@@ -1,8 +1,11 @@
 
 <template lang="pug">
-  transition(name="off-canvas-right")
-    .side-panel(v-if="show", v-touch:swipe.right="close", v-click-outside="close")
-      h2.side-panel__title {{ title }}
+  transition-group(name="off-canvas-right")
+    .side-panel--overlay(v-if="show", @click="close", key="overlay")
+    .side-panel(v-if="show", v-touch:swipe.right="close", key="content")
+      .side-panel__header
+        img.side-panel__image(:src="image", v-if="image")
+        h2.side-panel__title {{ title }}
       .side-panel__content
         slot(name="content")
 </template>
@@ -19,22 +22,15 @@
       }
     },
     props: {
-      title: String
+      title: String,
+      image: String
     },
     methods: {
       open () {
-        console.log('show outer')
-        this.$nextTick(() => {
-          console.log('show inner')
-          this.show = true
-        })
-        // this.show = true
+        this.show = true
       },
       close () {
         this.show = false
-      },
-      dismiss () {
-        console.log('dismiss')
       }
     }
   }
@@ -42,18 +38,31 @@
 
 <style scoped lang="scss">
   .side-panel {
-    position: fixed;
     display: flex;
     flex-direction: column;
-    top: 0;
-    right: 0;
-    height: 100%;
     width: 400px;
     max-width: 90vw;
     background-color: #fff;
     border-left: 5px solid $body-bg--dark;
 
-    &__title {
+    &, &--overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+
+    &--overlay {
+      width: 100vw;
+      background-color: transparent;
+    }
+
+    &__image {
+      max-height: 200px;
+      margin-bottom: $content-gutter;
+    }
+
+    &__header {
       padding: $content-gutter;
     }
 

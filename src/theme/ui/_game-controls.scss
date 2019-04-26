@@ -1,0 +1,35 @@
+
+.game-controls {
+  display: flex;
+  margin-bottom: $content-gutter;
+
+  @include mobile-only {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  @include tablet-up {
+    margin-bottom: $grid-gutter;
+  }
+
+  &__search {
+    flex-grow: 1;
+
+    @include mobile-only {
+      width: calc(100% - 135px);
+    }
+  }
+
+  &__sort {
+    @include mobile-only {
+      width: 135px;
+    }
+  }
+
+  &__search,
+  &__sort {
+    @include mobile-only {
+      margin-bottom: 10px;
+    }
+  }
+}

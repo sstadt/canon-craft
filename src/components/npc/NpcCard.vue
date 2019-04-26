@@ -1,11 +1,11 @@
 
 <template lang="pug">
-  a.card.card--npc(click="openNpc")
+  a.card.card--npc(@click="openNpc")
     .card--npc__image
       img(v-if="npc.image", :src="npc.image")
     .card--npc__content
       h3.card__title.card--npc__title {{ npc.name }}
-      p.card__description {{ synopsis }}
+      p.card__description.card--npc__description {{ synopsis }}
 </template>
 
 <script>
@@ -19,7 +19,7 @@
         return this.npc.description
       }
     },
-    method: {
+    methods: {
       openNpc () {
         this.$emit('show')
       }
@@ -50,6 +50,10 @@
 
     &__content {
       padding-left: 12px;
+    }
+
+    &__description {
+      @include multi-line-ellipsis(1rem, 1.3, 3);
     }
   }
 </style>

@@ -76,7 +76,7 @@
           date: new Date(this.date),
           description: this.$sanitize(this.description)
         }
-        console.log(updatedEntry)
+        
         this.editing = false
         this.saving = true
         this.$emit('save', updatedEntry)

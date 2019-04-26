@@ -6,11 +6,11 @@ a function in place of a
 constructor
 ********************************/
 
-export const JournalEntry = () => {
+export const Npc = () => {
   return {
-    title: 'New Log Entry',
-    date: new Date(),
-    published: false,
-    description: 'Synopsis of events'
+    name: 'New Npc',
+    players: [],
+    description: '',
+    notes: ''
   }
 }

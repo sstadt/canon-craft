@@ -1,33 +1,51 @@
 
 <template lang="pug">
-  .input(:class="wrapperClass")
-    icon(v-if="icon", name="search", size="iconSize")
-    input(v-model="currentValue", :class="inputClass")
+  div(:class="wrapperClass")
+    label(v-if="!hideLabel") {{ label }}
+    icon(v-if="icon", :name="icon", size="iconSize")
+    input(type="text", :name="name", v-model="currentValue", :class="inputClass", v-validate="validation")
+    span.error(v-if="errors", v-show="errors.has(name)") {{ errors.first(name) }}
 </template>
 
 <script>
+  import { handleize } from '@/lib/util.js'
+
   export default {
     name: 'TextInput',
-    data () {
-      return {
-        currentValue: this.value
-      }
-    },
     props: {
+      label: String,
       value: String,
-      game: Boolean,
-      form: Boolean,
-      controls: Boolean,
       h1: Boolean,
       h2: Boolean,
       h3: Boolean,
       h4: Boolean,
       h5: Boolean,
       h6: Boolean,
+      validation: {
+        type: String,
+        default: ''
+      },
       icon: String,
       iconSize: {
         type: String,
         default: '14'
+      },
+      type: {
+        type: String,
+        default: 'form',
+        validator (value) {
+          let types = ['form', 'game', 'controls', 'icon']
+          return types.indexOf(value) > -1
+        }
+      },
+      hideLabel: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {
+        currentValue: this.value
       }
     },
     watch: {
@@ -38,9 +56,9 @@
     computed: {
       wrapperClass () {
         return {
-          'game-input': this.game,
-          'form-input': this.form,
-          'controls-input': this.controls,
+          'game-input': this.type === 'game',
+          'form-input': this.type === 'form',
+          'controls-input': this.type === 'controls',
           'icon-input': this.icon
         }
       },
@@ -53,6 +71,9 @@
           'h5': this.h5,
           'h6': this.h6
         }
+      },
+      name () {
+        return handleize(this.label)
       }
     }
   }

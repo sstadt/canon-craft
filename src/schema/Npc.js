@@ -1,9 +1,8 @@
 
 /********************************
 Firebase doesn't like custom
-quest object, so we export
-a function in place of a
-constructor
+objects, so we export a function 
+in place of a constructor
 ********************************/
 
 export const Npc = () => {

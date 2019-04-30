@@ -12,10 +12,11 @@
         .content(v-html="shownNpcDescription")
     modal(ref="npcModal", v-if="isGameMaster")
       template(slot="content")
-        p NPC Form
+        npc-editor(v-if="editingNpc", :npc="editingNpc")
 </template>
 
 <script>
+  import { clone } from '@/lib/util.js'
   import { Npc as newNpc } from '@/schema/Npc.js'
 
   import Modal from '@/components/ui/Modal.vue'
@@ -23,6 +24,7 @@
   import SearchControl from '@/components/forms/SearchControl.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import NpcCard from '@/components/npc/NpcCard.vue'
+  import NpcEditor from '@/components/npc/NpcEditor.vue'
 
   export default {
     name: 'Npcs',
@@ -31,7 +33,8 @@
       SidePanel,
       SearchControl, 
       PrimaryButton, 
-      NpcCard 
+      NpcCard,
+      NpcEditor
     },
     props: {
       isGameMaster: Boolean
@@ -71,6 +74,10 @@
       },
       newNpc () {
         this.editingNpc = newNpc()
+        this.$refs.npcModal.open()
+      },
+      editNpc (npc) {
+        this.editingNpc = clone(npc)
         this.$refs.npcModal.open()
       }
     }

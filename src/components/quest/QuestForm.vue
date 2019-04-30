@@ -32,7 +32,7 @@
 <script>
   import { Objective as newObjective } from '@/schema/Objective.js'
 
-  import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import Wysiwyg from '@/components/forms/Wysiwyg.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import SubmitButton from '@/components/buttons/SubmitButton.vue'
   import IconButton from '@/components/buttons/IconButton.vue'

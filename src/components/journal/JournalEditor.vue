@@ -28,7 +28,7 @@
 <script>
   import { clone, debounce } from '@/lib/util'
 
-  import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import Wysiwyg from '@/components/forms/Wysiwyg.vue'
   import DatePicker from '@/components/ui/DatePicker.vue'
   import ConfirmButton from '@/components/buttons/ConfirmButton.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'

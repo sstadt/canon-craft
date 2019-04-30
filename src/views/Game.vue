@@ -4,7 +4,7 @@
     .container.u-mt.game(v-if="game && isAllowed")
       .row
         .column.small-12.large-8
-          auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", :game="true", :h1="true")
+          auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", type="game", :h1="true")
           h1.game__title(v-else)
             span {{ game.name }}
           game-invite-link(v-if="isGameMaster", :slug="inviteSlug", :game="game.id")
@@ -40,7 +40,7 @@
 
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
-  import Wysiwyg from '@/components/ui/Wysiwyg.vue'
+  import Wysiwyg from '@/components/forms/Wysiwyg.vue'
   import Tab from '@/components/ui/Tab.vue'
   import Tabs from '@/components/ui/Tabs.vue'
 

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import TextInput from '@/components/forms/TextInput'
+  import TextInput from '@/components/forms/TextInput.vue'
 
   export default {
     name: 'AutoTextarea',
@@ -54,6 +54,7 @@
       resize: none;
       height: 0px;
       overflow: hidden;
+      border: 0;
 
       &.shadow {
         max-height: 0;

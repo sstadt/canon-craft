@@ -5,7 +5,7 @@
       img(v-if="npc.image", :src="npc.image")
     .card--npc__content
       h3.card__title.card--npc__title {{ npc.name }}
-      p.card__description.card--npc__description {{ synopsis }}
+      p.card__description.card--npc__description {{ synopsis | stripHtml }}
 </template>
 
 <script>

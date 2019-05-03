@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import './registerServiceWorker'
 
+// libs
 import vClickOutside from 'v-click-outside'
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueSanitize from 'vue-sanitize'
@@ -11,13 +12,16 @@ import ToggleButton from 'vue-js-toggle-button'
 import VueLazyload from 'vue-lazyload'
 import VueMq from 'vue-mq'
 
-import App from './App.vue'
+// filters
+import stripHtml from './filters/stripHtml.js'
 
+// app
+import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// config
 import sanitizeConfig from './lib/config.sanitize.js'
-
 const cssVars = require('./theme/_settings.scss')
 
 // vendor css
@@ -47,6 +51,8 @@ Vue.use(VueMq, {
     hd: Infinity
   }
 })
+
+Vue.filter('stripHtml', stripHtml)
 
 // Vue.directive('click-outside', clickOutside)
 

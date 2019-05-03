@@ -59,8 +59,7 @@ const actions = {
     unsubscribePlayedQuests = setupGamesWatcher(playedQuestRef, commit)
   },
   create ({ rootState }, quest) {
-    let gamesRef = rootState.questsCollection
-    gamesRef.add(quest)
+    rootState.questsCollection.add(quest)
   },
   update ({ rootState }, quest) {
     let questRef = rootState.questsCollection.doc(quest.id)

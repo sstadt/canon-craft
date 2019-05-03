@@ -5,12 +5,13 @@ import Vuex from 'vuex'
 import { auth, db } from './firebase.js'
 
 // game data
-import characters from './modules/characters'
-import games from './modules/games'
-import journal from './modules/journal'
-import posts from './modules/posts'
-import quests from './modules/quests'
 import user from './modules/user'
+import posts from './modules/posts'
+import games from './modules/games'
+import characters from './modules/characters'
+import journal from './modules/journal'
+import quests from './modules/quests'
+import npcs from './modules/npcs'
 
 // ui automation
 import loading from './modules/loading'
@@ -24,18 +25,21 @@ const state = {
   usersCollection: db.collection('users'),
   gamesCollection: db.collection('games'),
   charactersCollection: db.collection('characters'),
-  questsCollection: db.collection('quests')
+  questsCollection: db.collection('quests'),
+  campaignsCollection: db.collection('campaigns'),
+  npcsCollection: db.collection('npcs')
 }
 
 export default new Vuex.Store({
   state,
   modules: {
-    characters,
+    user,
     games,
+    characters,
     journal,
     posts,
     quests,
-    user,
+    npcs,
     loading,
     toast,
     installer

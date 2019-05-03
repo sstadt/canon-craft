@@ -30,7 +30,7 @@
     },
     methods: {
       save () {
-        console.log('save')
+        this.$emit('save', this.npc)
       }
     }
   }

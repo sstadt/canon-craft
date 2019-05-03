@@ -69,7 +69,7 @@
 // game inputs
 @mixin game-input-common {
   @include input-common;
-  border: 0px;
+  border: 1px solid $form-field--subtle;
   padding: 10px 12px;
   // border-radius: 4px;
 

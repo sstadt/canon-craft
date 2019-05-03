@@ -6,6 +6,7 @@
 
 // color pallette
 $color-white: #fff;
+$color-off-white: #efefef;
 $color-charcoal: #666;
 $color-light-grey: #ccc;
 $color-black: #000;
@@ -47,6 +48,7 @@ $drop-shadow-light: 0 3px 8px rgba($color-dark-red, 0.05);
 
 // forms
 $form-field--neutral: $color-light-grey;
+$form-field--subtle: $color-off-white;
 $form-field--focus: lighten($color-tan, 15%);
 $form-field--error: $color--error;
 $form-field--warning: $color--warning;

@@ -15,7 +15,7 @@
             tab(heading="Quest Log", icon="quest", v-if="$mq === 'mobile' || $mq === 'tablet'")
               quest-log(:game-id="game.id", :is-game-master="isGameMaster")
             tab(heading="NPCs", icon="users", :is-game-master="isGameMaster")
-              npcs(:game-id="game.id", :is-game-master="isGameMaster")
+              npcs(:game-id="game.id", :is-game-master="isGameMaster", :campaign="game.campaign")
             tab(heading="Description", icon="info")
               .game__description(v-if="isGameMaster")
                 wysiwyg(v-model="gameDescription")
@@ -27,7 +27,6 @@
 
 <script>
   import { mapState } from 'vuex'
-
   import { debounce } from '@/lib/util.js'
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
@@ -176,6 +175,7 @@
         this.gameDescription = this.game.description
         this.$store.dispatch('characters/populate', this.game.id)
         this.$store.dispatch('journal/populate', this.game.id)
+        this.$store.dispatch('npcs/populate', this.game.campaign)
       },
       updateGame: debounce(function () {
         let updatedGame = {

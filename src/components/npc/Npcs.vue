@@ -12,10 +12,15 @@
         .content(v-html="shownNpcDescription")
     modal(ref="npcModal", v-if="isGameMaster")
       template(slot="content")
-        npc-editor(v-if="editingNpc", :npc="editingNpc")
+        npc-editor(
+          v-if="editingNpc", 
+          :npc="editingNpc", 
+          @save="saveNewNpc"
+        )
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import { clone } from '@/lib/util.js'
   import { Npc as newNpc } from '@/schema/Npc.js'
 
@@ -37,7 +42,8 @@
       NpcEditor
     },
     props: {
-      isGameMaster: Boolean
+      isGameMaster: Boolean,
+      campaign: String
     },
     data () {
       return {
@@ -47,15 +53,11 @@
       }
     },
     computed: {
+      ...mapState({
+        allNpcs: state => state.npcs.all
+      }),
       npcs () {
-        return [
-          { id: 1, name: 'Jon Snow', image: '//placehold.it/75x110', description: 'lorem ipsum dolor sit amet' },
-          { id: 2, name: 'Denaeris Targaryan, mother of dragons', image: '//placehold.it/75x110', description: 'lorem ipsum dolor sit amet' },
-          { id: 3, name: 'Tyrion Lannister', image: '//placehold.it/75x110', description: 'lorem ipsum dolor sit amet' },
-          { id: 4, name: 'Sansa Stark', image: '//placehold.it/75x110', description: 'lorem ipsum dolor sit amet' },
-          { id: 5, name: 'Aria Stark', image: '//placehold.it/75x110', description: 'Lorem ipsum dolor sit amet consecteteur adipiscing elit. Lorem ipsum dolor sit amet consecteteur adipiscing elit.' },
-          { id: 6, name: 'Brandon Stark', image: '//placehold.it/75x110', description: 'lorem ipsum dolor sit amet' },
-        ]
+        return this.allNpcs.filter(npc => npc.campaign === this.campaign)
       },
       shownNpcDescription () {
         return (this.shownNpc) ? this.$sanitize(this.shownNpc.description) : ''
@@ -73,12 +75,16 @@
         this.$refs.npcSidePanel.open()
       },
       newNpc () {
-        this.editingNpc = newNpc()
+        this.editingNpc = newNpc({ campaign: this.campaign })
         this.$refs.npcModal.open()
       },
       editNpc (npc) {
         this.editingNpc = clone(npc)
         this.$refs.npcModal.open()
+      },
+      saveNewNpc (npc) {
+        this.$store.dispatch('npcs/create', npc)
+        this.$refs.npcModal.close()
       }
     }
   }

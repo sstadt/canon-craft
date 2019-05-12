@@ -19,6 +19,14 @@
         return this.npc.description
       }
     },
+    watch: {
+      'npc.description' () {
+        this.$emit('updated')
+      },
+      'npc.name' () {
+        this.$emit('updated')
+      }
+    },
     methods: {
       openNpc () {
         this.$emit('show')

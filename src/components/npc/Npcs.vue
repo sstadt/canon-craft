@@ -4,9 +4,9 @@
     .game-controls
       search-control.game-controls__search(v-model="searchParam")
       primary-button(v-if="isGameMaster", label="New NPC", :small="true", @click="newNpc")
-    .row.small-up-1.medium-up-2.x-large-up-3
-      .column(v-for="npc in npcs", :key="npc.id")
-        npc-card(:npc="npc", @show="showNpc(npc)")
+    transition-group.row.small-up-1.medium-up-2.x-large-up-3(name="fade", tag="div")
+      .column(v-for="npc in filteredNpcs", :key="npc.id")
+        npc-card(:npc="npc", @show="showNpc(npc)", @updated="filterAndSortEntries")
     side-panel(ref="npcSidePanel", :title="sidePanelTitle", :image="sidePanelImage")
       template(slot="controls", v-if="isGameMaster")
         icon-button(label="Edit", icon="quill", @click="editNpc(shownNpc)")
@@ -34,7 +34,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { clone } from '@/lib/util.js'
+  import { clone, debounce } from '@/lib/util.js'
   import { Npc as newNpc } from '@/schema/Npc.js'
 
   import Modal from '@/components/ui/Modal.vue'
@@ -64,10 +64,19 @@
     },
     data () {
       return {
+        filteredNpcs: [],
         shownNpc: null,
         editingNpc: null,
         searchParam: ''
       }
+    },
+    watch: {
+      searchParam () {
+        this.filterAndSortEntries()
+      },
+      npcs () {
+        this.filterAndSortEntries()
+      } 
     },
     computed: {
       ...mapState({
@@ -88,6 +97,19 @@
       }
     },
     methods: {
+      filterAndSortEntries: debounce(function () {
+        this.filteredNpcs = (this.searchParam.length > 2) ? this.filterNpcs() : this.npcs
+      }, 300),
+      filterNpcs () {
+        let searchParam = this.searchParam.toLowerCase()
+        
+        return this.npcs.filter(npc => {
+          return Boolean(
+            npc.name.toLowerCase().indexOf(searchParam) > -1 ||
+            npc.description.toLowerCase().indexOf(searchParam) > -1
+          )
+        })
+      },
       showNpc (npc) {
         this.shownNpc = npc
         this.$refs.npcSidePanel.open()

@@ -13,6 +13,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import { initScrollLock } from '@/lib/events.scrollLock.js'
 
   import Navbar from '@/components/navigation/Navbar.vue'
 
@@ -38,6 +39,7 @@
     created () {
       this.$store.dispatch('user/init')
       this.$store.dispatch('toast/init')
+      initScrollLock()
     },
     watch: {
       currentUser () {

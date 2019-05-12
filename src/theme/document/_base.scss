@@ -8,6 +8,13 @@ html, body {
   margin: 0;
 }
 
+body {
+  &.sidepanel-open,
+  &.modal-open {
+    overflow: hidden;
+  }
+}
+
 img {
   max-width: 100%;
 

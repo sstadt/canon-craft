@@ -9,6 +9,7 @@ export const Npc = ({ campaign }) => {
   return {
     name: 'New Npc',
     campaign: campaign,
+    image: '',
     players: [],
     description: ''
   }

@@ -47,6 +47,11 @@ export const hash = (str) => {
  * @param {object} obj The object to clone
  */
 export const clone = (obj) => {
+	if (!obj) {
+		console.error(`cannot clone ${obj}`)
+		return null
+	}
+
 	return JSON.parse(JSON.stringify(obj))
 }
 

@@ -53,7 +53,7 @@
     }
 
     &__description {
-      @include multi-line-ellipsis(1rem, 1.3, 3);
+      @include multi-line-ellipsis(1rem, 1.3, 4);
     }
   }
 </style>

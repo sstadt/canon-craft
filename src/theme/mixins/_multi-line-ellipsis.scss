@@ -10,3 +10,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@mixin multi-line-ellipsis-fixed($fontSize, $lineHeight, $height) {
+  $numLines: floor($height / ($lineHeight * $fontSize));
+  
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 100%;
+  height: $lineHeight * $fontSize * $numLines; /* Fallback for non-webkit */
+  margin: 0 auto;
+  -webkit-line-clamp: $numLines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

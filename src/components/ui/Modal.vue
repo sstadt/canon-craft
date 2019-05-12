@@ -11,6 +11,9 @@
 <script>
   import IconButton from '@/components/buttons/IconButton.vue'
 
+  const openModalEvent = new Event('modal-open')
+  const closeModalEvent = new Event('modal-close')
+
   export default {
     name: 'Modal',
     components: { IconButton },
@@ -22,9 +25,11 @@
     methods: {
       open () {
         this.isVisible = true
+        document.dispatchEvent(openModalEvent)
       },
       close () {
         this.isVisible = false
+        document.dispatchEvent(closeModalEvent)
       }
     }
   }

@@ -4,18 +4,23 @@
     .side-panel--overlay(v-if="show", @click="close", key="overlay")
     .side-panel(v-if="show", v-touch:swipe.right="close", key="content")
       .side-panel__header
-        img.side-panel__image(:src="image", v-if="image")
-        h2.side-panel__title {{ title }}
+        img.side-panel__image(v-lazy="image", v-if="image")
+        .side-panel__header__content
+          h2.side-panel__title {{ title }}
+          .side-panel__header__controls
+            slot(name="controls")
+        .side-panel__share
+          slot(name="share")
       .side-panel__content
         slot(name="content")
 </template>
 
 <script>
-  import IconButton from '@/components/buttons/IconButton.vue'
+  const openSidepanelEvent = new Event('sidepanel-open')
+  const closeSidepanelEvent = new Event('sidepanel-close')
 
   export default {
     name: 'SidePanel',
-    components: { IconButton },
     data () {
       return {
         show: false
@@ -28,9 +33,11 @@
     methods: {
       open () {
         this.show = true
+        document.dispatchEvent(openSidepanelEvent)
       },
       close () {
         this.show = false
+        document.dispatchEvent(closeSidepanelEvent)
       }
     }
   }
@@ -44,6 +51,10 @@
     max-width: 90vw;
     background-color: #fff;
     border-left: 5px solid $body-bg--dark;
+    box-shadow: 0 0 10px $overlay-bg;
+    padding: $content-gutter;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     &, &--overlay {
       position: fixed;
@@ -62,15 +73,28 @@
       margin-bottom: $content-gutter;
     }
 
+    &__title {
+      flex-grow: 1;
+    }
+
+    &__header,
+    &__title {
+      padding-bottom: $content-gutter
+    }
+
     &__header {
-      padding: $content-gutter;
+      &__content {
+        display: flex;
+      }
+
+      &__controls {
+        flex-shrink: 0;
+      }
     }
 
     &__content {
-      padding: 0 $content-gutter $content-gutter $content-gutter;
       flex-grow: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
+      flex-shrink: 0;
     }
   }
 </style>

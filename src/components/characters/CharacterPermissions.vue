@@ -28,7 +28,15 @@
         this.$emit('toggleplayer', { document: this.documentId, player: playerId })
       },
       toggleAll () {
-        if (this.players.length === this.characters.length) {
+        let allPlayersEnabled = true
+
+        this.characters.forEach(character => {
+          if (this.players.indexOf(character.player) < 0) {
+            allPlayersEnabled = false
+          }
+        })
+        
+        if (allPlayersEnabled) {
           this.$emit('disableall')
         } else {
           this.$emit('enableall')

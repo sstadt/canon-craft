@@ -45,6 +45,7 @@
         this.$store.dispatch('games/clear')
         this.$store.dispatch('quests/clear')
         this.$store.dispatch('npcs/clear')
+        this.$store.dispatch('journal/clear')
         this.$store.dispatch('user/logout')
       },
       toggleMenu () {

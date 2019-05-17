@@ -14,7 +14,7 @@
         .npcs__permissions(v-if="isGameMaster")
           character-permissions(
             :document-id="shownNpc.id",
-            :characters="allCharacters", 
+            :characters="characters", 
             :players="shownNpc.players",
             @toggleplayer="togglePlayer",
             @enableall="enableAllPlayers"
@@ -60,7 +60,8 @@
     },
     props: {
       isGameMaster: Boolean,
-      campaign: String
+      campaign: String,
+      characters: Array
     },
     data () {
       return {
@@ -72,8 +73,7 @@
     computed: {
       ...mapState({
         currentUser: state => state.user.currentUser,
-        allNpcs: state => state.npcs.all,
-        allCharacters: state => state.characters.all
+        allNpcs: state => state.npcs.all
       }),
       npcs () {
         return this.allNpcs.filter(npc => npc.campaign === this.campaign)
@@ -154,14 +154,30 @@
         })
       },
       enableAllPlayers (npcId) {
-        let players = this.allCharacters.map(character => character.player)
+        let players = this.shownNpc.players.slice()
+
+        this.characters.forEach(character => {
+          if (players.indexOf(character.player) < 0) {
+            players.push(character.player)
+          }
+        })
 
         this.shownNpc.players = players
         this.$store.dispatch('npcs/update', { id: this.shownNpc.id, players })
       },
       disableAllPlayers (npcId) {
-        this.shownNpc.players = []
-        this.$store.dispatch('npcs/update', { id: this.shownNpc.id, players: [] })
+        let players = this.shownNpc.players.slice()
+        
+        this.characters.forEach(character => {
+          let index = players.indexOf(character.player)
+
+          if (index > -1) {
+            players.splice(index, 1)
+          }
+        })
+
+        this.shownNpc.players = players
+        this.$store.dispatch('npcs/update', { id: this.shownNpc.id, players })
       }
     }
   }

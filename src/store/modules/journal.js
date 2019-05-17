@@ -48,13 +48,11 @@ const mutations = {
 }
 
 const actions = {
-  populate ({ rootState, commit }, gameId) {
+  populate ({ rootState, state, commit }, gameId) {
     let journalEntriesRef = rootState.gamesCollection.doc(gameId)
       .collection('journalEntries')
 
-    if (unsubscribeEntries) {
-      unsubscribeEntries()
-    }
+    if (unsubscribeEntries) unsubscribeEntries()
 
     unsubscribeEntries = journalEntriesRef.onSnapshot(snapshot =>
       snapshot.docChanges().forEach(change =>
@@ -77,11 +75,11 @@ const actions = {
 
     state.ref.doc(entry.id).set(updatedEntry, { merge: true })
   },
-  remove ({ rootState, state }, entryId) {
+  remove ({ state }, entryId) {
     state.ref.doc(entryId).delete()
   },
   clear ({ commit }) {
-    unsubscribeEntries()
+    if (unsubscribeEntries) unsubscribeEntries()
     commit('CLEAR_ENTRIES')
     commit('SET_GAME', '')
     commit('SET_REF', null)

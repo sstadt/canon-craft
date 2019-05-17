@@ -1,7 +1,7 @@
 
 <template lang="pug">
   transition(name="fade")
-    .container.u-mt.game(v-if="game")
+    .container.u-mt.game(v-if="game && initialized")
       .row
         .column.small-12.large-8
           auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", type="game", :h1="true")
@@ -15,7 +15,7 @@
             tab(heading="Quest Log", icon="quest", v-if="$mq === 'mobile' || $mq === 'tablet'")
               quest-log(:game-id="game.id", :is-game-master="isGameMaster")
             tab(heading="NPCs", icon="users", :is-game-master="isGameMaster")
-              npcs(:game-id="game.id", :is-game-master="isGameMaster", :campaign="game.campaign")
+              npcs(:game-id="game.id", :is-game-master="isGameMaster", :characters="characters", :campaign="game.campaign")
             tab(heading="Description", icon="info")
               .game__description(v-if="isGameMaster")
                 wysiwyg(v-model="gameDescription")
@@ -93,10 +93,9 @@
         }
       }, 300)
     },
-    destroyed () {
-      if (this.game) {
-        this.$store.dispatch('journal/clear', this.game.id)
-      }
+    beforeRouteLeave (to, from, next) {
+      this.$store.dispatch('journal/clear')
+        .then(() => next())
     },
     watch: {
       gameName (newVal, oldVal) {

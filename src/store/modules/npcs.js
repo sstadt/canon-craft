@@ -1,13 +1,14 @@
 
-// TODO: pull more NPCs in each time a game is loaded...
-// ...do not remove watchers until logging out
-var unsubscribeNpcs
+var unsubscribeOwnedNpcs
+var unsubscribeSharedNpcs
 
-const state = {
-  all: []
+const setupNpcsWatcher = (ref, commit) => {
+  return ref.onSnapshot(snapshot =>
+    snapshot.docChanges().forEach(change =>
+      npcChangeHandler(change, commit)))
 }
 
-const entryChangeHandler = (change, commit) => {
+const npcChangeHandler = (change, commit) => {
   switch (change.type) {
     case 'added':
       commit('ADD_NPC', { ...change.doc.data(), id: change.doc.id })
@@ -22,6 +23,10 @@ const entryChangeHandler = (change, commit) => {
       console.warn('--- unhandled npc change type')
       console.warn(change.type)
   }
+}
+
+const state = {
+  all: []
 }
 
 const mutations = {
@@ -42,21 +47,19 @@ const mutations = {
 }
 
 const actions = {
-  populate ({ rootState, commit }, campaignId) {
-    let journalEntriesRef = rootState.npcsCollection.where('campaign', '==', campaignId)
+  populate ({ rootState, commit }) {
+    let userId = rootState.user.currentUser.uid
+    let ownedNpcsRef = rootState.npcsCollection.where('created_by', '==', userId)
+    let sharedNpcsRef = rootState.npcsCollection.where('players', 'array-contains', userId)
 
-    if (unsubscribeNpcs) {
-      unsubscribeNpcs()
-    }
-
-    unsubscribeNpcs = journalEntriesRef.onSnapshot(snapshot =>
-      snapshot.docChanges().forEach(change =>
-        entryChangeHandler(change, commit)))
+    unsubscribeOwnedNpcs = setupNpcsWatcher(ownedNpcsRef, commit)
+    unsubscribeSharedNpcs = setupNpcsWatcher(sharedNpcsRef, commit)
   },
   create ({ rootState }, npc) {
     rootState.npcsCollection.add(npc)
   },
   update ({ rootState }, npc) {
+    let npcRef = rootState.npcsCollection.doc(npc.id)
     let updatedNpc = {}
 
     for (let key in npc) {
@@ -65,13 +68,14 @@ const actions = {
       }
     }
 
-    rootState.npcsCollection.doc(npc.id).set(updatedNpc, { merge: true })
+    npcRef.set(updatedNpc, { merge: true })
   },
   remove ({ rootState }, npcId) {
     rootState.npcsCollection.doc(npcId).delete()
   },
   clear ({ commit }) {
-    unsubscribeNpcs()
+    unsubscribeOwnedNpcs()
+    unsubscribeSharedNpcs()
     commit('CLEAR_NPCS')
   }
 }

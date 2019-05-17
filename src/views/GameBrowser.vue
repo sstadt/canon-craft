@@ -41,23 +41,7 @@
         games: state => state.games.all
       })
     },
-    created () {
-      this.redirect()
-    },
-    watch: {
-      isLoggedIn () {
-        this.redirect()
-      },
-      authInitialized () {
-        this.redirect()
-      }
-    },
     methods: {
-      redirect () {
-        if (this.authInitialized && !this.loggedIn) {
-          this.$router.push('/')
-        }
-      },
       newGame () {
         this.$refs.newGameModal.open()
       },

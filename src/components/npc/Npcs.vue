@@ -6,7 +6,7 @@
       primary-button(v-if="isGameMaster", label="New NPC", :small="true", @click="newNpc")
     transition-group.row.small-up-1.medium-up-2.x-large-up-3(name="fade", tag="div")
       .column(v-for="npc in filteredNpcs", :key="npc.id")
-        npc-card(:npc="npc", @show="showNpc(npc)", @updated="filterAndSortEntries")
+        npc-card(:npc="npc", @show="showNpc(npc)")
     side-panel(ref="npcSidePanel", :title="sidePanelTitle", :image="sidePanelImage")
       template(slot="controls", v-if="isGameMaster")
         icon-button(label="Edit", icon="quill", @click="editNpc(shownNpc)")
@@ -64,27 +64,22 @@
     },
     data () {
       return {
-        filteredNpcs: [],
         shownNpc: null,
         editingNpc: null,
         searchParam: ''
       }
     },
-    watch: {
-      searchParam () {
-        this.filterAndSortEntries()
-      },
-      npcs () {
-        this.filterAndSortEntries()
-      } 
-    },
     computed: {
       ...mapState({
+        currentUser: state => state.user.currentUser,
         allNpcs: state => state.npcs.all,
         allCharacters: state => state.characters.all
       }),
       npcs () {
         return this.allNpcs.filter(npc => npc.campaign === this.campaign)
+      },
+      filteredNpcs () {
+        return (this.searchParam.length > 2) ? this.filterNpcs() : this.npcs
       },
       shownNpcDescription () {
         return (this.shownNpc) ? this.$sanitize(this.shownNpc.description) : ''
@@ -97,9 +92,6 @@
       }
     },
     methods: {
-      filterAndSortEntries: debounce(function () {
-        this.filteredNpcs = (this.searchParam.length > 2) ? this.filterNpcs() : this.npcs
-      }, 300),
       filterNpcs () {
         let searchParam = this.searchParam.toLowerCase()
         
@@ -115,7 +107,10 @@
         this.$refs.npcSidePanel.open()
       },
       newNpc () {
-        this.editingNpc = newNpc({ campaign: this.campaign })
+        this.editingNpc = newNpc({
+          campaign: this.campaign,
+          created_by: this.currentUser.uid
+        })
         this.$refs.npcModal.open()
       },
       editNpc (npc) {

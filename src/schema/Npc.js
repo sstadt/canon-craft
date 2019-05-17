@@ -5,10 +5,11 @@ objects, so we export a function
 in place of a constructor
 ********************************/
 
-export const Npc = ({ campaign }) => {
+export const Npc = ({ campaign, created_by }) => {
   return {
     name: 'New Npc',
-    campaign: campaign,
+    created_by,
+    campaign,
     image: '',
     players: [],
     description: ''

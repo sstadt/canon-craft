@@ -1,7 +1,7 @@
 
 <template lang="pug">
   transition(name="fade")
-    .container.u-mt.game(v-if="game && isAllowed")
+    .container.u-mt.game(v-if="game")
       .row
         .column.small-12.large-8
           auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", type="game", :h1="true")
@@ -69,8 +69,7 @@
         populatedGames: state => state.characters.populatedGames
       }),
       game () {
-        let game = this.games.filter(game => game.id === this.$route.params.id)
-        return (game.length > 0) ? game[0] : {}
+        return this.games.find(game => game.id === this.$route.params.id)
       },
       isGameMaster () {
         return this.currentUser && this.currentUser.uid === this.game.created_by
@@ -85,28 +84,21 @@
     created () {
       this.$store.dispatch('loading/start', 'Setting up game...')
 
-      if (this.authInitialized) {
-        this.waitForPermissions()
-        this.attemptToPopulate()
-      } else {
-        let unwatch = this.$watch('authInitialized', (newVal) => {
-          if (newVal) {
-            unwatch()
-            this.waitForPermissions()
-            this.attemptToPopulate()
-          }
-        })
-      }
+      let interval = setInterval(() => {
+        if (this.authInitialized && this.games.length > 0) {
+          clearInterval(interval)
+          this.$nextTick(() => {
+            this.checkPermissions()
+          })
+        }
+      }, 300)
     },
     destroyed () {
-      this.$store.dispatch('journal/clear', this.game.id)
+      if (this.game) {
+        this.$store.dispatch('journal/clear', this.game.id)
+      }
     },
     watch: {
-      isLoggedIn (newVal, oldVal) {
-        if (oldVal && !newVal) {
-          this.$router.push('/')
-        }
-      },
       gameName (newVal, oldVal) {
         if (this.initialized && this.isGameMaster && oldVal && newVal !== oldVal) {
           this.updateGame()
@@ -119,55 +111,21 @@
       }
     },
     methods: {
-      waitForPermissions () {
-        if (!this.loggedIn) {
-          this.$store.dispatch('loading/stop')
-          this.$router.push('/')
-        } else if (this.game.id && this.populatedGames.length > 0) {
-          this.checkPermissions()
-        } else {
-          let unwatchPopulatedGames = this.$watch('populatedGames', () => {
-            if (this.populatedGames.indexOf(this.game.id) > -1 && this.characters) {
-              unwatchPopulatedGames()
-              this.checkPermissions()
-            }
-          })
-        }
-      },
       checkPermissions () {
-        this.$store.dispatch('loading/stop')
-
-        if (this.game.created_by === this.currentUser.uid || this.characters.find(character => character.player === this.currentUser.uid)) {
-          this.isAllowed = true
-        } else {
-          this.$router.push('/games')
-        }
-      },
-      attemptToPopulate () {
-        let isPopulated = false
-
-        if (this.game.id) {
-          isPopulated = true
+        if (!this.game) {
+          this.redirect('Game not found, redirecting to your games...')
+        } else if (this.game.created_by === this.currentUser.uid || this.game.players.indexOf(this.currentUser.uid) > -1) {
           this.populateGameData()
         } else {
-          let unwatchGame = this.$watch('game', (newVal) => {
-            if (this.game.id) {
-              isPopulated = true
-              unwatchGame()
-              this.populateGameData()
-            }
-          })
+          this.redirect('You may not have access to this game, redirecting to your games...')
         }
-
+      },
+      redirect (message) {
+        this.$store.dispatch('loading/message', message)
         setTimeout(() => {
-          if (!isPopulated) {
-            this.$store.dispatch('loading/message', 'You may not have access to this game, redirecting to your games...')
-            setTimeout(() => {
-              this.$store.dispatch('loading/stop')
-              this.$router.push('/games')
-            }, 3000)
-          }
-        }, 10000)
+          this.$store.dispatch('loading/stop')
+          this.$router.push({ name: 'games' })
+        }, 3000)
       },
       populateGameData () {
         this.initialized = true
@@ -175,7 +133,7 @@
         this.gameDescription = this.game.description
         this.$store.dispatch('characters/populate', this.game.id)
         this.$store.dispatch('journal/populate', this.game.id)
-        this.$store.dispatch('npcs/populate', this.game.campaign)
+        this.$store.dispatch('loading/stop')
       },
       updateGame: debounce(function () {
         let updatedGame = {

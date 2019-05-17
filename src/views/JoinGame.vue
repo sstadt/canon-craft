@@ -80,7 +80,7 @@
               if (this.games.find(game => game.id === this.joinedGame)) {
                 clearInterval(interval)
                 this.$store.dispatch('loading/stop')
-                this.$router.push(`/game/${this.joinedGame}`)
+                this.$router.push({ path: `/game/${this.joinedGame} `})
               }
             }, 250)
           })

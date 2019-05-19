@@ -28,14 +28,29 @@
         .wysiwyg__control-group
           wysiwyg-button(label="Add Image", icon="image", :size="iconSize", @click="showImagePrompt(commands.image)")
     editor-content(:editor="editor")
+    .suggestion-list(v-show="showSuggestions", ref="suggestions")
+      template(v-if="hasSuggestionResults")
+        .suggestion-list__item(
+          v-for="(suggestion, index) in filteredSuggestions",
+          :key="suggestion.id"
+          :class="{ 'is-selected': navigatedSuggestionIndex === index }",
+          @click="selectSuggestion(suggestion)"
+        ) 
+          icon.suggestion-list__icon(:name="suggestion.type", size="14px")
+          span {{ suggestion.name }}
+      .suggestion-list__item.suggestion-list__item--empty(v-else) No Suggestions Found
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+  import Fuse from 'fuse.js'
+  import tippy from 'tippy.js'
+
   import { Editor, EditorContent, EditorMenuBar, EditorMenuBubble } from 'tiptap'
   import {
     Bold, Italic, Underline, Strike,
     Heading, ListItem, BulletList, OrderedList,
-    Link, Image
+    Link, Image, Mention
   } from 'tiptap-extensions'
 
   import Icon from '@/components/ui/Icon.vue'
@@ -56,7 +71,46 @@
         iconSize: '14px',
         headingIconSize: '17px',
         linkUrl: null,
-        linkMenuIsActive: false
+        linkMenuIsActive: false,
+        suggestionQuery: '',
+        filteredSuggestions: [],
+        suggestionRange: null,
+        insertSuggestion: null,
+        navigatedSuggestionIndex: 0
+      }
+    },
+    computed: {
+      ...mapState({
+        games: state => state.games.all,
+        allNpcs: state => state.npcs.all
+      }),
+      onGamePage () {
+        return this.$route.name === 'game'
+      },
+      gameId () {
+        return (this.onGamePage) ? this.$route.params.id : null
+      },
+      game () {
+        return (this.gameId) ? this.games.find(game => game.id === this.gameId) : null
+      },
+      npcs () {
+        return (this.game) ? this.allNpcs.filter(npc => npc.campaign === this.game.campaign) : []
+      },
+      suggestions () {
+        return [].concat(this.npcs.map(npc => ({ type: 'users', id: npc.id, name: npc.name })))
+      },
+      hasSuggestionResults () {
+        return this.filteredSuggestions.length
+      },
+      showSuggestions () {
+        return Boolean(this.suggestionQuery || this.hasSuggestionResults)
+      }
+    },
+    watch: {
+      suggestions (newVal, oldVal) {
+        console.log('suggestions updated')
+        console.log(newVal)
+        console.log(oldVal)
       }
     },
     mounted () {
@@ -71,7 +125,15 @@
           new BulletList(),
           new OrderedList(),
           new Link(),
-          new Image()
+          new Image(),
+          new Mention({
+            items: this.suggestions,
+            onEnter: this.suggestionStarted,
+            onChange: this.suggestionChanged,
+            onExit: this.suggestionCancelled,
+            onKeyDown: this.suggestionNavigated,
+            inFilter: this.suggestionFiltered
+          })
         ],
         content: this.$sanitize(this.value),
         onUpdate: this.onUpdate
@@ -81,6 +143,120 @@
       this.editor.destroy()
     },
     methods: {
+      suggestionStarted ({ items, query, range, command, virtualNode }) {
+        this.suggestionQuery = query
+        this.filteredSuggestions = items
+        this.suggestionRange = range
+        this.renderPopup(virtualNode)
+        this.insertSuggestion = command
+      },
+      suggestionChanged ({ items, query, range, virtualNode }) {
+        this.suggestionQuery = query
+        this.filteredSuggestions = items
+        this.suggestionRange = range
+        this.navigatedSuggestionIndex = 0
+        this.renderPopup(virtualNode)
+      },
+      suggestionCancelled () {
+        this.suggestionQuery = null
+        this.filteredSuggestions = []
+        this.suggestionRange = null
+        this.navigatedSuggestionIndex = 0
+        this.destroyPopup()
+      },
+      suggestionNavigated ({ event }) {
+        switch (event.keyCode) {
+          case 38:
+            this.suggestionUp()
+            return true
+          case 40:
+            this.suggestionDown()
+            return true
+          case 13:
+            this.suggestionEnter()
+            return true
+          default:
+            return false
+        }
+      },
+      suggestionFiltered (items, query) {
+        if (!query) {
+          return items
+        }
+
+        const fuse = new Fuse(items, {
+          threshold: 0.2,
+          keys: ['name']
+        })
+
+        return fuse.search(query)
+      },
+      suggestionUp () {
+        this.navigatedSuggestionIndex = (this.navigatedSuggestionIndex + this.filteredSuggestions.length - 1) % this.filteredSuggestions.length
+      },
+      suggestionDown () {
+        this.navigatedSuggestionIndex = (this.navigatedSuggestionIndex + 1) % this.filteredSuggestions.length
+      },
+      suggestionEnter () {
+        const suggestion = this.filteredSuggestions[this.navigatedSuggestionIndex]
+
+        if (suggestion) this.selectSuggestion(suggestion)
+      },
+      renderPopup (node) {
+        // console.log(node)
+        if (this.popup) {
+          return
+        }
+
+        this.popup = tippy(node, {
+          content: this.$refs.suggestions,
+          trigger: 'mouseenter',
+          interactive: true,
+          theme: 'dark',
+          placement: 'top-start',
+          inertia: true,
+          duration: [400, 200],
+          showOnInit: true,
+          arrow: true,
+          arrowType: 'round'
+        })
+
+        // console.log(this.popup)
+        // console.log(MutationObserver)
+
+        if (MutationObserver) {
+          this.observer = new MutationObserver(() => {
+            this.popup.popperInstance.scheduleUpdate()
+          })
+
+          this.observer.observe(this.$refs.suggestions, {
+            childList: true,
+            subtree: true,
+            characterData: true // letters, not player characters
+          })
+        }
+      },
+      destroyPopup () {
+        if (this.popup) {
+          this.popup.destroy()
+          this.popup = null
+        }
+
+        if (this.observer) {
+          this.observer.disconnect()
+        }
+      },
+      selectSuggestion (suggestion) {
+        this.insertSuggestion({
+          range: this.suggestionRange,
+          attrs: {
+            id: suggestion.id,
+            type: suggestion.type,
+            label: suggestion.name
+          }
+        })
+        this.editor.focus()
+      },
       onUpdate ({ getHTML }) {
         let raw = getHTML()
         let html = this.$sanitize(raw)
@@ -187,4 +363,73 @@
     }
   }
 
+  .suggestion-list {
+    padding: 0.2rem;
+    border: 2px solid rgba($color-black, 0.1);
+    font-size: 0.8rem;
+    font-weight: bold;
+
+    &__no-results {
+      padding: 0.2rem 0.5rem;
+    }
+
+    &__item {
+      border-radius: 5px;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.2rem;
+      cursor: pointer;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &.is-selected,
+      &:hover {
+        background-color: rgba($color-white, 0.2);
+      }
+
+      &.is-empty {
+        opacity: 0.5;
+      }
+    }
+
+    &__icon {
+      vertical-align: middle;
+      margin-right: 4px;
+      fill: $body-text--light !important;
+    }
+  }
+
+  .tippy-tooltip.dark-theme {
+    background-color: $color-black;
+    padding: 0;
+    font-size: 1rem;
+    text-align: inherit;
+    color: $color-white;
+    border-radius: 5px;
+
+    .tippy-backdrop {
+      display: none;
+    }
+
+    .tippy-roundarrow {
+      fill: $color-black;
+    }
+
+    .tippy-popper[x-placement^=top] & .tippy-arrow {
+      border-top-color: $color-black;
+    }
+
+    .tippy-popper[x-placement^=bottom] & .tippy-arrow {
+      border-bottom-color: $color-black;
+    }
+
+    .tippy-popper[x-placement^=left] & .tippy-arrow {
+      border-left-color: $color-black;
+    }
+
+    .tippy-popper[x-placement^=right] & .tippy-arrow {
+      border-right-color: $color-black;
+    }
+  }
 </style>

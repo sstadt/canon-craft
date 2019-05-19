@@ -20,7 +20,12 @@ yarn build
 yarn deploy
 ```
 
-### Deploy functions to firebase
+### Deploy site to firebase (functions only)
 ```
-firebase deploy
+firebase deploy --only functions
+```
+
+### Deploy site to firebase (files and functions)
+```
+yarn deploy:all
 ```

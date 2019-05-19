@@ -106,13 +106,6 @@
         return Boolean(this.suggestionQuery || this.hasSuggestionResults)
       }
     },
-    watch: {
-      suggestions (newVal, oldVal) {
-        console.log('suggestions updated')
-        console.log(newVal)
-        console.log(oldVal)
-      }
-    },
     mounted () {
       this.editor = new Editor({
         extensions: [
@@ -203,7 +196,6 @@
         if (suggestion) this.selectSuggestion(suggestion)
       },
       renderPopup (node) {
-        // console.log(node)
         if (this.popup) {
           return
         }
@@ -220,9 +212,6 @@
           arrow: true,
           arrowType: 'round'
         })
-
-        // console.log(this.popup)
-        // console.log(MutationObserver)
 
         if (MutationObserver) {
           this.observer = new MutationObserver(() => {

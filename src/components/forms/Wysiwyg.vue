@@ -52,6 +52,7 @@
     Heading, ListItem, BulletList, OrderedList,
     Link, Image, Mention
   } from 'tiptap-extensions'
+  import AutoFill from '@/lib/tiptap/AutoFill.js'
 
   import Icon from '@/components/ui/Icon.vue'
   import WysiwygButton from '@/components/buttons/WysiwygButton.vue'
@@ -97,7 +98,7 @@
         return (this.game) ? this.allNpcs.filter(npc => npc.campaign === this.game.campaign) : []
       },
       suggestions () {
-        return [].concat(this.npcs.map(npc => ({ type: 'users', id: npc.id, name: npc.name })))
+        return [].concat(this.npcs.map(npc => ({ type: 'npc', id: npc.id, name: npc.name })))
       },
       hasSuggestionResults () {
         return this.filteredSuggestions.length
@@ -119,7 +120,7 @@
           new OrderedList(),
           new Link(),
           new Image(),
-          new Mention({
+          new AutoFill({
             items: this.suggestions,
             onEnter: this.suggestionStarted,
             onChange: this.suggestionChanged,
@@ -266,7 +267,7 @@
         this.hideLinkMenu()
         this.editor.focus()
       },
-      showImagePrompt(command) {
+      showImagePrompt (command) {
         let src = prompt('Enter the url of your image here')
 
         if (src != null) {

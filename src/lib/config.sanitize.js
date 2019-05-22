@@ -5,10 +5,11 @@ export default {
     'strong', 'em', 'ul', 'u', 's',
     'a', 'p', 'br', 
     'ul', 'ol', 'li',
-    'img'
+    'img', 'span'
   ],
   allowedAttributes: {
     'a': [ 'href' ],
-    'img': [ 'src' ]
+    'img': [ 'src' ],
+    'span': [ 'class', 'data-mention-id', 'data-mention-type', 'contenteditable' ]
   }
 }

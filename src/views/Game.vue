@@ -14,7 +14,7 @@
               journal(:is-game-master="isGameMaster")
             tab(heading="Quest Log", icon="quest", v-if="$mq === 'mobile' || $mq === 'tablet'")
               quest-log(:game-id="game.id", :is-game-master="isGameMaster")
-            tab(heading="NPCs", icon="users", :is-game-master="isGameMaster")
+            tab(heading="NPCs", icon="npc", :is-game-master="isGameMaster")
               npcs(:game-id="game.id", :is-game-master="isGameMaster", :characters="characters", :campaign="game.campaign")
             tab(heading="Description", icon="info")
               .game__description(v-if="isGameMaster")

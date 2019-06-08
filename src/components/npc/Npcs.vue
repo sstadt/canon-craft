@@ -7,21 +7,6 @@
     transition-group.row.small-up-1.medium-up-2.x-large-up-3(name="fade", tag="div")
       .column(v-for="npc in filteredNpcs", :key="npc.id")
         npc-card(:npc="npc", @show="showNpc(npc)")
-    side-panel(ref="npcSidePanel", :title="sidePanelTitle", :image="sidePanelImage")
-      template(slot="controls", v-if="isGameMaster")
-        icon-button(label="Edit", icon="quill", @click="editNpc(shownNpc)")
-      template(slot="share", v-if="shownNpc")
-        .npcs__permissions(v-if="isGameMaster")
-          character-permissions(
-            :document-id="shownNpc.id",
-            :characters="characters", 
-            :players="shownNpc.players",
-            @toggleplayer="togglePlayer",
-            @enableall="enableAllPlayers"
-            @disableall="disableAllPlayers"
-          )
-      template(slot="content", v-if="shownNpc")
-        .content(v-html="shownNpcDescription")
     modal(ref="npcModal", v-if="isGameMaster")
       template(slot="content")
         npc-editor(
@@ -38,7 +23,6 @@
   import { Npc as newNpc } from '@/schema/Npc.js'
 
   import Modal from '@/components/ui/Modal.vue'
-  import SidePanel from '@/components/ui/SidePanel.vue'
   import SearchControl from '@/components/forms/SearchControl.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
@@ -50,7 +34,6 @@
     name: 'Npcs',
     components: {
       Modal,
-      SidePanel,
       SearchControl, 
       PrimaryButton, 
       IconButton,
@@ -84,12 +67,12 @@
       shownNpcDescription () {
         return (this.shownNpc) ? this.$sanitize(this.shownNpc.description) : ''
       },
-      sidePanelTitle () {
-        return (this.shownNpc) ? this.shownNpc.name : ''
-      },
-      sidePanelImage () {
-        return (this.shownNpc) ? this.shownNpc.image : null
-      }
+      // sidePanelTitle () {
+      //   return (this.shownNpc) ? this.shownNpc.name : ''
+      // },
+      // sidePanelImage () {
+      //   return (this.shownNpc) ? this.shownNpc.image : null
+      // }
     },
     methods: {
       filterNpcs () {
@@ -103,8 +86,11 @@
         })
       },
       showNpc (npc) {
-        this.shownNpc = npc
-        this.$refs.npcSidePanel.open()
+        // this.shownNpc = npc
+        this.$store.dispatch('sidepanel/showContent', {
+          type: 'npc',
+          data: npc
+        })
       },
       newNpc () {
         this.editingNpc = newNpc({
@@ -135,7 +121,7 @@
       },
       removeNpc (npcId) {
         this.$refs.npcModal.close()
-        this.$refs.npcSidePanel.close()
+        // this.$refs.npcSidePanel.close()
         this.$store.dispatch('npcs/remove', npcId)
       },
       togglePlayer ({ document, player }) {

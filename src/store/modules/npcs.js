@@ -47,6 +47,18 @@ const mutations = {
 }
 
 const actions = {
+  init ({ state, dispatch }) {
+    document.addEventListener('click', e => {
+      let type = e.target.dataset.mentionType
+
+      if (type === 'npc') {
+        let id = e.target.dataset.mentionId
+        let data = state.all.find(npc => npc.id === id)
+
+        dispatch('sidepanel/showContent', { type, data }, { root: true })
+      }
+    })
+  },
   populate ({ rootState, commit }) {
     let userId = rootState.user.currentUser.uid
     let ownedNpcsRef = rootState.npcsCollection.where('created_by', '==', userId)

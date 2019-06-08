@@ -24,11 +24,12 @@ export default class AutoFill extends Mention {
       ],
       parseDOM: [
         {
-          tag: 'span[data-mention-id]',
+          tag: 'span[data-mention-id][data-mention-type]',
           getAttrs: dom => {
             const id = dom.getAttribute('data-mention-id')
+            const type = dom.getAttribute('data-mention-type')
             const label = dom.innerText.split(this.options.matcher.char).join('')
-            return { id, label }
+            return { id, type, label }
           }
         }
       ]

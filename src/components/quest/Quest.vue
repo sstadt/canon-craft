@@ -20,7 +20,7 @@
         @selected="togglePlayer(character.player)"
       )
       icon-button(label="Toggle All Characters", :flex="true", icon="users", classes="quest__characters__toggle-all", @click="toggleAll")
-    side-panel(ref="questDetails", :title="quest.title")
+    //- side-panel(ref="questDetails", :title="quest.title")
       template(slot="content")
         .objectives
           p(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
@@ -34,7 +34,8 @@
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
   import Icon from '@/components/ui/Icon.vue'
-  import SidePanel from '@/components/ui/SidePanel.vue'
+  // TODO: trigger store event instead of keeping sidepanel here
+  // import SidePanel from '@/components/ui/SidePanel.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
   import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
@@ -42,7 +43,7 @@
     name: 'Quest',
     components: {
       PrimaryButton, IconButton,
-      Icon, SidePanel,
+      Icon,
       QuestObjective, QuestCharacter
     },
     props: {

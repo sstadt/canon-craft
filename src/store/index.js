@@ -17,6 +17,7 @@ import npcs from './modules/npcs'
 import loading from './modules/loading'
 import toast from './modules/toast'
 import installer from './modules/installer'
+import sidepanel from './modules/sidepanel'
 
 Vue.use(Vuex)
 
@@ -42,6 +43,7 @@ export default new Vuex.Store({
     npcs,
     loading,
     toast,
-    installer
+    installer,
+    sidepanel
   }
 })

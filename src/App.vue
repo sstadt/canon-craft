@@ -4,8 +4,10 @@
     icon-store
     toast
     loading-indicator
-    installer
+    //- disabled in lieu of better safari support
+    //- installer 
     navbar
+    side-panel
     .main-content
       //- transition(
       //-   name="fade", 
@@ -21,16 +23,23 @@
   import { mapState } from 'vuex'
   import { initScrollLock } from '@/lib/events.scrollLock.js'
 
-  import Navbar from '@/components/navigation/Navbar.vue'
-
   import Installer from '@/components/ui/Installer.vue'
   import IconStore from '@/components/ui/IconStore.vue'
-  import Toast from '@/components/ui/Toast.vue'
   import LoadingIndicator from '@/components/ui/LoadingIndicator.vue'
+  import Navbar from '@/components/navigation/Navbar.vue'
+  import SidePanel from '@/components/sidepanel/SidePanel.vue'
+  import Toast from '@/components/ui/Toast.vue'
 
   export default {
     name: 'App',
-    components: { Navbar, Installer, IconStore, LoadingIndicator, Toast },
+    components: {
+      Installer,
+      IconStore,
+      LoadingIndicator,
+      Navbar,
+      SidePanel,
+      Toast
+    },
     data () {
       return {
         dataInitialized: false
@@ -45,6 +54,7 @@
     created () {
       this.$store.dispatch('user/init')
       this.$store.dispatch('toast/init')
+      this.$store.dispatch('npcs/init')
       initScrollLock()
     },
     watch: {

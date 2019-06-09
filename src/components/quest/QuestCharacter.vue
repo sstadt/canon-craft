@@ -70,6 +70,11 @@
       border-radius: 2px;
       height: $quest-character-image-size;
       width: $quest-character-image-size;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+      }
     }
   }
 </style>

@@ -1,7 +1,8 @@
 
 <template lang="pug">
   .character-share(:class="charClass")
-    icon(v-if="isActive", name="check", size="12px")
+    .character-share__icon(v-if="isActive")
+      icon(name="check", size="6px")
     icon-button(:label="buttonLabel", :image="character.avatar", image-classes="character-share__image", @click="selected")
 </template>
 
@@ -41,7 +42,7 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   $character-image-size: 28px;
 
   .character-share {
@@ -49,13 +50,18 @@
     position: relative;
     line-height: 0;
 
-    & > .icon {
+    &__icon {
       position: absolute;
-      top: $character-image-size - 2px;
+      bottom: 2px;
       right: 2px;
-      transform: translateY(-100%);
-      fill: $color--success;
       pointer-events: none;
+      background-color: $color-transparent-black;
+      padding: 3px;
+      border-radius: 50%;
+
+      .icon {
+        fill: $color--success;
+      }
     }
 
     &:not(:first-child) {
@@ -72,6 +78,11 @@
       border-radius: 2px;
       height: $character-image-size;
       width: $character-image-size;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+      }
     }
   }
 </style>

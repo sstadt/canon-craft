@@ -41,7 +41,7 @@
         return this.currentUser && this.currentUser.uid === this.activeGame.created_by
       },
       characters () {
-        return (this.activeGame.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
+        return (this.activeGame.id) ? this.allCharacters.filter(character => character.game === this.activeGame.id) : null
       }
     },
     methods: {

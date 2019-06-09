@@ -55,7 +55,11 @@ const actions = {
         let id = e.target.dataset.mentionId
         let data = state.all.find(npc => npc.id === id)
 
-        dispatch('sidepanel/showContent', { type, data }, { root: true })
+        if (data) {
+          dispatch('sidepanel/showContent', { type, data }, { root: true })
+        } else {
+          dispatch('toast/send', 'NPC not found', { root: true })
+        }
       }
     })
   },

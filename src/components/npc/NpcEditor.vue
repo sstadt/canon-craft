@@ -17,12 +17,14 @@
         wysiwyg(v-model="npc.description")
       .controls
         .controls__group
-          confirm-button(label="Delete", :small="true", @confirmed="remove")
+          primary-button(v-if="isNew", label="Cancel", :small="true", @click="cancel")
+          confirm-button(v-else, label="Delete", :small="true", @confirmed="remove")
         .controls__group
           submit-button(label="Save", :small="true")
 </template>
 
 <script>
+  import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import SubmitButton from '@/components/buttons/SubmitButton.vue'
   import ConfirmButton from '@/components/buttons/ConfirmButton.vue'
   import TextInput from '@/components/forms/TextInput.vue'
@@ -31,9 +33,20 @@
 
   export default {
     name: 'NpcEditor',
-    components: { SubmitButton, ConfirmButton, TextInput, ImageInput, Wysiwyg },
+    components: {
+      PrimaryButton,
+      SubmitButton,
+      ConfirmButton,
+      TextInput,
+      ImageInput,
+      Wysiwyg
+    },
     props: {
-      npc: Object
+      npc: Object,
+      isNew: {
+        type: Boolean,
+        default: false
+      }
     },
     methods: {
       save () {
@@ -41,6 +54,9 @@
       },
       remove () {
         this.$emit('remove', this.npc.id)
+      },
+      cancel () {
+        this.$emit('cancel')
       }
     }
   }

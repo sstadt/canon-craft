@@ -1,8 +1,7 @@
 
 <template lang="pug">
   .quest
-    primary-button(v-if="isGameMaster", :text="true", :label="quest.title", classes="h3 quest__title", @click="editQuest")
-    primary-button(v-else, :text="true", :label="quest.title", classes="h3 quest__title", @click="showDetails")
+    primary-button(:text="true", :label="quest.title", classes="h3 quest__title", @click="showDetails")
     .quest__objectives
       quest-objective(
         v-for="objective in quest.objectives",
@@ -11,20 +10,6 @@
         :is-game-master="isGameMaster",
         @update-objective="updateObjectives"
       )
-    .quest__characters(v-if="isGameMaster")
-      quest-character(
-        v-for="character in characters",
-        :key="character.id",
-        :character="character",
-        :quest="quest",
-        @selected="togglePlayer(character.player)"
-      )
-      icon-button(label="Toggle All Characters", :flex="true", icon="users", classes="quest__characters__toggle-all", @click="toggleAll")
-    //- side-panel(ref="questDetails", :title="quest.title")
-      template(slot="content")
-        .objectives
-          p(v-for="objective in quest.objectives") {{ objective.completed }}/{{ objective.goal }}: {{ objective.description }}
-        .content(v-html="description")
 </template>
 
 <script>
@@ -34,17 +19,17 @@
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
   import Icon from '@/components/ui/Icon.vue'
-  // TODO: trigger store event instead of keeping sidepanel here
-  // import SidePanel from '@/components/ui/SidePanel.vue'
   import QuestObjective from '@/components/quest/QuestObjective.vue'
   import QuestCharacter from '@/components/quest/QuestCharacter.vue'
 
   export default {
     name: 'Quest',
     components: {
-      PrimaryButton, IconButton,
+      PrimaryButton,
+      IconButton,
       Icon,
-      QuestObjective, QuestCharacter
+      QuestObjective,
+      QuestCharacter
     },
     props: {
       quest: Object,
@@ -104,7 +89,10 @@
         });
       }, 300),
       showDetails () {
-        this.$refs.questDetails.open()
+        this.$store.dispatch('sidepanel/showContent', {
+          type: 'quest',
+          data: this.quest
+        })
       }
     }
   }

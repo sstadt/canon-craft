@@ -58,7 +58,7 @@
         this.quest.objectives.splice(index, 1)
       },
       save () {
-        this.$emit('submit', this.quest)
+        this.$emit('save', this.quest)
       },
       cancel () {
         this.$emit('cancel')

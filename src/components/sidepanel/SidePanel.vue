@@ -15,10 +15,11 @@
   import { mapState } from 'vuex'
 
   import SidePanelNpc from '@/components/sidepanel/SidePanelNpc.vue'
+  import SidePanelQuest from '@/components/sidepanel/SidePanelQuest.vue'
 
   export default {
     name: 'SidePanel',
-    components: { SidePanelNpc },
+    components: { SidePanelNpc, SidePanelQuest },
     computed: {
       ...mapState({
         show: state => state.sidepanel.show,

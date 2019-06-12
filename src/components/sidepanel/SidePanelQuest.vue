@@ -23,7 +23,7 @@
       .content(v-html="description")
     modal(ref="editModal", v-if="isGameMaster")
       template(slot="content")
-        quest-editor(:quest="data", @save="save", @remove="remove")
+        quest-editor(:quest="data", @save="save", @remove="remove", @cancel="$refs.editModal.close()")
 </template>
 
 <script>

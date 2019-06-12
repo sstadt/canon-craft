@@ -48,9 +48,6 @@
       }
     },
     methods: {
-      editQuest () {
-        this.$emit('edit', this.quest.id)
-      },
       updateObjectives ({ id, completed }) {
         let updatedQuest = {
           id: this.quest.id,
@@ -61,33 +58,6 @@
         updatedQuest.objectives[objectiveIndex].completed = completed
         this.$emit('update', updatedQuest)
       },
-      togglePlayer: debounce(function (uid) {
-        let playerIndex = this.quest.players.indexOf(uid)
-        let updatedQuest = {
-          id: this.quest.id,
-          players: clone(this.quest.players)
-        }
-
-        if (playerIndex > -1) {
-          updatedQuest.players.splice(playerIndex, 1)
-        } else {
-          updatedQuest.players.push(uid)
-        }
-
-        this.$emit('update', updatedQuest)
-      }, 300),
-      toggleAll: debounce(function () {
-        let newPlayers = []
-
-        if (this.characters.length > this.quest.players.length) {
-          newPlayers = clone(this.characters).map(character => character.player)
-        }
-
-        this.$emit('update', {
-          id: this.quest.id,
-          players: newPlayers
-        });
-      }, 300),
       showDetails () {
         this.$store.dispatch('sidepanel/showContent', {
           type: 'quest',

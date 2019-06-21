@@ -51,8 +51,7 @@
             this.$refs.newGameModal.close()
             this.$store.dispatch('games/create', { 
               name: this.newGameName, 
-              created_by: this.currentUser.uid,
-              campaign: this.userData.config.defaultCampaign
+              created_by: this.currentUser.uid
             })
             this.newGameName = ''
             this.errors.clear()

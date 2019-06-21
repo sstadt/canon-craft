@@ -55,13 +55,12 @@ const actions = {
     unsubscribeOwnedGames = setupGamesWatcher(ownedGamesRef, commit)
     unsubscribePlayedGames = setupGamesWatcher(playedGamesRef, commit)
   },
-  create ({ rootState }, { name, created_by, campaign }) {
+  create ({ rootState }, { name, created_by }) {
     let gamesRef = rootState.gamesCollection
 
     gamesRef.add({
       name,
       created_by,
-      campaign,
       description: '',
       players: [],
       journal: [],

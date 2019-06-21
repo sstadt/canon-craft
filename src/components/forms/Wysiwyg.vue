@@ -95,7 +95,7 @@
         return (this.gameId) ? this.games.find(game => game.id === this.gameId) : null
       },
       npcs () {
-        return (this.game) ? this.allNpcs.filter(npc => npc.campaign === this.game.campaign) : []
+        return (this.game) ? this.allNpcs.filter(npc => npc.game === this.game.id) : []
       },
       suggestions () {
         return [].concat(this.npcs.map(npc => ({ type: 'npc', id: npc.id, name: npc.name })))

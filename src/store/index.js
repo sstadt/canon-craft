@@ -27,7 +27,6 @@ const state = {
   gamesCollection: db.collection('games'),
   charactersCollection: db.collection('characters'),
   questsCollection: db.collection('quests'),
-  campaignsCollection: db.collection('campaigns'),
   npcsCollection: db.collection('npcs')
 }
 

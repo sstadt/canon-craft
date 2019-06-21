@@ -44,7 +44,7 @@
     },
     props: {
       isGameMaster: Boolean,
-      campaign: String,
+      gameId: String,
       characters: Array
     },
     data () {
@@ -60,7 +60,7 @@
         allNpcs: state => state.npcs.all
       }),
       npcs () {
-        return this.allNpcs.filter(npc => npc.campaign === this.campaign)
+        return this.allNpcs.filter(npc => npc.game === this.gameId)
       },
       filteredNpcs () {
         return (this.searchParam.length > 2) ? this.filterNpcs() : this.npcs
@@ -85,7 +85,7 @@
       },
       newNpc () {
         this.editingNpc = newNpc({
-          campaign: this.campaign,
+          game: this.gameId,
           created_by: this.currentUser.uid
         })
         this.$refs.npcModal.open()

@@ -22,7 +22,7 @@
 
   import Modal from '@/components/ui/Modal.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
-  import GameCard from '@/components/card/GameCard.vue'
+  import GameCard from '@/components/game/GameCard.vue'
 
   export default {
     name: 'GameBrowser',

@@ -141,6 +141,11 @@
     @include game-input-common;
   }
 
+  .wysiwyg [contenteditable="true"] {
+    max-height: 300px;
+    overflow: auto;
+  }
+
   &--header {
     [type='text'],
     textarea {

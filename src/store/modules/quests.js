@@ -1,43 +1,22 @@
 
+import { createWatcher } from '@/lib/util.firebase.js'
+
 var unsubscribeOwnedQuests
 var unsubscribePlayedQuests
-
-const setupGamesWatcher = (ref, commit) => {
-  return ref.onSnapshot(snapshot =>
-    snapshot.docChanges().forEach(change =>
-      questChangeHandler(change, commit)))
-}
-
-const questChangeHandler = (change, commit) => {
-  switch (change.type) {
-    case 'added':
-      commit('ADD_QUEST', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'modified':
-      commit('UPDATE_QUEST', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'removed':
-      commit('REMOVE_QUEST', change.doc.id)
-      break
-    default:
-      console.warn('--- unhandled quest change type')
-      console.warn(change.type)
-  }
-}
 
 const state = {
   all: []
 }
 
 const mutations = {
-  ADD_QUEST (state, quest) {
+  ADD (state, quest) {
     state.all.push(quest)
   },
-  UPDATE_QUEST (state, quest) {
+  UPDATE (state, quest) {
     let index = state.all.findIndex(item => item.id === quest.id)
     state.all.splice(index, 1, quest)
   },
-  REMOVE_QUEST (state, gameId) {
+  REMOVE (state, gameId) {
     let index = state.all.findIndex(item => item.id === gameId)
     state.all.splice(index, 1)
   },
@@ -55,8 +34,8 @@ const actions = {
     let ownedQuestRef = rootState.questsCollection.where('created_by', '==', userId)
     let playedQuestRef = rootState.questsCollection.where('players', 'array-contains', userId)
 
-    unsubscribeOwnedQuests = setupGamesWatcher(ownedQuestRef, commit)
-    unsubscribePlayedQuests = setupGamesWatcher(playedQuestRef, commit)
+    unsubscribeOwnedQuests = createWatcher(ownedQuestRef, commit)
+    unsubscribePlayedQuests = createWatcher(playedQuestRef, commit)
   },
   create ({ rootState }, quest) {
     rootState.questsCollection.add(quest)

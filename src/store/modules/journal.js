@@ -1,4 +1,6 @@
 
+import { createWatcher } from '@/lib/util.firebase.js'
+
 var unsubscribeEntries
 
 const state = {
@@ -7,32 +9,15 @@ const state = {
   entries: []
 }
 
-const entryChangeHandler = (change, commit) => {
-  switch (change.type) {
-    case 'added':
-      commit('ADD_ENTRY', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'modified':
-      commit('UPDATE_ENTRY', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'removed':
-      commit('REMOVE_ENTRY', change.doc.id)
-      break
-    default:
-      console.warn('--- unhandled quest change type')
-      console.warn(change.type)
-  }
-}
-
 const mutations = {
-  ADD_ENTRY (state, entry) {
+  ADD (state, entry) {
     state.entries.push(entry)
   },
-  UPDATE_ENTRY (state, entry) {
+  UPDATE (state, entry) {
     let index = state.entries.findIndex(item => item.id === entry.id)
     state.entries.splice(index, 1, entry)
   },
-  REMOVE_ENTRY (state, entryId) {
+  REMOVE (state, entryId) {
     let index = state.entries.findIndex(item => item.id === entryId)
     state.entries.splice(index, 1)
   },
@@ -48,16 +33,12 @@ const mutations = {
 }
 
 const actions = {
-  populate ({ rootState, state, commit }, gameId) {
+  populate ({ rootState, commit }, gameId) {
     let journalEntriesRef = rootState.gamesCollection.doc(gameId)
       .collection('journalEntries')
 
     if (unsubscribeEntries) unsubscribeEntries()
-
-    unsubscribeEntries = journalEntriesRef.onSnapshot(snapshot =>
-      snapshot.docChanges().forEach(change =>
-        entryChangeHandler(change, commit)))
-
+    unsubscribeEntries = createWatcher(journalEntriesRef, commit)
     commit('SET_GAME', gameId)
     commit('SET_REF', journalEntriesRef)
   },

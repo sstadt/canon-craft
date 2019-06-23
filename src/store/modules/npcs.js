@@ -1,43 +1,22 @@
 
+import { createWatcher } from '@/lib/util.firebase.js'
+
 var unsubscribeOwnedNpcs
 var unsubscribeSharedNpcs
-
-const setupNpcsWatcher = (ref, commit) => {
-  return ref.onSnapshot(snapshot =>
-    snapshot.docChanges().forEach(change =>
-      npcChangeHandler(change, commit)))
-}
-
-const npcChangeHandler = (change, commit) => {
-  switch (change.type) {
-    case 'added':
-      commit('ADD_NPC', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'modified':
-      commit('UPDATE_NPC', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'removed':
-      commit('REMOVE_NPC', change.doc.id)
-      break
-    default:
-      console.warn('--- unhandled npc change type')
-      console.warn(change.type)
-  }
-}
 
 const state = {
   all: []
 }
 
 const mutations = {
-  ADD_NPC (state, npc) {
+  ADD (state, npc) {
     state.all.push(npc)
   },
-  UPDATE_NPC (state, npc) {
+  UPDATE (state, npc) {
     let index = state.all.findIndex(item => item.id === npc.id)
     state.all.splice(index, 1, npc)
   },
-  REMOVE_NPC (state, npcId) {
+  REMOVE (state, npcId) {
     let index = state.all.findIndex(item => item.id === npcId)
     state.all.splice(index, 1)
   },
@@ -68,8 +47,8 @@ const actions = {
     let ownedNpcsRef = rootState.npcsCollection.where('created_by', '==', userId)
     let sharedNpcsRef = rootState.npcsCollection.where('players', 'array-contains', userId)
 
-    unsubscribeOwnedNpcs = setupNpcsWatcher(ownedNpcsRef, commit)
-    unsubscribeSharedNpcs = setupNpcsWatcher(sharedNpcsRef, commit)
+    unsubscribeOwnedNpcs = createWatcher(ownedNpcsRef, commit)
+    unsubscribeSharedNpcs = createWatcher(sharedNpcsRef, commit)
   },
   create ({ rootState }, npc) {
     rootState.npcsCollection.add(npc)

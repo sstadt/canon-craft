@@ -1,34 +1,7 @@
 
-var gameWatchers = {};
+import { createWatcher } from '@/lib/util.firebase.js'
 
-const populateGame = (gameId, rootState, commit) => {
-  if (!gameWatchers[gameId]) {
-    gameWatchers[gameId] = rootState.charactersCollection.where('game', '==', gameId)
-
-    commit('GAME_POPULATED', gameId)
-
-    gameWatchers[gameId].onSnapshot(snapshot =>
-      snapshot.docChanges().forEach(change =>
-        characterChangeHandler(change, commit)))
-  }
-}
-
-const characterChangeHandler = (change, commit) => {
-  switch (change.type) {
-    case 'added':
-      commit('ADD_CHARACTER', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'modified':
-      commit('UPDATE_CHARACTER', { ...change.doc.data(), id: change.doc.id })
-      break
-    case 'removed':
-      commit('REMOVE_CHARACTER', change.doc.id)
-      break
-    default:
-      console.warn('--- unhandled character change type')
-      console.warn(change.type)
-  }
-}
+var gameWatchers = {}
 
 const state = {
   all: [],
@@ -36,14 +9,14 @@ const state = {
 }
 
 const mutations = {
-  ADD_CHARACTER (state, character) {
+  ADD (state, character) {
     state.all.push(character)
   },
-  UPDATE_CHARACTER (state, character) {
+  UPDATE (state, character) {
     let index = state.all.findIndex(item => item.id === character.id)
     state.all.splice(index, 1, character)
   },
-  REMOVE_CHARACTER (state, gameId) {
+  REMOVE (state, gameId) {
     let index = state.all.findIndex(item => item.id === gameId)
     state.all.splice(index, 1)
   },
@@ -54,7 +27,12 @@ const mutations = {
 
 const actions = {
   populate ({ rootState, commit }, gameId) {
-    populateGame(gameId, rootState, commit)
+    if (!gameWatchers[gameId]) {
+      let gameCharactersRef = rootState.charactersCollection.where('game', '==', gameId)
+      
+      gameWatchers[gameId] = createWatcher(gameCharactersRef, commit)
+      commit('GAME_POPULATED', gameId)
+    }
   },
   update ({ rootState }, character) {
     let charRef = rootState.charactersCollection.doc(character.id)

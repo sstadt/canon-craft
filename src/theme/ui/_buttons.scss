@@ -12,10 +12,14 @@
   transition: 0.3s ease all;
   font-weight: bold;
   letter-spacing: 1.2px;
+  white-space: nowrap;
+  // keep the icon in the middle when flex button
+  align-items: center;
 
   span,
   .icon {
     pointer-events: none;
+    flex-grow: 1;
   }
 
   &, &:hover {
@@ -31,7 +35,7 @@
   &--secondary {
     .icon {
       vertical-align: middle;
-      margin-right: 4px;
+      margin-right: 10px;
       fill: $body-text--light;
     }
   }
@@ -62,6 +66,32 @@
 
       &:hover {
         color: $color--secondary--hover;
+      }
+    }
+  }
+
+  &--light {
+    background-color: $body-bg--main;
+    border-color: $body-bg--main;
+
+    &, &:hover {
+      color: $color-black;
+    }
+
+    .icon {
+      fill: $color-black;
+    }
+
+    &:hover {
+      background-color: $color-off-white;
+      border-color: $color-off-white;
+    }
+
+    &.button--hollow {
+      color: $color--primary;
+
+      &:hover {
+        color: $color--primary--hover;
       }
     }
   }

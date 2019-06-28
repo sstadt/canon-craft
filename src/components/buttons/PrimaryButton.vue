@@ -38,6 +38,10 @@
         type: Boolean,
         default: false
       },
+      light: {
+        type: Boolean,
+        default: false
+      },
       wide: {
         type: Boolean,
         deafult: false
@@ -72,6 +76,7 @@
           ...additionalClasses,
           'button--primary': this.secondary === false,
           'button--secondary': this.secondary === true,
+          'button--light': this.light === true,
           'button--hollow': this.hollow === true,
           'button--small': this.small === true,
           'button--full': this.wide === true,

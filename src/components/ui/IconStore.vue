@@ -16,8 +16,10 @@
       <g id="icon-check"><img svg-inline src="@/assets/icons/check.svg" /></g>
       <g id="icon-ok"><img svg-inline src="@/assets/icons/ok.svg" /></g>
       <g id="icon-info"><img svg-inline src="@/assets/icons/info.svg" /></g>
+      <g id="icon-more"><img svg-inline src="@/assets/icons/more.svg" /></g>
+      <g id="icon-trash"><img svg-inline src="@/assets/icons/trash.svg" /></g>
+      <!-- game icons -->
       <g id="icon-npc"><img svg-inline src="@/assets/icons/npc.svg" /></g>
-      <!-- quest icons -->
       <g id="icon-quest"><img svg-inline src="@/assets/icons/quest.svg" /></g>
       <g id="icon-add-quest"><img svg-inline src="@/assets/icons/add-quest.svg" /></g>
       <!-- wysiwyg icons -->

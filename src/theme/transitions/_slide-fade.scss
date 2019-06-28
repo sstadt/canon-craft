@@ -28,3 +28,13 @@
   transform: translateY(30px);
   opacity: 0;
 }
+
+// slide-fade-up
+.slide-fade-up-minor-enter-active, .slide-fade-up-minor-leave-active {
+  transition: all .3s ease;
+}
+
+.slide-fade-up-minor-enter, .slide-fade-up-minor-leave-active {
+  transform: translateY(5px);
+  opacity: 0;
+}

@@ -1,12 +1,12 @@
 
 <template lang="pug">
-  .confirm-dialog
-    modal(ref="modal")
-      template(slot="content")
-        p.h3 {{ message }}
-        .controls.controls--right
-          primary-button(label="No", :small="true", :secondary="true", @click="close")
-          primary-button(label="Yes", :small="true", @click="confirm")
+  modal(ref="modal", :dialog="true")
+    template(slot="content")
+      h3(v-if="heading") {{ heading }}
+      p {{ message }}
+      .controls.controls--right
+        primary-button(label="No", :small="true", :secondary="true", @click="close")
+        primary-button(label="Yes", :small="true", @click="confirm")
 </template>
 
 <script>
@@ -17,6 +17,9 @@
   export default {
     name: 'ConfirmDialog',
     components: { Modal, PrimaryButton, TextInput },
+    props: {
+      heading: String
+    },
     data () {
       return {
         message: '',
@@ -41,5 +44,5 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 </style>

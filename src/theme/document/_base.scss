@@ -8,12 +8,14 @@ html, body {
   margin: 0;
 }
 
-body {
-  &.sidepanel-open,
-  &.modal-open {
-    overflow: hidden;
-  }
-}
+// this causes jitter, 
+// disable duntil I can find a better solution
+// body {
+//   &.sidepanel-open,
+//   &.modal-open {
+//     overflow: hidden;
+//   }
+// }
 
 img {
   max-width: 100%;

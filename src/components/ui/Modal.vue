@@ -1,10 +1,10 @@
 
 <template lang="pug">
   transition(name="fade")
-    .modal(v-if="isVisible")
+    .modal(v-if="isVisible", :class="{ 'modal--dialog': this.dialog }")
       .modal__overlay(@click="close")
       .modal__content
-        icon-button(label="Close Modal", icon="times", classes="modal__close", @click="close")
+        icon-button(v-if="!dialog", label="Close Modal", icon="times", classes="modal__close", @click="close")
         slot(name="content")
 </template>
 
@@ -17,6 +17,12 @@
   export default {
     name: 'Modal',
     components: { IconButton },
+    props: {
+      dialog: {
+        type: Boolean,
+        default: false
+      }
+    },
     data() {
       return {
         isVisible: false
@@ -71,6 +77,13 @@
         top: 50px;
         min-width: 500px;
         padding: 65px;
+      }
+
+      .modal--dialog & {
+        min-width: 0;
+        width: 100%;
+        max-width: 400px;
+        padding: $grid-gutter;
       }
     }
 

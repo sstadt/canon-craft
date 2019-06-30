@@ -5,7 +5,7 @@
     ref="button",
     :class="buttonClass", 
     :disabled="disabled", 
-    @click.stop="$emit('click')"
+    @click="$emit('click')"
   )
     icon(v-if="icon", :name="icon", :size="iconSize")
     span {{ label }}

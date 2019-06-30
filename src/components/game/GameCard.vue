@@ -7,7 +7,8 @@
         h3.card__title {{ game.name }}
         p.card__description Your Role: {{ role }}
     context-menu.game-card__menu
-      context-menu-item(icon="trash", label="Delete")
+      context-menu-item(icon="trash", label="Delete", @click="confirmDelete")
+    confirm-dialog(ref="confirm")
 </template>
 
 <script>
@@ -15,10 +16,11 @@
 
   import ContextMenu from '@/components/ui/ContextMenu.vue'
   import ContextMenuItem from '@/components/ui/ContextMenuItem.vue'
+  import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 
   export default {
     name: 'GameCard',
-    components: { ContextMenu, ContextMenuItem },
+    components: { ContextMenu, ContextMenuItem, ConfirmDialog },
     props: {
       game: Object
     },
@@ -34,6 +36,17 @@
       },
       role () {
         return (this.currentUser.uid === this.game.created_by) ? 'Game Master' : 'Player'
+      }
+    },
+    methods: {
+      confirmDelete () {
+        this.$refs.confirm.ask({
+          message: `Are you sure you with to delete ${this.game.name}? This cannot be undone.`,
+          callback: () => this.deleteGame()
+        })
+      },
+      deleteGame () {
+        console.log('delete')
       }
     }
   }

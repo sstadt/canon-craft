@@ -3,6 +3,14 @@
   display: flex;
   justify-content: space-between;
 
+  &--right {
+    justify-content: flex-end;
+
+    & > *:not(:first-child) {
+      margin-left: $grid-gutter / 2;
+    }
+  }
+
   &:not(:first-child) {
     margin-top: $content-gutter;
   }

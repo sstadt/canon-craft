@@ -4,7 +4,7 @@
     icon-button.dropdown-menu__open(:icon="icon", size="18px", @click="toggle")
     transition(name="slide-fade-up-minor")
       .dropdown-menu__list-wrapper(v-if="show")
-        .dropdown-menu__list
+        .dropdown-menu__list(@click="toggle")
           slot
 </template>
 

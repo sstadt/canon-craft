@@ -5,6 +5,7 @@ exports.onUserCreate = require('./user/onCreate.js');
 // Game Functions
 exports.onGameCreate = require('./game/onGameCreate.js');
 exports.onGameUpdate = require('./game/onGameUpdate.js');
+exports.onGameDelete = require('./game/onGameDelete.js');
 exports.joinGame = require('./game/joinGame.js');
 
 // Quest Functions

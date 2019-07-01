@@ -58,6 +58,9 @@ const actions = {
 
     gameRef.set(updatedGame, { merge: true })
   },
+  remove ({ rootState }, gameId) {
+    rootState.gamesCollection.doc(gameId).delete()
+  },
   clear ({ commit }) {
     unsubscribeOwnedGames()
     unsubscribePlayedGames()

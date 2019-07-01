@@ -6,7 +6,7 @@
       .card__content
         h3.card__title {{ game.name }}
         p.card__description Your Role: {{ role }}
-    context-menu.game-card__menu
+    context-menu.game-card__menu(v-if="isGameMaster")
       context-menu-item(icon="trash", label="Delete", @click="confirmDelete")
     confirm-dialog(ref="confirm")
 </template>
@@ -31,11 +31,14 @@
       ...mapState({
         currentUser: state => state.user.currentUser
       }),
+      isGameMaster () {
+        return this.currentUser.uid === this.game.created_by
+      },
       gameLink () {
         return `/game/${this.game.id}`
       },
       role () {
-        return (this.currentUser.uid === this.game.created_by) ? 'Game Master' : 'Player'
+        return this.isGameMaster ? 'Game Master' : 'Player'
       }
     },
     methods: {
@@ -47,6 +50,7 @@
       },
       deleteGame () {
         console.log('delete')
+        this.$store.dispatch('games/remove', this.game.id)
       }
     }
   }

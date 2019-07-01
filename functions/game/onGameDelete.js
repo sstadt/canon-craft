@@ -23,6 +23,3 @@ module.exports = functions.firestore
         });
     });
   });
-
-
-

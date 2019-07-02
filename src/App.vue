@@ -9,14 +9,8 @@
     navbar
     side-panel
     .main-content
-      //- transition(
-      //-   name="fade", 
-      //-   mode="out-in",
-      //-   @beforeLeave="beforeLeave",
-      //-   @enter="enter",
-      //-   @afterEnter="afterEnter"
-      //- )
-      router-view
+      transition(name="fade", mode="out-in")
+        router-view
 </template>
 
 <script>
@@ -42,7 +36,8 @@
     },
     data () {
       return {
-        dataInitialized: false
+        dataInitialized: false,
+        prevHeight: 0
       }
     },
     computed: {
@@ -68,21 +63,6 @@
       }
     },
     methods: {
-      beforeLeave(element) {
-        this.prevHeight = getComputedStyle(element).height;
-      },
-      enter(element) {
-        const { height } = getComputedStyle(element);
-
-        element.style.height = this.prevHeight;
-
-        setTimeout(() => {
-          element.style.height = height;
-        });
-      },
-      afterEnter(element) {
-        element.style.height = 'auto';
-      },
       populateData () {
         this.$store.dispatch('games/populate')
         this.$store.dispatch('quests/populate')

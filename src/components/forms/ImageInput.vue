@@ -2,8 +2,8 @@
 <template lang="pug">
   .image-input(:class="wrapperClass")
     label(v-if="!hideLabel") {{ label }}
-    input(type="text", :name="name", v-model="currentValue", :class="inputClass", v-validate="validation")
-    span.error(v-if="errors", v-show="errors.has(name)") {{ errors.first(name) }}
+    input(type="text", :name="name", v-model="currentValue", :class="inputClass")
+    span.error(v-if="error") {{ error }}
 </template>
 
 <script>

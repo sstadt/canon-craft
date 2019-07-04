@@ -6,6 +6,7 @@ const Home = () => import('@/views/Home.vue')
 const Styleguide = () => import('@/views/Styleguide.vue')
 const GameBrowser = () => import('@/views/GameBrowser.vue')
 const Game = () => import('@/views/Game.vue')
+const UserProfile = () => import('@/views/UserProfile.vue')
 const JoinGame = () => import('@/views/JoinGame.vue')
 
 Vue.use(Router)
@@ -38,6 +39,14 @@ const routes = [
     component: Game,
     meta: {
       title: 'Canon Craft - Game'
+    }
+  },
+  {
+    name: 'my-account',
+    path: '/my-account',
+    component: UserProfile,
+    meta: {
+      title: 'Canon Craft - My Profile'
     }
   },
   {

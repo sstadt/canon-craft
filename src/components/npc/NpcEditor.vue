@@ -4,9 +4,11 @@
     form(@submit.prevent="save", novalidate)
       text-input(
         label="Name", 
-        type="game", 
+        type="text"
+        group="game", 
         v-model="npc.name",
-        validation="required"
+        v-validate="'required'",
+        error="errors.first('name')"
       )
       image-input(
         label="Image",

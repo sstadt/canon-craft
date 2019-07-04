@@ -6,10 +6,10 @@ const state = {
 }
 
 const mutations = {
-  ADD_MESSAGE (state, { text, label, callback }) {
+  ADD_MESSAGE (state, { text, type, label, callback }) {
     var id = new Date().getTime()
 
-    state.messages.push({ id, text, label, callback })
+    state.messages.push({ id, text, type, label, callback })
     setTimeout(() => state.messages.splice(0, 1), timeout)
   }
 }
@@ -28,6 +28,9 @@ const actions = {
   },
   send ({ commit }, text) {
     commit('ADD_MESSAGE', { text })
+  },
+  success ({ commit }, text) {
+    commit('ADD_MESSAGE', { text, type: 'success' })
   }
 }
 

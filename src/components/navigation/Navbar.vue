@@ -15,7 +15,7 @@
 <script>
   import { mapState } from 'vuex'
 
-  import UserLogin from '@/components/navigation/UserLogin.vue'
+  import UserLogin from '@/components/user/UserLogin.vue'
 
   export default {
     name: 'Navbar',

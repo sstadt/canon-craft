@@ -3,8 +3,8 @@
   div(:class="wrapperClass")
     label(v-if="!hideLabel") {{ label }}
     icon(v-if="icon", :name="icon", size="iconSize")
-    input(type="text", :name="name", v-model="currentValue", :class="inputClass", v-validate="validation")
-    span.error(v-if="errors", v-show="errors.has(name)") {{ errors.first(name) }}
+    input(:type="type", :name="name", v-model="currentValue", :class="inputClass")
+    span.error(v-if="error") {{ error }}
 </template>
 
 <script>
@@ -15,27 +15,28 @@
     props: {
       label: String,
       value: String,
+      error: String,
+      type: {
+        type: String,
+        default: 'text'
+      },
       h1: Boolean,
       h2: Boolean,
       h3: Boolean,
       h4: Boolean,
       h5: Boolean,
       h6: Boolean,
-      validation: {
-        type: String,
-        default: ''
-      },
       icon: String,
       iconSize: {
         type: String,
         default: '14'
       },
-      type: {
+      group: {
         type: String,
         default: 'form',
         validator (value) {
-          let types = ['form', 'game', 'controls', 'icon']
-          return types.indexOf(value) > -1
+          let styles = ['form', 'game', 'controls', 'icon']
+          return styles.indexOf(value) > -1
         }
       },
       hideLabel: {
@@ -56,9 +57,9 @@
     computed: {
       wrapperClass () {
         return {
-          'game-input': this.type === 'game',
-          'form-input': this.type === 'form',
-          'controls-input': this.type === 'controls',
+          'game-input': this.group === 'game',
+          'form-input': this.group === 'form',
+          'controls-input': this.group === 'controls',
           'icon-input': this.icon
         }
       },

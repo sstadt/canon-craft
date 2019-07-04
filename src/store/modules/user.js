@@ -120,7 +120,17 @@ const actions = {
           console.log('*** Request Reset Error ************')
           console.log(error.code, error.message)
         }
-      });
+      })
+  },
+  updateUser ({ rootState, state, dispatch, commit }, updatedUser) {
+    rootState.auth.currentUser.updateProfile(updatedUser)
+      .then(() => dispatch('toast/success', 'Profile updated!', { root: true }))
+      .catch(function(error) {
+        if (error) {
+          console.log('*** Update User Error ************')
+          console.log(error.code, error.message)
+        }
+      })
   },
   requestAuth ({ commit }) {
     commit('REQUEST_AUTH')

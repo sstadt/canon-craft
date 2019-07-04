@@ -17,6 +17,7 @@ $color-dark-red: #410001;
 $color-purple: #a335ee;
 
 $color-green: #5cdb16;
+$color-dark-green: #3c763d;
 $color-gold: #cccc00;
 $color-orange: #db8a16;
 
@@ -34,7 +35,7 @@ $color--secondary--hover: darken($color--secondary, 5%);
 
 $color--error: $color-red;
 $color--warning: $color-gold;
-$color--success: $color-green;
+$color--success: $color-dark-green;
 
 $body-bg--main: $color-white;
 $body-bg--alt: $color-tan;

@@ -2,11 +2,12 @@
 <template lang="pug">
   .user-login
     transition(name="fade")
-      .user-login__logged-in(v-if="currentUser")
-        a.user-login__avatar(@click="toggleMenu")
-          img(:src="currentUser.photoURL")
+      .user-login__logged-in(v-if="currentUser", @click="toggleMenu")
+        a.user-login__avatar
+          img(:src="avatar")
         transition(name="slide-fade")
           .user-login__menu(v-if="showMenu")
+            router-link.navbar__link(to="/my-account") Settings
             a.navbar__link(href="#", @click.prevent="logOut") Log Out
       .user-login__logged-out(v-else)
         a.navbar__link(href="#", @click.prevent="logIn") Log In
@@ -33,7 +34,10 @@
       ...mapState({
         currentUser: state => state.user.currentUser,
         authRequested: state => state.user.authRequested
-      })
+      }),
+      avatar () {
+        return this.currentUser.photoURL
+      }
     },
     methods: {
       logIn () {

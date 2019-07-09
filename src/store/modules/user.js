@@ -38,8 +38,13 @@ const mutations = {
   },
   SET_USER (state, user) {
     state.loggedIn = true
-    state.currentUser = user
     state.authRequested = false
+    state.currentUser = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL
+    }
   },
   UNSET_USER (state) {
     state.loggedIn = false
@@ -124,7 +129,10 @@ const actions = {
   },
   updateUser ({ rootState, state, dispatch, commit }, updatedUser) {
     rootState.auth.currentUser.updateProfile(updatedUser)
-      .then(() => dispatch('toast/success', 'Profile updated!', { root: true }))
+      .then(() => {
+        commit('SET_USER', updatedUser)
+        dispatch('toast/success', 'Profile updated!', { root: true })
+      })
       .catch(function(error) {
         if (error) {
           console.log('*** Update User Error ************')

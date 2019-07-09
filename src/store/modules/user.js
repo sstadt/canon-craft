@@ -46,6 +46,13 @@ const mutations = {
       photoURL: user.photoURL
     }
   },
+  UPDATE_USER (state, user) {
+    for (let key in user) {
+      if (state.currentUser.hasOwnProperty(key)) {
+        state.currentUser[key] = user[key]
+      }
+    }
+  },
   UNSET_USER (state) {
     state.loggedIn = false
     state.currentUser = null
@@ -102,7 +109,7 @@ const actions = {
   },
   login ({ rootState }, { email, password }) {
     rootState.auth.signInWithEmailAndPassword(email, password)
-      .catch((error) => {
+      .catch(error => {
         if (error) {
           console.log('*** Login Error ************')
           console.log(error.code, error.message)
@@ -120,25 +127,51 @@ const actions = {
   },
   requestReset ({ rootState }, email) {
     rootState.auth.sendPasswordResetEmail(email)
-      .catch(function(error) {
+      .catch(error => {
         if (error) {
           console.log('*** Request Reset Error ************')
           console.log(error.code, error.message)
         }
       })
   },
-  updateUser ({ rootState, state, dispatch, commit }, updatedUser) {
+  updateUser ({ rootState, dispatch, commit }, updatedUser) {
     rootState.auth.currentUser.updateProfile(updatedUser)
       .then(() => {
-        commit('SET_USER', updatedUser)
+        commit('UPDATE_USER', updatedUser)
         dispatch('toast/success', 'Profile updated!', { root: true })
       })
-      .catch(function(error) {
+      .catch(error => {
         if (error) {
           console.log('*** Update User Error ************')
           console.log(error.code, error.message)
         }
       })
+  },
+  updatePassword ({ rootState, state, dispatch }, { newPassword, currentPassword }) {
+    let credential = firebase.auth.EmailAuthProvider.credential(state.currentUser.email, currentPassword)
+
+    return new Promise((resolve, reject) => {
+      rootState.auth.currentUser.reauthenticateAndRetrieveDataWithCredential(credential)
+        .then(() => rootState.auth.currentUser.updatePassword(newPassword))
+        .then(() => {
+          dispatch('toast/success', 'Password updated!', { root: true })
+          resolve()
+        })
+        .catch(error => {
+          if (error) {
+            switch (error.code) {
+              case 'auth/wrong-password':
+                dispatch('toast/send', 'Current Password is incorrect!', { root: true })
+                break;
+            
+              default:
+                console.log('*** Unknown Password Reset Error ************')
+                console.log(error.code, error.message)
+                break;
+            }
+          }
+        })
+    })
   },
   requestAuth ({ commit }) {
     commit('REQUEST_AUTH')

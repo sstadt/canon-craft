@@ -8,7 +8,7 @@
           tab(heading="User Profile", :selected="true")
             user-details(:user="currentUser")
           tab(heading="Account Settings")
-            user-account(:user="currentUser")
+            user-password-reset
           tab(heading="Games")
             .row.small-up-1.medium-up-3.large-up-4
               .column(v-for="game in games")
@@ -29,13 +29,13 @@
   import Tabs from '@/components/ui/Tabs.vue'
   import GameCard from '@/components/game/GameCard.vue'
   import UserDetails from '@/components/user/UserDetails.vue'
-  import UserAccount from '@/components/user/UserAccount.vue'
+  import UserPasswordReset from '@/components/user/UserPasswordReset.vue'
 
   export default {
     name: 'UserProfile',
     components: {
       Tab, Tabs, GameCard,
-      UserDetails, UserAccount
+      UserDetails, UserPasswordReset
     },
     computed: {
       ...mapState({

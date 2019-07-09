@@ -76,6 +76,11 @@
       name () {
         return handleize(this.label)
       }
+    },
+    methods: {
+      sync () {
+        this.currentValue = this.value
+      }
     }
   }
 </script>

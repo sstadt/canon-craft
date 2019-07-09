@@ -52,7 +52,9 @@
     },
     methods: {
       save () {
-        this.$emit('save', this.npc)
+        this.$validator.validateAll().then((isValid) => {
+          if (isValid) this.$emit('save', this.npc)
+        })
       },
       remove () {
         this.$emit('remove', this.npc.id)

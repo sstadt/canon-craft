@@ -42,9 +42,13 @@
     },
     methods: {
       updateUserDetails () {
-        this.$store.dispatch('user/updateUser', {
-          displayName: this.displayName,
-          photoURL: this.photoURL
+        this.$validator.validateAll().then((isValid) => {
+          if (isValid) {
+            this.$store.dispatch('user/updateUser', {
+              displayName: this.displayName,
+              photoURL: this.photoURL
+            })
+          }
         })
       }
     }

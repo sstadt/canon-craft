@@ -58,7 +58,9 @@
         this.quest.objectives.splice(index, 1)
       },
       save () {
-        this.$emit('save', this.quest)
+        this.$validator.validateAll().then((isValid) => {
+          if (isValid) this.$emit('save', this.quest)
+        })
       },
       cancel () {
         this.$emit('cancel')

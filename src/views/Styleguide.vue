@@ -1,6 +1,7 @@
 
 <template lang="pug">
   .container.styleguide
+    vue-headful(title="Canon Craft - Styleguide")
     .post
       h1 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
       h2 Lorem Ipsum dolor sit amet consecteteur adipiscing elit
@@ -65,8 +66,11 @@
 </template>
 
 <script>
+  import VueHeadful from 'vue-headful'
+
   export default {
-    name: 'Styleguide'
+    name: 'Styleguide',
+    components: { VueHeadful }
   }
 </script>
 

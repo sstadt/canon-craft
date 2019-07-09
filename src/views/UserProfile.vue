@@ -1,6 +1,7 @@
 
 <template lang="pug">
   .container
+    vue-headful(title="Canon Craft - My Account")
     transition(name="fade")
       .user-profile(v-if="loggedIn")
         h1 {{ currentUser.email }}
@@ -24,6 +25,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import VueHeadful from 'vue-headful'
 
   import Tab from '@/components/ui/Tab.vue'
   import Tabs from '@/components/ui/Tabs.vue'
@@ -34,6 +36,7 @@
   export default {
     name: 'UserProfile',
     components: {
+      VueHeadful,
       Tab, Tabs, GameCard,
       UserDetails, UserPasswordReset
     },

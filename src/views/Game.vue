@@ -1,8 +1,9 @@
 
 <template lang="pug">
-  transition(name="fade")
-    .container.u-mt.game(v-if="game && initialized")
-      .row
+  .container.u-mt.game
+    vue-headful(:title="pageTitle")
+    transition(name="fade")
+      .row(v-if="game && initialized")
         .column.small-12.large-8
           auto-textarea.game-input--header(v-if="isGameMaster", v-model="gameName", type="game", :h1="true")
           h1.game__title(v-else)
@@ -27,6 +28,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import VueHeadful from 'vue-headful'
   import { debounce } from '@/lib/util.js'
 
   import GameInviteLink from '@/components/game/GameInviteLink.vue'
@@ -46,6 +48,7 @@
   export default {
     name: 'Game',
     components: {
+      VueHeadful,
       GameInviteLink, GameCharacters,
       QuestLog, Journal, Npcs,
       AutoTextarea,
@@ -79,6 +82,9 @@
       },
       characters () {
         return (this.game.id) ? this.allCharacters.filter(character => character.game === this.game.id) : null
+      },
+      pageTitle () {
+        return (this.game) ? `Canon Craft - ${this.game.name}` : 'Canon Craft'
       }
     },
     created () {

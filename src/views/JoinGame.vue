@@ -1,10 +1,12 @@
 
 <template lang="pug">
   .join-game
+    vue-headful(title="Canon Craft - Join Game")
 </template>
 
 <script>
   import { mapState } from 'vuex'
+  import VueHeadful from 'vue-headful'
 
   import { debounce } from '@/lib/util.js'
   import { functions } from '@/store/firebase.js'
@@ -13,6 +15,7 @@
 
   export default {
     name: 'JoinGame',
+    components: { VueHeadful },
     data () {
       return {
         attemptQueued: false,

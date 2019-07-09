@@ -149,6 +149,7 @@
   &--header {
     [type='text'],
     textarea {
+      box-shadow: none;
       color: $body-text--main;
       font-weight: bold;
       padding: 0;

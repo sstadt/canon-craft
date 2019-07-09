@@ -1,6 +1,7 @@
 
 <template lang="pug">
   .container.game-browser
+    vue-headful(title="Canon Craft - My Games")
     .row.small-up-1.medium-up-3.large-up-4
       .column(v-for="game in games")
         game-card(:game="game")
@@ -19,6 +20,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import VueHeadful from 'vue-headful'
 
   import Modal from '@/components/ui/Modal.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
@@ -26,7 +28,7 @@
 
   export default {
     name: 'GameBrowser',
-    components: { Modal, PrimaryButton, GameCard },
+    components: { Modal, PrimaryButton, GameCard, VueHeadful },
     data () {
       return {
         newGameName: ''

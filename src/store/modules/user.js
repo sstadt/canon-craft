@@ -26,7 +26,8 @@ const state = {
   userData: null,
   loggedIn: false,
   authRequested: false,
-  authInitialized: false
+  authInitialized: false,
+  storageRef: null
 }
 
 const mutations = {
@@ -46,6 +47,9 @@ const mutations = {
       photoURL: user.photoURL
     }
   },
+  SET_STORAGE (state, { id, storage }) {
+    state.storageRef = storage.ref(id)
+  },
   UPDATE_USER (state, user) {
     for (let key in user) {
       if (state.currentUser.hasOwnProperty(key)) {
@@ -56,6 +60,7 @@ const mutations = {
   UNSET_USER (state) {
     state.loggedIn = false
     state.currentUser = null
+    state.storageRef = null
   },
   SET_USER_DATA (state, data) {
     state.userData = data
@@ -70,6 +75,8 @@ const actions = {
     rootState.auth.onAuthStateChanged(user => {
       if (user) {
         let userRef = rootState.usersCollection.where('uid', '==', user.uid)
+        
+        commit('SET_STORAGE', { id: user.uid, storage: rootState.storage })
         unsubscribeUser = userRef.onSnapshot(snapshot =>
           snapshot.docChanges().forEach(change =>
             userChangeHandler(change, commit)))
@@ -86,7 +93,7 @@ const actions = {
       } else {
         commit('UNSET_USER')
       }
-    });
+    })
   },
   signup ({ commit, rootState }, { displayName, email, password }) {
     isSigningUp = true;

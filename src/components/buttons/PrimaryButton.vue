@@ -30,6 +30,10 @@
         type: Boolean,
         default: false
       },
+      inline: {
+        type: Boolean,
+        default: false
+      },
       hollow: {
         type: Boolean,
         default: false
@@ -79,6 +83,7 @@
           'button--light': this.light === true,
           'button--hollow': this.hollow === true,
           'button--small': this.small === true,
+          'button--inline': this.inline === true,
           'button--full': this.wide === true,
           'button--text': this.text === true,
           'button--flex': this.flex === true

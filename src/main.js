@@ -11,6 +11,7 @@ import VueMoment from 'vue-moment'
 import ToggleButton from 'vue-js-toggle-button'
 import VueLazyload from 'vue-lazyload'
 import VueMq from 'vue-mq'
+import Croppa from 'vue-croppa'
 
 // filters
 import stripHtml from './filters/stripHtml.js'
@@ -36,6 +37,7 @@ Vue.use(VueSanitize, sanitizeConfig)
 Vue.use(VeeValidate)
 Vue.use(VueMoment)
 Vue.use(ToggleButton)
+Vue.use(Croppa)
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,

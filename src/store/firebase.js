@@ -2,6 +2,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/storage'
 import 'firebase/functions'
 
 const config = {
@@ -16,9 +17,10 @@ const config = {
 const app = firebase.initializeApp(config)
 const auth = app.auth()
 const db = firebase.firestore()
+const storage = firebase.storage()
 const functions = firebase.functions()
 const settings = {}
 
 db.settings(settings)
 
-export { auth, db, functions }
+export { auth, db, storage, functions }

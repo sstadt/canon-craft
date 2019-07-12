@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { auth, db } from './firebase.js'
+import { auth, db, storage } from './firebase.js'
 
 // game data
 import user from './modules/user'
@@ -23,6 +23,7 @@ Vue.use(Vuex)
 
 const state = {
   auth,
+  storage,
   usersCollection: db.collection('users'),
   gamesCollection: db.collection('games'),
   charactersCollection: db.collection('characters'),

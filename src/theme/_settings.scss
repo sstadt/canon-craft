@@ -42,6 +42,8 @@ $body-bg--alt: $color-tan;
 $body-bg--dark: $color-dark-red;
 $body-bg--darkest: darken($color-dark-red, 5%);
 
+$border-color--main: $color-light-grey;
+
 $overlay-bg: $color-transparent-black;
 
 // shadows
@@ -85,6 +87,8 @@ $h6-size: 10.72;
 // ---------------------------------
 //   Document
 // ---------------------------------
+
+$border-radius: 4px;
 
 // media queries
 $break--tablet: 768px;

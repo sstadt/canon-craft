@@ -1,0 +1,19 @@
+
+.croppa-container {
+  cursor: pointer;
+  position: relative;
+
+  &.croppa--has-target {
+    cursor: move;
+  }
+
+  .icon {
+    cursor: pointer;
+    position: absolute;
+    top: 0 !important;
+    right: 0 !important;
+    transform: translate(50%, -50%);
+    border-radius: 50%;
+    background-color: $body-bg--main;
+  }
+}

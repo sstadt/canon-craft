@@ -1,7 +1,7 @@
 
 <template lang="pug">
   transition(name="fade")
-    .modal(v-if="isVisible", :class="{ 'modal--dialog': this.dialog }")
+    .modal(v-if="isVisible", :class="modalClass")
       .modal__overlay(@click="close")
       .modal__content
         icon-button(v-if="!dialog", label="Close Modal", icon="times", classes="modal__close", @click="close")
@@ -18,14 +18,20 @@
     name: 'Modal',
     components: { IconButton },
     props: {
-      dialog: {
-        type: Boolean,
-        default: false
-      }
+      slim: Boolean,
+      dialog: Boolean
     },
     data() {
       return {
         isVisible: false
+      }
+    },
+    computed: {
+      modalClass () {
+        return {
+          'modal--dialog': this.dialog,
+          'modal--slim': this.slim || this.dialog
+        }
       }
     },
     methods: {
@@ -83,6 +89,9 @@
         min-width: 0;
         width: 100%;
         max-width: 400px;
+      }
+
+      .modal--slim & {
         padding: $grid-gutter;
       }
     }

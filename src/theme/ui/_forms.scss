@@ -45,7 +45,7 @@
   border: none;
   background-color: $body-bg--main;
   -webkit-appearance: none;
-  border-radius: 0;
+  border-radius: $border-radius;
 }
 
 // form inputs

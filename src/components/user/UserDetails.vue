@@ -5,19 +5,17 @@
       .column.small-12.medium-6
         h2.u-mb-content Profile Information
         form.u-mb(@submit.prevent="updateUserDetails")
+          image-input.user-details__avatar(
+            label="Avatar", 
+            type="text",
+            v-model="photoURL"
+          )
           text-input(
             label="Display Name",
             type="text",
             v-model="displayName", 
             v-validate="'required'"
             :error="errors.first('display-name')"
-          )
-          image-input(
-            label="Avatar", 
-            type="text",
-            v-model="photoURL", 
-            v-validate="'required'",
-            :error="errors.first('avatar')"
           )
           submit-button(label="Save Details", :small="true")
 </template>
@@ -56,4 +54,10 @@
 </script>
 
 <style scoped lang="scss">
+  .user-details {
+    &__avatar {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
 </style>

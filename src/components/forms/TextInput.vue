@@ -1,7 +1,7 @@
 
 <template lang="pug">
   div(:class="wrapperClass")
-    label(v-if="!hideLabel") {{ label }}
+    label(v-if="!hideLabel", :class="labelClass") {{ label }}
     icon(v-if="icon", :name="icon", size="iconSize")
     input(:type="type", :name="name", v-model="currentValue", :class="inputClass")
     span.error(v-if="error") {{ error }}
@@ -14,6 +14,7 @@
     name: 'TextInput',
     props: {
       label: String,
+      centerLabel: Boolean,
       value: String,
       error: String,
       type: {
@@ -55,6 +56,11 @@
       }
     },
     computed: {
+      labelClass () {
+        return {
+          'u-text-center': this.centerLabel === true
+        }
+      },
       wrapperClass () {
         return {
           'game-input': this.group === 'game',

@@ -9,6 +9,7 @@
   border-width: 0;
   border-style: solid;
   border-color: $color--primary;
+  border-radius: $border-radius;
   transition: 0.3s ease all;
   font-weight: bold;
   letter-spacing: 1.2px;
@@ -29,6 +30,13 @@
   &:hover {
     background-color: $color--primary--hover;
     border-color: $color--primary--hover;
+  }
+
+  &--plain {
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    line-height: 0;
   }
 
   &--primary,

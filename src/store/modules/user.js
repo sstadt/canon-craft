@@ -2,7 +2,7 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
-import { isIos } from '@/lib/util.js'
+import { clone, isIos } from '@/lib/util.js'
 
 var isSigningUp = false
 var unsubscribeUser = null
@@ -60,6 +60,7 @@ const mutations = {
   UNSET_USER (state) {
     state.loggedIn = false
     state.currentUser = null
+    state.userRef = null
     state.storageRef = null
   },
   SET_USER_DATA (state, data) {
@@ -179,6 +180,15 @@ const actions = {
           }
         })
     })
+  },
+  updateUserData ({ state, rootState }, userData) {
+    let userRef = rootState.usersCollection.doc(state.userData.id)
+    userRef.set(userData, { merge: true })
+  },
+  addImage ({ dispatch, state }, imagePath) {
+    let userImages = state.userData.images || []
+    userImages.push(imagePath)
+    dispatch('updateUserData', { images: userImages })
   },
   requestAuth ({ commit }) {
     commit('REQUEST_AUTH')

@@ -2,18 +2,23 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
-import { clone, isIos } from '@/lib/util.js'
+import { isIos } from '@/lib/util.js'
 
 var isSigningUp = false
 var unsubscribeUser = null
 
-const userChangeHandler = (change, commit) => {
+const userChangeHandler = (change, commit, dispatch) => {
+  let data = change.doc.data()
+
   switch (change.type) {
     case 'added':
-      commit('SET_USER_DATA', { ...change.doc.data(), id: change.doc.id })
+      dispatch('files/setupImages', data.images || [], { root: true })
+      dispatch('files/setStorageLimit', data.subscription, { root: true })
+      commit('SET_USER_DATA', { ...data, id: change.doc.id })
       break
     case 'modified':
-      commit('UPDATE_USER_DATA', { ...change.doc.data(), id: change.doc.id })
+      dispatch('files/setStorageLimit', data.subscription, { root: true })
+      commit('UPDATE_USER_DATA', { ...data, id: change.doc.id })
       break
     default:
       console.warn('--- unhandled character change type')
@@ -26,8 +31,7 @@ const state = {
   userData: null,
   loggedIn: false,
   authRequested: false,
-  authInitialized: false,
-  storageRef: null
+  authInitialized: false
 }
 
 const mutations = {
@@ -47,9 +51,6 @@ const mutations = {
       photoURL: user.photoURL
     }
   },
-  SET_STORAGE (state, { id, storage }) {
-    state.storageRef = storage.ref(id)
-  },
   UPDATE_USER (state, user) {
     for (let key in user) {
       if (state.currentUser.hasOwnProperty(key)) {
@@ -61,7 +62,6 @@ const mutations = {
     state.loggedIn = false
     state.currentUser = null
     state.userRef = null
-    state.storageRef = null
   },
   SET_USER_DATA (state, data) {
     state.userData = data
@@ -72,15 +72,16 @@ const mutations = {
 }
 
 const actions = {
-  init ({ commit, rootState }) {
+  init ({ commit, dispatch, rootState }) {
     rootState.auth.onAuthStateChanged(user => {
       if (user) {
         let userRef = rootState.usersCollection.where('uid', '==', user.uid)
         
-        commit('SET_STORAGE', { id: user.uid, storage: rootState.storage })
+        dispatch('files/connect', user.uid, { root: true })
+
         unsubscribeUser = userRef.onSnapshot(snapshot =>
           snapshot.docChanges().forEach(change =>
-            userChangeHandler(change, commit)))
+            userChangeHandler(change, commit, dispatch)))
       }
 
       commit('AUTH_INITIALIZED')
@@ -189,12 +190,14 @@ const actions = {
     let userImages = state.userData.images || []
     userImages.push(imagePath)
     dispatch('updateUserData', { images: userImages })
+    dispatch('files/addImage', imagePath, { root: true })
   },
   requestAuth ({ commit }) {
     commit('REQUEST_AUTH')
   },
   logout ({ rootState }) {
     unsubscribeUser()
+    dispatch('files/disconnect', null, { root: true })
     rootState.auth.signOut()
   }
 }

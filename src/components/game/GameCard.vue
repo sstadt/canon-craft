@@ -49,7 +49,6 @@
         })
       },
       deleteGame () {
-        console.log('delete')
         this.$store.dispatch('games/remove', this.game.id)
       }
     }

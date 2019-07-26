@@ -10,14 +10,14 @@
         tabs
           tab(heading="Image Library")
             .image-library
-              .image-library__grid.row.small-up-2.medium-up-5(v-if="userData && userData.images")
-                .column(v-for="url in userData.images")
+              .image-library__grid.row.small-up-2.medium-up-5(v-if="imageLibrary.length > 0")
+                .column(v-for="image in imageLibrary")
                   button.image-library__image.button--plain(
                     type="button",
-                    :class="{ 'image-library__image--selected': url === currentValue }",
-                    @click="setImage(url)"
+                    :class="{ 'image-library__image--selected': image.url === currentValue }",
+                    @click="setImage(image.url)"
                   )
-                    img(v-lazy="url")
+                    img(v-lazy="image.url")
               p(v-else) You haven't uploaded any images yet
             .controls.controls--right
               primary-button(label="Close", :small="true", @click="$refs.imagePicker.close()")
@@ -29,9 +29,10 @@
                     ref="imageCropper",
                     :width="cropperWidth",
                     :height="cropperHeight",
+                    :accept="'image/*'"
                     canvas-color="#f3f3f3",
-                    @file-choose="uploadReady = true",
-                    @image-remove="uploadReady = false"
+                    @file-choose="handleFileChoose",
+                    @image-remove="handleImageRemove"
                   )
                   transition(name="fade")
                     progress-bar.image-input__upload__progress(v-if="showProgress", :progress="uploadProgress")
@@ -96,7 +97,7 @@
       ...mapState({
         storageRef: state => state.user.storageRef,
         currentUser: state => state.user.currentUser,
-        userData: state => state.user.userData
+        imageLibrary: state => state.files.images
       }),
       cropperHeight () {
         return CROPPER_HEIGHTS[this.aspectRatio]
@@ -115,9 +116,15 @@
       closePicker () {
         this.$refs.imagePicker.close()
       },
+      handleFileChoose () {
+        this.uploadReady = true
+      },
+      handleImageRemove () {
+        this.uploadReady = false
+      },
       startUpload () {
         const fileData = this.$refs.imageCropper.getChosenFile()
-        const fileRef = this.storageRef.child(fileData.name)
+        const fileRef = this.storageRef.child(`fileData.name-${new Date.getTime()}`)
 
         this.$refs.imageCropper.generateBlob(blob => {
           var task = fileRef.put(blob)

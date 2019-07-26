@@ -6,6 +6,7 @@ import { auth, db, storage } from './firebase.js'
 
 // game data
 import user from './modules/user'
+import files from './modules/files'
 import posts from './modules/posts'
 import games from './modules/games'
 import characters from './modules/characters'
@@ -35,6 +36,7 @@ export default new Vuex.Store({
   state,
   modules: {
     user,
+    files,
     games,
     characters,
     journal,

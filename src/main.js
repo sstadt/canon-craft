@@ -14,7 +14,8 @@ import VueMq from 'vue-mq'
 import Croppa from 'vue-croppa'
 
 // filters
-import stripHtml from './filters/stripHtml.js'
+import { fileSize } from './filters/files.js'
+import { stripHtml } from './filters/sanitize.js'
 
 // app
 import App from './App.vue'
@@ -55,6 +56,7 @@ Vue.use(VueMq, {
 })
 
 Vue.filter('stripHtml', stripHtml)
+Vue.filter('fileSize', fileSize)
 
 // Vue.directive('click-outside', clickOutside)
 

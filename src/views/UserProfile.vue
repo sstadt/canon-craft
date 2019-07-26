@@ -15,7 +15,7 @@
               .column(v-for="game in games")
                 game-card(:game="game")
           tab(heading="Storage")
-            p TODO: File Storage Tracking
+            user-storage
       .user-profile.user-profile--logged-out(v-else-if="authInitialized")
         h1 User Profile
         p
@@ -32,13 +32,14 @@
   import GameCard from '@/components/game/GameCard.vue'
   import UserDetails from '@/components/user/UserDetails.vue'
   import UserPasswordReset from '@/components/user/UserPasswordReset.vue'
+  import UserStorage from '@/components/user/UserStorage.vue'
 
   export default {
     name: 'UserProfile',
     components: {
       VueHeadful,
       Tab, Tabs, GameCard,
-      UserDetails, UserPasswordReset
+      UserDetails, UserPasswordReset, UserStorage
     },
     computed: {
       ...mapState({

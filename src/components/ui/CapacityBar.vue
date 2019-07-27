@@ -15,7 +15,7 @@
     },
     computed: {
       progress () {
-        return Math.round(this.usage / this.capacity * 100)
+        return this.usage / this.capacity * 100
       },
       barStyle () {
         return {
@@ -36,6 +36,7 @@
     &__progress {
       height: 100%;
       background-color: $color--primary;
+      transition: 0.3s ease width;
     }
 
     &--wrapper {

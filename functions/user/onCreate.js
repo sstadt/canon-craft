@@ -8,6 +8,7 @@ module.exports = functions.auth.user()
   .onCreate((user) => {
     return db.collection('users').add({
       uid: user.uid,
-      config: {}
+      config: {},
+      images: []
     });
   });

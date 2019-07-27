@@ -44,7 +44,6 @@
     computed: {
       ...mapState({
         currentUser: state => state.user.currentUser,
-        userData: state => state.user.userData,
         loggedIn: state => state.user.loggedIn,
         authInitialized: state => state.user.authInitialized,
         games: state => state.games.all

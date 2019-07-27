@@ -4,7 +4,7 @@
     capacity-bar(:capacity="storageLimit", :usage="totalFilesSize")
     .row.small-up-2.medium-up-4.large-up-5
       .column(v-for="image in imageLibrary", :key="image.url")
-        image-card(:image="image")
+        image-card(:image="image", @delete="deleteImage(image)")
 </template>
 
 <script>
@@ -29,6 +29,11 @@
               return previous + current
             })
           : 0
+      }
+    },
+    methods: {
+      deleteImage (image) {
+        this.$store.dispatch('files/deleteImage', image)
       }
     }
   }

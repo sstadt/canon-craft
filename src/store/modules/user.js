@@ -187,10 +187,22 @@ const actions = {
     userRef.set(userData, { merge: true })
   },
   addImage ({ dispatch, state }, imagePath) {
+    // images are added here first 
+    // to make sure there is a record of the image path
     let userImages = state.userData.images || []
+
     userImages.push(imagePath)
     dispatch('updateUserData', { images: userImages })
     dispatch('files/addImage', imagePath, { root: true })
+  },
+  removeImage ({ state, dispatch }, imagePath) {
+    // images are remove elsewhere first to keep
+    // storage refs out of the user module
+    let images = state.userData.images || []
+    let index = images.findIndex(image => image === imagePath)
+
+    if (index > -1) images.splice(index, 1)
+    dispatch('updateUserData', { images })
   },
   requestAuth ({ commit }) {
     commit('REQUEST_AUTH')

@@ -57,5 +57,7 @@
     padding: 4px 0;
     color: $body-text--light;
     text-shadow: 2px 2px 2px rgba($color-black, 0.35);
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
   }
 </style>

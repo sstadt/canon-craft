@@ -8,7 +8,7 @@
     modal(ref="imagePicker", :slim="true")
       template(slot="content")
         tabs
-          tab(heading="Image Library")
+          tab(heading="Image Library", :selected="true")
             .image-library
               .image-library__grid.row.small-up-2.medium-up-5(v-if="imageLibrary.length > 0")
                 .column(v-for="image in imageLibrary")
@@ -21,7 +21,7 @@
               p(v-else) You haven't uploaded any images yet
             .controls.controls--right
               primary-button(label="Close", :small="true", @click="$refs.imagePicker.close()")
-          tab(heading="Upload", :selected="true")
+          tab(heading="Upload")
             .image-input__upload
               .image-input__upload__crop
                 .image-input__upload__cropper
@@ -47,6 +47,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import { getUniqueFileName } from '@/lib/util.file.js'
 
   import Modal from '@/components/ui/Modal.vue'
   import Tabs from '@/components/ui/Tabs.vue'
@@ -95,7 +96,7 @@
     },
     computed: {
       ...mapState({
-        storageRef: state => state.user.storageRef,
+        storageRef: state => state.files.storageRef,
         currentUser: state => state.user.currentUser,
         imageLibrary: state => state.files.images
       }),
@@ -124,7 +125,8 @@
       },
       startUpload () {
         const fileData = this.$refs.imageCropper.getChosenFile()
-        const fileRef = this.storageRef.child(`fileData.name-${new Date.getTime()}`)
+        const fileName = getUniqueFileName(fileData.name)
+        const fileRef = this.storageRef.child(fileName)
 
         this.$refs.imageCropper.generateBlob(blob => {
           var task = fileRef.put(blob)
@@ -156,10 +158,7 @@
       setImage (url) {
         this.fromUrlValue = url
         this.currentValue = url
-        this.$nextTick(() => {
-          this.$refs.urlInput.sync()
-          this.$emit('input', url)
-        })
+        this.$emit('input', url)
       },
       closeImagePicker () {
         this.$refs.imagePicker.close()

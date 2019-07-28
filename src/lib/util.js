@@ -43,6 +43,13 @@ export const hash = (str) => {
 }
 
 /**
+ * Return a random string of alphanumeric characters
+ */
+export const randomString = () => {
+	return Math.random().toString(36).replace('0.', '')
+}
+
+/**
  * Return a deep clone of promitive object values
  * @param {object} obj The object to clone
  */
@@ -55,6 +62,7 @@ export const clone = (obj) => {
 	return JSON.parse(JSON.stringify(obj))
 }
 
+// TODO: get rid of this
 export const getClassesFromString = (str) => {
 	let classes = str || ''
 	let classesObj = {}

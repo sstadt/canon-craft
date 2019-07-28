@@ -1,7 +1,7 @@
 
 <template lang="pug">
   .game-character
-    icon-button.game-character__avatar(v-if="isOwner", label="Edit Character", :image="character.avatar", @click="$refs.editCharacterModal.open()")
+    icon-button.game-character__avatar(v-if="isOwner", label="Edit Character", :image="avatar", @click="$refs.editCharacterModal.open()")
     a.game-character__avatar(v-else-if="showSheetLink", :href="character.url", target="_blank")
       img(v-lazy="avatar")
     .game-character__avatar(v-else)
@@ -11,24 +11,26 @@
     modal(v-if="isOwner", ref="editCharacterModal")
       template(slot="content")
         form.edit-character-form(@submit.prevent="updateCharacter", novalidate)
-          .form-input
-            label Character Name
-            input(type="text", name="name", placeholder="Character Name", v-model="name", v-validate="'required'")
-            span.error(v-show="errors.has('name')") {{ errors.first('name') }}
-          .edit-character-form__avatar
-            img(v-lazy="avatar")
+          .edit-character-form__left
+            image-input(
+              label="Avatar",
+              v-model="avatar",
+              v-validate="'required'",
+              :error="errors.first('avatar')"
+            )
+          .edit-character-form__right
             .form-input
-              label Avatar
-              input(type="text", name="avatar", placeholder="Character Image", v-model="avatar", v-validate="'required'")
-              span.error(v-show="errors.has('avatar')") {{ errors.first('avatar') }}
-          .form-input
-            label 
-              span Character Sheet URL
-            input(type="text", name="url", placeholder="https://www.dndbeyond.com/profile/UserName/characters/1234567", v-model="url", v-validate="'url'")
-            a.button.button--text(v-if="!errors.has('url') && url.length > 0", :href="url", target="_blank")
-              span open character
-              icon(name="external-link", size="12px")
-            span.error(v-show="errors.has('url')") {{ errors.first('url') }}
+              label Character Name
+              input(type="text", name="name", placeholder="Character Name", v-model="name", v-validate="'required'")
+              span.error(v-show="errors.has('name')") {{ errors.first('name') }}
+            .form-input
+              label 
+                span Character Sheet URL
+              input(type="text", name="url", placeholder="https://www.dndbeyond.com/profile/UserName/characters/1234567", v-model="url", v-validate="'url'")
+              a.button.button--text(v-if="!errors.has('url') && url.length > 0", :href="url", target="_blank")
+                span open character
+                icon(name="external-link", size="12px")
+              span.error(v-show="errors.has('url')") {{ errors.first('url') }}
           .controls
             .controls__group
               submit-button(label="Save", :small="true")
@@ -49,19 +51,21 @@
   import Icon from '@/components/ui/Icon.vue'
   import Modal from '@/components/ui/Modal.vue'
 
+  import ImageInput from '@/components/forms/ImageInput.vue'
   import SubmitButton from '@/components/buttons/SubmitButton.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
 
   export default {
     name: 'GameCharacter',
-    components: { Icon, Modal, SubmitButton, IconButton },
+    components: { Icon, Modal, ImageInput, SubmitButton, IconButton },
     props: {
       character: Object
     },
     data () {
       return {
         name: this.character.name,
-        url: this.character.url || ''
+        url: this.character.url || '',
+        avatar: (this.character.avatar.length > 0) ? this.character.avatar : '/img/ph-CharacterAvatar.jpg'
       }
     },
     computed: {
@@ -73,10 +77,10 @@
       },
       showSheetLink () {
         return this.character.url.length > 0
-      },
-      avatar () {
-        return (this.character.avatar.length > 0) ? this.character.avatar : '/img/ph-CharacterAvatar.jpg';
       }
+      // avatar () {
+      //   return (this.character.avatar.length > 0) ? this.character.avatar : '/img/ph-CharacterAvatar.jpg';
+      // }
     },
     methods: {
       updateCharacter () {
@@ -139,19 +143,20 @@
   }
 
   .edit-character-form {
-    &__avatar {
-      display: flex;
-      align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
 
-      .form-input {
-        flex-grow: 1;
-      }
+    &__left {
+      width: 125px;
+      margin-right: $grid-gutter;
+    }
 
-      img {
-        flex-shrink: 0;
-        max-width: 66px;
-        margin-right: 10px;
-      }
+    &__right {
+      flex-grow: 1;
+    }
+
+    .controls {
+      width: 100%;
     }
   }
 </style>

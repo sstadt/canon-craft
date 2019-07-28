@@ -177,19 +177,28 @@
   }
 
   &--icon {
-    padding: 0;
+    padding: 10px;
+    border-radius: 50%;
 
     .icon {
-      fill: $color-black;
+      margin: 0;
     }
 
-    &, &:hover {
-      background-color: transparent;
-    }
+    &:not(.button--primary) {
+      padding: 0;
 
-    &:hover {
       .icon {
-        fill: $color--primary;
+        fill: $color-black;
+      }
+
+      &, &:hover {
+        background-color: transparent;
+      }
+  
+      &:hover {
+        .icon {
+          fill: $color--primary;
+        }
       }
     }
   }

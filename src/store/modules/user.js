@@ -207,7 +207,7 @@ const actions = {
   requestAuth ({ commit }) {
     commit('REQUEST_AUTH')
   },
-  logout ({ rootState }) {
+  logout ({ rootState, dispatch }) {
     unsubscribeUser()
     dispatch('files/disconnect', null, { root: true })
     rootState.auth.signOut()

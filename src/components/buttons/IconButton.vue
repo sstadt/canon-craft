@@ -6,7 +6,7 @@
     :disabled="disabled", 
     @click="$emit('click')"
   )
-    img(v-if="image", v-lazy="image", :class="imgClass")
+    img(v-if="image", :src="image", :class="imgClass")
     icon(v-else="icon", :name="icon", :size="size")
     span.u-hidden {{ label }}
 </template>
@@ -24,7 +24,8 @@
     props: {
       size: String,
       image: String,
-      imageClasses: String
+      imageClasses: String,
+      primary: Boolean
     },
     computed: {
       imgClass () {
@@ -35,6 +36,7 @@
         
         return {
           ...additionalClasses,
+          'button--primary': this.primary === true,
           'button--flex': this.flex === true
         }
       }

@@ -6,8 +6,7 @@
         h2.u-mb-content Profile Information
         form.u-mb(@submit.prevent="updateUserDetails")
           image-input.user-details__avatar(
-            label="Avatar", 
-            type="text",
+            label="Avatar",
             v-model="photoURL"
           )
           text-input(

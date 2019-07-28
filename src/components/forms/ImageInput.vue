@@ -4,7 +4,12 @@
     label {{ label }}
     .image-input__image
       img(:src="currentValue")
-      primary-button.image-input__button(label="Change", :inline="true", @click="openPicker")
+      icon-button.image-input__button(
+        label="Change", 
+        icon="cog", 
+        :primary="true",
+        @click="openPicker"
+      )
     modal(ref="imagePicker", :slim="true")
       template(slot="content")
         tabs
@@ -53,6 +58,7 @@
   import Tabs from '@/components/ui/Tabs.vue'
   import Tab from '@/components/ui/Tab.vue'
   import ProgressBar from '@/components/ui/ProgressBar.vue'
+  import IconButton from '@/components/buttons/IconButton.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
   import TextInput from '@/components/forms/TextInput.vue'
 
@@ -73,7 +79,7 @@
     extends: TextInput,
     components: {
       Modal, Tabs, Tab, ProgressBar,
-      TextInput, PrimaryButton
+      TextInput, PrimaryButton, IconButton
     },
     props: {
       aspectRatio: {

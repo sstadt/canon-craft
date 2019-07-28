@@ -1,7 +1,7 @@
 
 <template lang="pug">
   .quest
-    primary-button(:text="true", :label="quest.title", classes="h3 quest__title", @click="showDetails")
+    primary-button.h3.quest__title(:text="true", :label="quest.title", @click="showDetails")
     .quest__objectives
       quest-objective(
         v-for="objective in quest.objectives",

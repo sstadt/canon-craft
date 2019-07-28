@@ -18,7 +18,7 @@
             textarea(placeholder="Don't forget the objective!", rows="1", v-model="objective.description")
             transition(name="fade")
               icon-button(v-if="quest.objectives.length > 1", label="Remove Objective", icon="times", size="12px", @click="removeObjective(index)")
-        primary-button(label="Add Objective", :text="true", classes="objective-input--add", @click="addObjective")
+        primary-button.objective-input--add(label="Add Objective", :text="true", @click="addObjective")
       .game-input
         wysiwyg(v-model="quest.description")
       .controls

@@ -8,7 +8,7 @@
       :players="players"
       @selected="togglePlayer(character.player)"
     )
-    icon-button(label="Toggle All Characters", :flex="true", icon="users", classes="character-permissions__toggle-all", @click="toggleAll")
+    icon-button.character-permissions__toggle-all(label="Toggle All Characters", :flex="true", icon="users", @click="toggleAll")
 </template>
 
 <script>

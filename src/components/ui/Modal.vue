@@ -4,7 +4,7 @@
     .modal(v-if="isVisible", :class="modalClass")
       .modal__overlay(@click="close")
       .modal__content
-        icon-button(v-if="!dialog", label="Close Modal", icon="times", classes="modal__close", @click="close")
+        icon-button.modal__close(v-if="!dialog", label="Close Modal", icon="times", @click="close")
         slot(name="content")
 </template>
 

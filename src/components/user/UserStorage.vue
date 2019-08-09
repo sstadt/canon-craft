@@ -19,16 +19,13 @@
     computed: {
       ...mapState({
         imageLibrary: state => state.files.images,
-        storageLimit: state => state.files.storageLimit
+        userData: state => state.user.userData
       }),
+      storageLimit () {
+        return (this.userData) ? this.userData.tier.storageLimit : 0
+      },
       totalFilesSize () {
-        return (this.imageLibrary.length > 0)
-          ? this.imageLibrary
-            .map(image => image.size)
-            .reduce((previous, current) => {
-              return previous + current
-            })
-          : 0
+        return (this.userData) ? this.userData.storageSize : 0
       }
     },
     methods: {

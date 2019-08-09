@@ -9,6 +9,11 @@ module.exports = functions.auth.user()
     return db.collection('users').add({
       uid: user.uid,
       config: {},
-      images: []
+      images: [],
+      storageSize: 0,
+      tier: {
+        type: 'free',
+        storageLimit: 10 * 1000 * 1000 // 10 MB limit
+      }
     });
   });

@@ -13,11 +13,9 @@ const userChangeHandler = (change, commit, dispatch) => {
   switch (change.type) {
     case 'added':
       dispatch('files/setupImages', data.images || [], { root: true })
-      dispatch('files/setStorageLimit', data.subscription, { root: true })
       commit('SET_USER_DATA', { ...data, id: change.doc.id })
       break
     case 'modified':
-      dispatch('files/setStorageLimit', data.subscription, { root: true })
       commit('UPDATE_USER_DATA', { ...data, id: change.doc.id })
       break
     default:

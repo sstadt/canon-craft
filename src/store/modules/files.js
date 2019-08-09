@@ -13,22 +13,6 @@ const mutations = {
     state.storageRef = null
     state.images = []
   },
-  SET_STORAGE_LIMIT (state, subscription) {
-    let defaultLimit = 10 * 1000 * 1000 // 10 MB
-
-    switch (subscription) {
-      // TODO: update when renaming subscription tiers
-      //   > create a config file exporting constants that
-      //     determines the subscription naming
-      case 'premium':
-        state.storageLimit = defaultLimit * 10 // 100 MB
-        break;
-    
-      default:
-        state.storageLimit = defaultLimit // 10 MB
-        break;
-    }
-  },
   ADD_IMAGE (state, image) {
     state.images.push(image)
   },
@@ -45,9 +29,6 @@ const actions = {
   disconnect ({ commit }) {
     commit('RESET_STORAGE')
     commit('SET_STORAGE_LIMIT', null)
-  },
-  setStorageLimit ({ commit }, subscription) {
-    commit('SET_STORAGE_LIMIT', subscription)
   },
   setupImages ({ dispatch }, images) {
     for (var i = 0, j = images.length; i < j; i++) {

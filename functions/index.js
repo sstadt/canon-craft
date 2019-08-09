@@ -13,5 +13,6 @@ exports.onQuestCreate = require('./quest/onQuestCreate.js');
 exports.onQuestUpdate = require('./quest/onQuestUpdate.js');
 
 // Storage Functions
+exports.getUploadToken = require('./storage/getUploadToken.js');
 exports.onObjectFinalize = require('./storage/onObjectFinalize.js');
 exports.onObjectDelete = require('./storage/onObjectDelete.js');

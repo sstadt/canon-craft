@@ -151,8 +151,9 @@
             this.showProgress = false
             fileRef.getDownloadURL().then(url => {
               this.$store.dispatch('user/addImage', url)
-              this.setImage(url)
-              this.closeImagePicker()
+              // disabled for token testing... need to put this in a .then
+              // this.setImage(url)
+              // this.closeImagePicker()
             })
           })
         }, 'image/jpeg', 0.8) // 80% compressed

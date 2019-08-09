@@ -1,8 +1,11 @@
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import { functions } from '@/store/firebase.js'
 
 import { isIos } from '@/lib/util.js'
+
+const getUploadToken = functions.httpsCallable('getUploadToken')
 
 var isSigningUp = false
 var unsubscribeUser = null
@@ -187,11 +190,18 @@ const actions = {
   addImage ({ dispatch, state }, imagePath) {
     // images are added here first 
     // to make sure there is a record of the image path
-    let userImages = state.userData.images || []
+    
+    getUploadToken(imagePath)
+      .then(response => {
+        console.log(response.token)
+      })
 
-    userImages.push(imagePath)
-    dispatch('updateUserData', { images: userImages })
-    dispatch('files/addImage', imagePath, { root: true })
+    // image upload code... disabled for token testing
+    // let userImages = state.userData.images || []
+
+    // userImages.push(imagePath)
+    // dispatch('updateUserData', { images: userImages })
+    // dispatch('files/addImage', imagePath, { root: true })
   },
   removeImage ({ state, dispatch }, imagePath) {
     // images are remove elsewhere first to keep

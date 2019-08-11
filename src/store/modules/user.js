@@ -187,25 +187,21 @@ const actions = {
     let userRef = rootState.usersCollection.doc(state.userData.id)
     userRef.set(userData, { merge: true })
   },
+  setUploadToken ({ rootState }, imagePath) {
+    return new Promise(resolve => {
+      getUploadToken(imagePath)
+        .then(response => rootState.auth.signInWithCustomToken(response.data.token))
+        .then(() => resolve())
+    })
+  },
   addImage ({ dispatch, state }, imagePath) {
-    // images are added here first 
-    // to make sure there is a record of the image path
-    
-    getUploadToken(imagePath)
-      .then(response => {
-        console.log(response.token)
-      })
+    let userImages = state.userData.images || []
 
-    // image upload code... disabled for token testing
-    // let userImages = state.userData.images || []
-
-    // userImages.push(imagePath)
-    // dispatch('updateUserData', { images: userImages })
-    // dispatch('files/addImage', imagePath, { root: true })
+    userImages.push(imagePath)
+    dispatch('updateUserData', { images: userImages })
+    dispatch('files/addImage', imagePath, { root: true })
   },
   removeImage ({ state, dispatch }, imagePath) {
-    // images are remove elsewhere first to keep
-    // storage refs out of the user module
     let images = state.userData.images || []
     let index = images.findIndex(image => image === imagePath)
 

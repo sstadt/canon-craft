@@ -42,7 +42,7 @@
                   transition(name="fade")
                     progress-bar.image-input__upload__progress(v-if="showProgress", :progress="uploadProgress")
                 .image-input__upload__cropper-controls
-                  primary-button(label="Upload", :disabled="uploadDisabled", :small="true", :wide="true", @click="startUpload")
+                  primary-button(label="Upload", :disabled="uploadDisabled", :small="true", :wide="true", @click="generateBlobAndUpload")
               .u-or(v-if="$mq !== 'mobile'")
               .u-or.u-or--horizontal(v-else)
               form.image-input__upload__web(@submit.prevent="setImageFromUrl")
@@ -129,34 +129,44 @@
       handleImageRemove () {
         this.uploadReady = false
       },
-      startUpload () {
+      generateBlobAndUpload () {
+        this.$refs.imageCropper.generateBlob(blob => 
+          this.uploadImage(blob), 'image/jpeg', 0.8) // 80% compressed
+      },
+      uploadImage (blob) {
         const fileData = this.$refs.imageCropper.getChosenFile()
         const fileName = getUniqueFileName(fileData.name)
         const fileRef = this.storageRef.child(fileName)
 
-        this.$refs.imageCropper.generateBlob(blob => {
-          var task = fileRef.put(blob)
+        this.uploadProgress = 0
+        this.showProgress = true
 
-          this.uploadProgress = 0
-          this.showProgress = true
+        this.$store.dispatch('user/setUploadToken', `${this.currentUser.uid}/${fileName}`)
+          .then(() => {
+            var task = fileRef.put(blob)
 
-          task.on('state_changed', snapshot => {
-            this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          }, err => {
-            // handle error
-            console.log('*** Unhandled Upload Error **********')
-            console.log(err)
-            this.$store.dispatch('toast/send', 'Could not upload your image at this time')
-          }, () => {
-            this.showProgress = false
-            fileRef.getDownloadURL().then(url => {
-              this.$store.dispatch('user/addImage', url)
-              // disabled for token testing... need to put this in a .then
-              // this.setImage(url)
-              // this.closeImagePicker()
+            this.uploadProgress = 10
+  
+            task.on('state_changed', snapshot => {
+              this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            }, err => { // error
+              console.log('*** Unhandled Upload Error **********')
+              console.log(err)
+              this.$store.dispatch('toast/send', 'Could not upload your image at this time')
+            }, () => { // completed
+              this.showProgress = false
+              fileRef.getDownloadURL().then(url => {
+                this.$store.dispatch('user/addImage', url)
+                this.setImage(url)
+                this.closeImagePicker()
+              })
             })
           })
-        }, 'image/jpeg', 0.8) // 80% compressed
+          .catch((reason) => {
+            this.uploadProgress = 0
+            this.showProgress = false
+            this.$store.dispatch('toast/send', 'There was an error uploading your image')
+          })
       },
       setImageFromUrl () {
         this.setImage(this.fromUrlValue)

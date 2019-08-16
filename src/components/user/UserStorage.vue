@@ -25,7 +25,7 @@
         return (this.userData) ? this.userData.tier.storageLimit : 0
       },
       totalFilesSize () {
-        return (this.userData) ? this.userData.storageSize : 0
+        return (this.userData && this.userData.storageSize) ? this.userData.storageSize : 0
       }
     },
     methods: {

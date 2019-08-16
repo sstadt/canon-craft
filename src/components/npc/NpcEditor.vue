@@ -1,28 +1,31 @@
 
 <template lang="pug">
   .npc-editor
-    form(@submit.prevent="save", novalidate)
-      text-input(
-        label="Name", 
-        type="text"
-        group="game", 
-        v-model="npc.name",
-        v-validate="'required'",
-        error="errors.first('name')"
-      )
-      image-input(
-        label="Image",
-        type="game",
-        v-model="npc.image"
-      )
-      .game-input
-        wysiwyg(v-model="npc.description")
-      .controls
-        .controls__group
-          primary-button(v-if="isNew", label="Cancel", :small="true", @click="cancel")
-          confirm-button(v-else, label="Delete", :small="true", @confirmed="remove")
-        .controls__group
-          submit-button(label="Save", :small="true")
+    form.npc-editor__form(@submit.prevent="save", novalidate)
+      .npc-editor__image
+        image-input(
+          label="Image",
+          type="game",
+          aspect-ratio="portrait",
+          v-model="npc.image"
+        )
+      .npc-editor__content
+        text-input(
+          label="Name", 
+          type="text"
+          group="game", 
+          v-model="npc.name",
+          v-validate="'required'",
+          :error="errors.first('name')"
+        )
+        .game-input
+          wysiwyg(v-model="npc.description")
+        .controls
+          .controls__group
+            primary-button(v-if="isNew", label="Cancel", :small="true", @click="cancel")
+            confirm-button(v-else, label="Delete", :small="true", @confirmed="remove")
+          .controls__group
+            submit-button(label="Save", :small="true")
 </template>
 
 <script>
@@ -67,4 +70,27 @@
 </script>
 
 <style scoped lang="scss">
+  .npc-editor {
+    &__form {
+      display: flex;
+      flex-direction: column;
+
+      @include tablet-up {
+        flex-direction: row;
+
+      }
+    }
+
+    &__image {
+      width: 20%;
+    }
+
+    &__content {
+      flex-grow: 1;
+
+      @include tablet-up {
+        padding-left: $grid-gutter;
+      }
+    }
+  }
 </style>

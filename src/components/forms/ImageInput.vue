@@ -2,7 +2,7 @@
 <template lang="pug">
   .image-input(:class="wrapperClass")
     label {{ label }}
-    .image-input__image
+    .image-input__image(:style="imageStyle")
       img(:src="currentValue")
       icon-button.image-input__button(
         label="Change", 
@@ -43,11 +43,10 @@
                     progress-bar.image-input__upload__progress(v-if="showProgress", :progress="uploadProgress")
                 .image-input__upload__cropper-controls
                   primary-button(label="Upload", :disabled="uploadDisabled", :small="true", :wide="true", @click="generateBlobAndUpload")
-              .u-or(v-if="$mq !== 'mobile'")
-              .u-or.u-or--horizontal(v-else)
-              form.image-input__upload__web(@submit.prevent="setImageFromUrl")
-                text-input.image-input__upload__web-link(ref="urlInput", label="Enter URL", v-model="fromUrlValue", :center-label="true")
-                primary-button(label="Update", :small="true")
+          tab(heading="From URL")
+            form.image-input__upload__web(@submit.prevent="setImageFromUrl")
+              text-input.image-input__upload__web-link(ref="urlInput", label="Enter URL", v-model="fromUrlValue", :center-label="true")
+              submit-button(label="Update", :small="true")
 </template>
 
 <script>
@@ -60,6 +59,7 @@
   import ProgressBar from '@/components/ui/ProgressBar.vue'
   import IconButton from '@/components/buttons/IconButton.vue'
   import PrimaryButton from '@/components/buttons/PrimaryButton.vue'
+  import SubmitButton from '@/components/buttons/SubmitButton.vue'
   import TextInput from '@/components/forms/TextInput.vue'
 
   const CROPPER_HEIGHTS = {
@@ -79,14 +79,14 @@
     extends: TextInput,
     components: {
       Modal, Tabs, Tab, ProgressBar,
-      TextInput, PrimaryButton, IconButton
+      TextInput, PrimaryButton, SubmitButton, IconButton
     },
     props: {
       aspectRatio: {
         type: String,
-        default: 'square',
+        default: 'avatar',
         validator: value => {
-          let options = ['square', 'portrait', 'landscape']
+          let options = ['avatar', 'portrait', 'hero']
           return options.indexOf(value) > -1
         }
       }
@@ -107,15 +107,22 @@
         imageLibrary: state => state.files.images
       }),
       cropperHeight () {
-        return 500
-        // return CROPPER_HEIGHTS[this.aspectRatio]
+        return CROPPER_HEIGHTS[this.aspectRatio]
       },
       cropperWidth () {
-        return 500
-        // return CROPPER_WIDTHS[this.aspectRatio]
+        return CROPPER_WIDTHS[this.aspectRatio]
       },
       uploadDisabled () {
         return this.uploading || !this.uploadReady
+      },
+      imageStyle () {
+        let styles = {}
+
+        if (this.currentValue === '') {
+          styles['padding-top'] = '100%'
+        }
+
+        return styles
       }
     },
     methods: {
@@ -215,6 +222,8 @@
     &__image {
       position: relative;
       line-height: 0;
+      background-color: $color--secondary;
+      border-radius: $border-radius;
     }
 
     &__button {
@@ -225,12 +234,7 @@
 
     &__upload {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      @include tablet-up {
-        flex-direction: row;
-      }
+      justify-content: center;
 
       &__cropper {
         position: relative;

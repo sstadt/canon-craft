@@ -36,9 +36,12 @@
 <style scoped lang="scss">
   .dropdown-menu {
     &__open {
-      background-color: $body-bg--main;
       border-radius: 50%;
       padding: 5px;
+
+      &, &:hover {
+        background-color: $body-bg--main;
+      }
     }
 
     &__list-wrapper {

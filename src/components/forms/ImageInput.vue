@@ -107,10 +107,12 @@
         imageLibrary: state => state.files.images
       }),
       cropperHeight () {
-        return CROPPER_HEIGHTS[this.aspectRatio]
+        return 500
+        // return CROPPER_HEIGHTS[this.aspectRatio]
       },
       cropperWidth () {
-        return CROPPER_WIDTHS[this.aspectRatio]
+        return 500
+        // return CROPPER_WIDTHS[this.aspectRatio]
       },
       uploadDisabled () {
         return this.uploading || !this.uploadReady
@@ -131,7 +133,7 @@
       },
       generateBlobAndUpload () {
         this.$refs.imageCropper.generateBlob(blob => 
-          this.uploadImage(blob), 'image/jpeg', 0.8) // 80% compressed
+          this.uploadImage(blob), 'image/jpeg', 1) // 80% compressed
       },
       uploadImage (blob) {
         const fileData = this.$refs.imageCropper.getChosenFile()
@@ -150,9 +152,7 @@
             task.on('state_changed', snapshot => {
               this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             }, err => { // error
-              console.log('*** Unhandled Upload Error **********')
-              console.log(err)
-              this.$store.dispatch('toast/send', 'Could not upload your image at this time')
+              this.$store.dispatch('toast/send', 'Storage Limit Exceeded.')
             }, () => { // completed
               this.showProgress = false
               fileRef.getDownloadURL().then(url => {

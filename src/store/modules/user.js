@@ -187,9 +187,10 @@ const actions = {
     let userRef = rootState.usersCollection.doc(state.userData.id)
     userRef.set(userData, { merge: true })
   },
-  setUploadToken ({ rootState }, imagePath) {
+  setUploadToken ({ rootState }, path) {
+    console.log(path)
     return new Promise(resolve => {
-      getUploadToken(imagePath)
+      getUploadToken({ path })
         .then(response => rootState.auth.signInWithCustomToken(response.data.token))
         .then(() => resolve())
     })

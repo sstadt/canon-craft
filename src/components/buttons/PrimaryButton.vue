@@ -50,6 +50,10 @@
         type: Boolean,
         deafult: false
       },
+      jumbo: {
+        type: Boolean,
+        default: false
+      },
       text: {
         type: Boolean,
         default: false
@@ -83,6 +87,7 @@
           'button--light': this.light === true,
           'button--hollow': this.hollow === true,
           'button--small': this.small === true,
+          'button--jumbo': this.jumbo === true,
           'button--inline': this.inline === true,
           'button--full': this.wide === true,
           'button--text': this.text === true,

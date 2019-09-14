@@ -1,6 +1,6 @@
 
 <template lang="pug">
-  .home
+  .home-page
     transition(name="slide-fade-down")
       hero(v-if="firstPost.image", :title="firstPost.title", :image="firstPost.image.url")
         router-link.button.button--small(to="/games", v-if="currentUser && currentUser.uid") My Games
@@ -50,7 +50,7 @@
 </script>
 
 <style lang="scss">
-  .home {
+  .home-page {
     .card--quest {
       margin-bottom: 30px;
     }

@@ -45,7 +45,7 @@
       },
       logOut () {
         this.showMenu = false
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'splash' })
         this.$store.dispatch('games/clear')
         this.$store.dispatch('quests/clear')
         this.$store.dispatch('npcs/clear')

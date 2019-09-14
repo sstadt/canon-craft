@@ -6,7 +6,7 @@
     loading-indicator
     //- disabled in lieu of better safari support
     //- installer 
-    navbar
+    navbar(v-if="$route.name !== 'splash'")
     side-panel
     .main-content
       transition(name="fade", mode="out-in")
@@ -74,8 +74,4 @@
 
 <style lang="scss">
   @import 'theme/style';
-
-  .main-content {
-    padding-bottom: 50px;
-  }
 </style>

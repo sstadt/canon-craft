@@ -122,6 +122,18 @@
     }
   }
 
+  &--jumbo {
+    font-size: rem(32);
+    padding: 25px 55px;
+    text-transform: uppercase;
+    background-color: $color-dark-red;
+    color: $color--secondary;
+
+    &:hover {
+      background-color: lighten($color-dark-red, 5%);
+    }
+  }
+
   &--full {
     width: 100%;
     position: relative;

@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+const Splash = () => import('@/views/Splash.vue')
 const Home = () => import('@/views/Home.vue')
 const Styleguide = () => import('@/views/Styleguide.vue')
 const GameBrowser = () => import('@/views/GameBrowser.vue')
@@ -13,8 +14,13 @@ Vue.use(Router)
 
 const routes = [
   {
-    name: 'home',
+    name: 'splash',
     path: '/',
+    component: Splash
+  },
+  {
+    name: 'home',
+    path: '/home',
     component: Home
   },
   {
